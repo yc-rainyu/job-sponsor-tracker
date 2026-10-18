@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-# 1. 先讀根目錄 .env，再改成連 jst_test（必須在 import app 之前）
+# Read root .env, then switch DATABASE_URL to jst_test before importing the app.
 _env_path = Path(__file__).resolve().parents[2] / '.env'
 for _line in _env_path.read_text().splitlines():
     _line = _line.strip()
@@ -17,7 +17,6 @@ _url = os.environ['DATABASE_URL']
 os.environ['DATABASE_URL'] = _url.rsplit('/', 1)[0] + '/jst_test'
 os.environ['APP_ENV'] = 'test'
 
-# 2. 現在才 import（此時 settings / engine 會連 jst_test）
 from app.db.engine import engine  # noqa: E402
 from app.main import app  # noqa: E402
 
