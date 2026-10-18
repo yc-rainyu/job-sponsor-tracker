@@ -1,0 +1,10 @@
+{
+  "Home": {
+    "title": "Job Sponsor Tracker",
+    "apiStatus": "API status",
+    "loading": "Checking the API…",
+    "error": "The API is not responding. Make sure the backend is running.",
+    "version": "Version {version}",
+    "db": "Database {status}"
+  }
+}
