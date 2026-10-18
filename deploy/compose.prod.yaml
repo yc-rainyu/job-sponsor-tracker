@@ -1,0 +1,55 @@
+# Production stack: caddy (80/443) -> api -> db. Only caddy exposes ports.
+#
+# Run from the repo root so `.env` is picked up for ${VAR} substitution
+# (Compose looks for `.env` next to this file by default, not in the repo root):
+#
+#   docker compose --env-file .env -f deploy/compose.prod.yaml up -d --build
+#
+# Or just run deploy/deploy.sh.
+
+name: jst-prod
+
+services:
+  db:
+    image: postgres:17
+    env_file: ../.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build: ../api
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      APP_ENV: prod
+      JWT_SECRET: ${JWT_SECRET:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  caddy_data:
+  caddy_config:
