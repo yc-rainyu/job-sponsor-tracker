@@ -42,8 +42,8 @@ jobs:
         run: |
           uv run python -c "
           import psycopg
-          with psycopg.connect('$DATABASE_URL', autocommit=True) as conn:
-              conn.execute('CREATE DATABASE jst_test')
+          conn = psycopg.connect(host='localhost', user='jst', password='jst', dbname='jst', autocommit=True)
+          conn.execute('CREATE DATABASE jst_test')
           "
 
       - name: Migrate
