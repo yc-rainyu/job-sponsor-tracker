@@ -4,14 +4,15 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-# Read root .env, then switch DATABASE_URL to jst_test before importing the app.
+# Prefer env already set (CI); otherwise load root .env for local runs.
 _env_path = Path(__file__).resolve().parents[2] / '.env'
-for _line in _env_path.read_text().splitlines():
-    _line = _line.strip()
-    if not _line or _line.startswith('#') or '=' not in _line:
-        continue
-    _key, _value = _line.split('=', 1)
-    os.environ.setdefault(_key, _value)
+if 'DATABASE_URL' not in os.environ and _env_path.is_file():
+    for _line in _env_path.read_text().splitlines():
+        _line = _line.strip()
+        if not _line or _line.startswith('#') or '=' not in _line:
+            continue
+        _key, _value = _line.split('=', 1)
+        os.environ.setdefault(_key, _value)
 
 _url = os.environ['DATABASE_URL']
 os.environ['DATABASE_URL'] = _url.rsplit('/', 1)[0] + '/jst_test'

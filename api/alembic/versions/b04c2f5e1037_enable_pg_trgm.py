@@ -1,4 +1,4 @@
-"""enable pg_team
+"""enable pg_trgm
 
 Revision ID: b04c2f5e1037
 Revises:
