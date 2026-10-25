@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
 
 # Prefer env already set (CI); otherwise load root .env for local runs.
 _env_path = Path(__file__).resolve().parents[2] / '.env'
@@ -29,8 +30,10 @@ def client():
 
 
 @pytest.fixture
-def db_connection():
+def session():
     with engine.connect() as conn:
-        with conn.begin() as trans:
-            yield conn
-            trans.rollback()
+        trans = conn.begin()
+        sess = Session(conn)
+        yield sess
+        sess.close()
+        trans.rollback()
