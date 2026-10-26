@@ -14,7 +14,7 @@ router = APIRouter()
 
 class AnalyseBody(BaseModel):
     text: str = Field(max_length=20000)
-    company: str | None = None
+    company: str | None = Field(default=None, max_length=200)
 
 
 @router.post('/jd/analyse')

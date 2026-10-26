@@ -14,7 +14,7 @@ router = APIRouter()
 def search(
     session: Annotated[Session, Depends(get_db)],
     _: Annotated[None, Depends(limit_search)],
-    query: Annotated[str, Query(alias='q')] = '',
+    query: Annotated[str, Query(alias='q', max_length=200)] = '',
     limit: Annotated[int, Query(ge=1, le=50)] = 10,
     offset: Annotated[int, Query(ge=0)] = 0,
 ):

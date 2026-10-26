@@ -32,6 +32,10 @@ REGISTER = [
     # no Skilled Worker, and a B rating
     'Creative Only Ltd,London,,Temporary Worker (A rating),Creative Worker',
     'B Rating Ltd,Leeds,,Worker (B rating),Skilled Worker',
+    # B on one route only, and an A (Premium) licence
+    'Mixed Licence Ltd,Slough,,Worker (B rating),Skilled Worker',
+    'Mixed Licence Ltd,Slough,,Temporary Worker (A rating),Creative Worker',
+    'Premium Rated Ltd,London,,Worker (A (Premium)),Skilled Worker',
 ]
 
 ALIASES = [
@@ -166,6 +170,36 @@ def test_offset(client, session, tmp_path):
     assert first.json()['total'] == 3
     assert second.json()['total'] == 3
     assert _hits(first)[0]['id'] != _hits(second)[0]['id']
+
+
+# B on any route wins over A
+def test_mixed_rating(client, session, tmp_path):
+    _seed(session, tmp_path)
+    response = _search(client, 'Mixed Licence')
+    assert _names(response) == ['Mixed Licence Ltd']
+    assert _hits(response)[0]['rating'] == 'B'
+
+
+# Premium is still an A rating
+def test_premium_rating(client, session, tmp_path):
+    _seed(session, tmp_path)
+    response = _search(client, 'Premium Rated')
+    assert _names(response) == ['Premium Rated Ltd']
+    assert _hits(response)[0]['rating'] == 'A'
+
+
+# a bare legal suffix would match most of the register
+def test_suffix_only(client, session, tmp_path):
+    _seed(session, tmp_path)
+    response = _search(client, 'Ltd')
+    assert response.status_code == 200
+    assert _hits(response) == []
+    assert response.json()['total'] == 0
+
+
+def test_query_too_long(client):
+    response = _search(client, 'a' * 201)
+    assert response.status_code == 422
 
 
 # third call in the same minute is rejected
