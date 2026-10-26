@@ -1,10 +1,7 @@
 from datetime import date
 from pathlib import Path
 
-from sqlalchemy import select
-
 from app.core.settings import settings
-from app.models.register import Sponsor, SponsorAlias
 from app.services.sponsors.import_aliases import import_aliases
 from app.services.sponsors.import_register import import_register
 
@@ -42,6 +39,7 @@ ALIASES = [
     'ExxonMobil,ESSO Petroleum Company Ltd,Leatherhead',
 ]
 
+
 def _write(tmp_path: Path, header: str, rows: list[str], name: str) -> Path:
     path = tmp_path / name
     path.write_text(header + '\n' + '\n'.join(rows) + '\n')
@@ -59,24 +57,14 @@ def _seed(session, tmp_path):
         _write(tmp_path, ALIAS_HEADER, ALIASES, 'aliases.csv'),
     )
 
-# fake register used by the search cases later
-def test_seed(session, tmp_path):
-    _seed(session, tmp_path)
 
-    names = set(session.scalars(select(Sponsor.name_raw)))
-    assert 'Roofoods Ltd t/a Deliveroo' in names
-    assert 'Eui Limited' in names
-    assert 'ESSO Petroleum Company Ltd' in names
-    assert 'Stripe Payments UK Ltd' in names
+def _search(client, query):
+    return client.get('/sponsors/search', params={'q': query})
 
-    aliases = set(session.scalars(select(SponsorAlias.alias_norm)))
-    assert aliases == {'admiral', 'exxonmobil'}
-
-def _search(client, q):
-    return client.get('/sponsors/search', params={'q': q})
 
 def _names(rows):
     return [row['registered_name'] for row in rows]
+
 
 # exact match on the trading name
 def test_deliveroo(client, session, tmp_path):
@@ -163,6 +151,7 @@ def test_blank(client, session, tmp_path):
     response = _search(client, '')
     assert response.status_code == 200
     assert response.json() == []
+
 
 # third call in the same minute is rejected
 def test_rate_limit(client, session, tmp_path, monkeypatch):

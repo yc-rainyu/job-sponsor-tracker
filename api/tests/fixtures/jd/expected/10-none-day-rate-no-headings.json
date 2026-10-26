@@ -1,0 +1,26 @@
+{
+  "visa": {
+    "verdict": "none",
+    "sentences": []
+  },
+  "salary": {
+    "min": 400,
+    "max": 400,
+    "currency": "GBP",
+    "period": "day",
+    "raw": "£400 per day"
+  },
+  "work_mode": "remote",
+  "experience_years": null,
+  "skills": {
+    "required": [],
+    "nice_to_have": [],
+    "mentioned": [
+      "Python",
+      "dbt",
+      "BigQuery",
+      "SQL",
+      "Airflow"
+    ]
+  }
+}

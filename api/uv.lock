@@ -56,6 +56,7 @@ dependencies = [
     { name = "fastapi" },
     { name = "psycopg", extra = ["binary"] },
     { name = "pydantic-settings" },
+    { name = "pyyaml" },
     { name = "sqlalchemy" },
     { name = "uvicorn", extra = ["standard"] },
 ]
@@ -73,6 +74,7 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.143.3" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.3.6" },
     { name = "pydantic-settings", specifier = ">=2.16.0" },
+    { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "sqlalchemy", specifier = ">=2.1.5" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.54.0" },
 ]

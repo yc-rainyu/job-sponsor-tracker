@@ -21,17 +21,17 @@ class ImportResult(NamedTuple):
 
 # send rows in batches of 1000
 def _chunks(rows: list, size: int = _BATCH):
-    for i in range(0, len(rows), size):
-        yield rows[i : i + size]
+    for start in range(0, len(rows), size):
+        yield rows[start : start + size]
 
 
 # collapse csv rows into orgs
 def _read_csv(path: Path) -> tuple[int, dict]:
     orgs = {}
-    n = 0
-    with path.open(encoding='utf-8-sig', newline='') as f:
-        for row in csv.DictReader(f):
-            n += 1
+    row_count = 0
+    with path.open(encoding='utf-8-sig', newline='') as csv_file:
+        for row in csv.DictReader(csv_file):
+            row_count += 1
             name_raw = row['Organisation Name'].strip()
             town = row['Town/City'].strip() or None
             county = row['County'].strip() or None
@@ -50,7 +50,7 @@ def _read_csv(path: Path) -> tuple[int, dict]:
                 }
                 orgs[key] = org
             org['routes'].add((row['Route'].strip(), row['Type & Rating'].strip()))
-    return n, orgs
+    return row_count, orgs
 
 
 # upsert orgs, rebuild routes, mark anyone missing

@@ -19,31 +19,32 @@ class SearchHit(NamedTuple):
     match_type: str
     score: float
 
-def search_sponsors(session: Session, q: str, limit: int = 10) -> list[SearchHit]:
-    q_norm, _, _ = normalise_name(q)
-    if not q_norm:
+
+def search_sponsors(session: Session, query: str, limit: int = 10) -> list[SearchHit]:
+    query_norm, _, _ = normalise_name(query)
+    if not query_norm:
         return []
 
     alias_ids = set(
         session.scalars(
-            select(SponsorAlias.sponsor_id).where(SponsorAlias.alias_norm == q_norm)
+            select(SponsorAlias.sponsor_id).where(SponsorAlias.alias_norm == query_norm)
         )
     )
 
-    trading_sim = func.word_similarity(q_norm, Sponsor.trading_name_norm)
-    word_sim = func.word_similarity(q_norm, Sponsor.legal_name_norm)
-    fuzzy_sim = func.similarity(q_norm, Sponsor.legal_name_norm)
+    trading_sim = func.word_similarity(query_norm, Sponsor.trading_name_norm)
+    word_sim = func.word_similarity(query_norm, Sponsor.legal_name_norm)
+    fuzzy_sim = func.similarity(query_norm, Sponsor.legal_name_norm)
 
     rows = session.execute(
         select(Sponsor, trading_sim, word_sim, fuzzy_sim).where(
             Sponsor.removed_time.is_(None),
             or_(
-                Sponsor.legal_name_norm == q_norm,
-                Sponsor.trading_name_norm == q_norm,
+                Sponsor.legal_name_norm == query_norm,
+                Sponsor.trading_name_norm == query_norm,
                 Sponsor.id.in_(alias_ids) if alias_ids else False,
-                Sponsor.trading_name_norm.op('%>')(q_norm),
-                Sponsor.legal_name_norm.op('%>')(q_norm),
-                Sponsor.legal_name_norm.op('%')(q_norm),
+                Sponsor.trading_name_norm.op('%>')(query_norm),
+                Sponsor.legal_name_norm.op('%>')(query_norm),
+                Sponsor.legal_name_norm.op('%')(query_norm),
             ),
         )
     ).all()
@@ -51,7 +52,7 @@ def search_sponsors(session: Session, q: str, limit: int = 10) -> list[SearchHit
     ranked = []
     for sponsor, trading_sim, word_sim, fuzzy_sim in rows:
         match_type, score = _pick_layer(
-            sponsor, q_norm, alias_ids, trading_sim, word_sim, fuzzy_sim
+            sponsor, query_norm, alias_ids, trading_sim, word_sim, fuzzy_sim
         )
         if match_type is None:
             continue
@@ -90,8 +91,9 @@ def search_sponsors(session: Session, q: str, limit: int = 10) -> list[SearchHit
         )
     return hits
 
-def _pick_layer(sponsor, q_norm, alias_ids, trading_sim, word_sim, fuzzy_sim):
-    if sponsor.legal_name_norm == q_norm or sponsor.trading_name_norm == q_norm:
+
+def _pick_layer(sponsor, query_norm, alias_ids, trading_sim, word_sim, fuzzy_sim):
+    if sponsor.legal_name_norm == query_norm or sponsor.trading_name_norm == query_norm:
         return 'exact', 1.0
     if sponsor.id in alias_ids:
         return 'alias', 0.98
@@ -102,6 +104,7 @@ def _pick_layer(sponsor, q_norm, alias_ids, trading_sim, word_sim, fuzzy_sim):
     if fuzzy_sim is not None and fuzzy_sim >= settings.search_fuzzy_threshold:
         return 'fuzzy', float(fuzzy_sim)
     return None, 0.0
+
 
 def _rating(type_ratings):
     for raw in type_ratings:

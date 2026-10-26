@@ -17,8 +17,8 @@ class AliasResult(NamedTuple):
 # read alias, name, town
 def _read_csv(path: Path) -> list[dict]:
     rows = []
-    with path.open(encoding='utf-8-sig', newline='') as f:
-        for row in csv.DictReader(f):
+    with path.open(encoding='utf-8-sig', newline='') as csv_file:
+        for row in csv.DictReader(csv_file):
             alias_norm, _, _ = normalise_name(row['alias'])
             rows.append(
                 {
@@ -42,11 +42,11 @@ def import_aliases(session: Session, csv_path: Path | str) -> AliasResult:
     for row in rows:
         if row['alias_norm'] in seen:
             continue
-        q = select(Sponsor.id).where(Sponsor.name_raw == row['name'])
+        stmt = select(Sponsor.id).where(Sponsor.name_raw == row['name'])
         if row['town'] is None:
-            ids = session.scalars(q).all()
+            ids = session.scalars(stmt).all()
         else:
-            ids = session.scalars(q.where(Sponsor.town == row['town'])).all()
+            ids = session.scalars(stmt.where(Sponsor.town == row['town'])).all()
         if len(ids) != 1:
             missing.append(row)
             continue

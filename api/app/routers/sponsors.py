@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.core.deps import get_db
@@ -9,11 +9,12 @@ from app.services.sponsors.search import search_sponsors
 
 router = APIRouter()
 
+
 @router.get('/sponsors/search')
 def search(
     session: Annotated[Session, Depends(get_db)],
     _: Annotated[None, Depends(limit_search)],
-    q: str = '',
+    query: Annotated[str, Query(alias='q')] = '',
     limit: int = 10,
 ):
-    return [hit._asdict() for hit in search_sponsors(session, q, limit)]
+    return [hit._asdict() for hit in search_sponsors(session, query, limit)]

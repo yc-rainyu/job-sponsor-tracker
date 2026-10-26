@@ -1,0 +1,20 @@
+Full Stack Developer
+Oakfield Learning, Nottingham (hybrid)
+£42,000 - £48,000
+
+Oakfield builds assessment tools used by 1,200 schools.
+
+Requirements
+- 2 to 4 years' experience with JavaScript or TypeScript
+- Node.js and React
+- MongoDB or PostgreSQL
+- Agile delivery
+
+Nice to have
+- GraphQL
+- Playwright
+- Accessibility (WCAG) knowledge
+
+Hybrid working with two days in the office.
+
+We are a licensed sponsor and welcome applications from international candidates.

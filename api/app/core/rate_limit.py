@@ -13,14 +13,30 @@ def reset() -> None:
     _hits.clear()
 
 
-def limit_search(request: Request) -> None:
+def _limit(request: Request, name: str, max_hits: int, detail: str) -> None:
     ip = request.client.host if request.client else 'unknown'
+    key = f'{name}:{ip}'
     now = time.monotonic()
-    recent = [t for t in _hits[ip] if now - t < _WINDOW]
-    if len(recent) >= settings.search_rate_limit_per_minute:
-        raise HTTPException(
-            status_code=429,
-            detail='Too many searches. Try again in a minute.',
-        )
+    recent = [stamp for stamp in _hits[key] if now - stamp < _WINDOW]
+    if len(recent) >= max_hits:
+        raise HTTPException(status_code=429, detail=detail)
     recent.append(now)
-    _hits[ip] = recent
+    _hits[key] = recent
+
+
+def limit_search(request: Request) -> None:
+    _limit(
+        request,
+        'search',
+        settings.search_rate_limit_per_minute,
+        'Too many searches. Try again in a minute.',
+    )
+
+
+def limit_analyse(request: Request) -> None:
+    _limit(
+        request,
+        'analyse',
+        settings.analyse_rate_limit_per_minute,
+        'Too many analyses. Try again in a minute.',
+    )

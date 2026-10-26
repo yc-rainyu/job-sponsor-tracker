@@ -1,0 +1,7 @@
+Data Engineer – 3 month contract
+London, fully remote
+£400 per day, outside IR35
+
+Aldgate Consulting is looking for a data engineer to help a retail client move reporting from spreadsheets to a warehouse. You'll be working with Python, dbt and BigQuery, and you'll need solid SQL. Some Airflow experience would help. The client team works in two-week sprints and expects you to join their daily stand-up.
+
+Start date: as soon as possible.

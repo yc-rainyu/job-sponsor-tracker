@@ -1,0 +1,41 @@
+{
+  "visa": {
+    "verdict": "mentions",
+    "sentences": [
+      {
+        "text": "We are a licensed sponsor and welcome applications from international candidates.",
+        "label": "mentions"
+      }
+    ]
+  },
+  "salary": {
+    "min": 42000,
+    "max": 48000,
+    "currency": "GBP",
+    "period": "year",
+    "raw": "£42,000 - £48,000"
+  },
+  "work_mode": "hybrid",
+  "experience_years": {
+    "min": 2,
+    "max": 4,
+    "raw": "2 to 4 years"
+  },
+  "skills": {
+    "required": [
+      "JavaScript",
+      "TypeScript",
+      "Node.js",
+      "React",
+      "MongoDB",
+      "PostgreSQL",
+      "Agile"
+    ],
+    "nice_to_have": [
+      "GraphQL",
+      "Playwright",
+      "Accessibility"
+    ],
+    "mentioned": []
+  }
+}

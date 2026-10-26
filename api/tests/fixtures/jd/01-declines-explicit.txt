@@ -1,0 +1,24 @@
+Full Stack Engineer
+Ledgerline | London (Hybrid, 3 days a week in our Shoreditch office)
+Salary: £50,000 - £60,000 per annum
+
+About Ledgerline
+We build reconciliation software for mid-sized accountancy firms. Our platform is used by 300 practices across the UK.
+
+The role
+You'll join a team of six engineers and own features end to end, from the Python API to the React front end.
+
+Requirements
+- 3+ years of commercial experience building web applications
+- Strong Python and PostgreSQL
+- Production experience with React and TypeScript
+- Comfortable writing unit tests and reviewing code
+
+Nice to have
+- Docker and AWS
+- Experience with Celery or similar task queues
+
+Working here
+Hybrid working, with three days a week in the office. 25 days holiday plus bank holidays.
+
+Unfortunately, we are unable to offer visa sponsorship for this role.

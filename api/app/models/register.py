@@ -17,8 +17,9 @@ class RegisterSnapshot(Base):
     added_count: Mapped[int]
     removed_count: Mapped[int]
     import_time: Mapped[datetime.datetime] = mapped_column(
-        DateTime(timezone=True), server_default = func.now()
+        DateTime(timezone=True), server_default=func.now()
     )
+
 
 class Sponsor(Base):
     __tablename__ = 'sponsors'
@@ -33,9 +34,9 @@ class Sponsor(Base):
         Index(
             'ix_sponsor_trading_name_norm_trgm',
             'trading_name_norm',
-            postgresql_using = 'gin',
-            postgresql_ops = {'trading_name_norm': 'gin_trgm_ops'},
-        )
+            postgresql_using='gin',
+            postgresql_ops={'trading_name_norm': 'gin_trgm_ops'},
+        ),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -45,22 +46,26 @@ class Sponsor(Base):
     trading_name_norm: Mapped[str | None]
     town: Mapped[str | None]
     county: Mapped[str | None]
-    first_seen_snapshot_id: Mapped[int] = mapped_column(ForeignKey('register_snapshots.id'))
-    last_seen_snapshot_id: Mapped[int] = mapped_column(ForeignKey('register_snapshots.id'))
+    first_seen_snapshot_id: Mapped[int] = mapped_column(
+        ForeignKey('register_snapshots.id')
+    )
+    last_seen_snapshot_id: Mapped[int] = mapped_column(
+        ForeignKey('register_snapshots.id')
+    )
     removed_time: Mapped[datetime.datetime | None] = mapped_column(
         DateTime(timezone=True)
     )
 
+
 class SponsorRoute(Base):
     __tablename__ = 'sponsor_routes'
-    __table_args__ = (
-        UniqueConstraint('sponsor_id', 'route', 'type_rating'),
-    )
+    __table_args__ = (UniqueConstraint('sponsor_id', 'route', 'type_rating'),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
     sponsor_id: Mapped[int] = mapped_column(ForeignKey('sponsors.id'))
     route: Mapped[str]
     type_rating: Mapped[str]
+
 
 class SponsorAlias(Base):
     __tablename__ = 'sponsor_aliases'

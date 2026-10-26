@@ -1,0 +1,41 @@
+{
+  "visa": {
+    "verdict": "requires_rtw",
+    "sentences": [
+      {
+        "text": "Applicants must have the right to work in the UK.",
+        "label": "requires_rtw"
+      }
+    ]
+  },
+  "salary": {
+    "min": 45000,
+    "max": 55000,
+    "currency": "GBP",
+    "period": "year",
+    "raw": "£45-55k"
+  },
+  "work_mode": "onsite",
+  "experience_years": {
+    "min": 2,
+    "max": null,
+    "raw": "2 years"
+  },
+  "skills": {
+    "required": [
+      "React",
+      "TypeScript",
+      "HTML",
+      "CSS",
+      "REST",
+      "Git"
+    ],
+    "nice_to_have": [
+      "Next.js",
+      "Tailwind",
+      "Jest",
+      "Vitest"
+    ],
+    "mentioned": []
+  }
+}

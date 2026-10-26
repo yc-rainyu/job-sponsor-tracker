@@ -21,8 +21,8 @@ config.set_main_option('sqlalchemy.url', settings.database_url)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+import app.models.register  # noqa: F401
 from app.db.base import Base
-import app.models.register
 
 target_metadata = Base.metadata
 

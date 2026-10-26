@@ -26,6 +26,7 @@ services:
         condition: service_healthy
     volumes:
       - ./api:/app
+      - ./data:/app/data
       - api_venv:/app/.venv
     command:
       - uvicorn

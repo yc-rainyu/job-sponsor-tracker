@@ -14,5 +14,7 @@ class Settings(BaseSettings):
 
     search_rate_limit_per_minute: int = 60
 
+    analyse_rate_limit_per_minute: int = 20
+
 
 settings = Settings()

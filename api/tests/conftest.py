@@ -29,9 +29,10 @@ from app.main import app  # noqa: E402
 def client(session):
     def _get_db():
         yield session
+
     app.dependency_overrides[get_db] = _get_db
-    with TestClient(app) as c:
-        yield c
+    with TestClient(app) as test_client:
+        yield test_client
     app.dependency_overrides.clear()
 
 
@@ -43,6 +44,7 @@ def session():
         yield sess
         sess.close()
         trans.rollback()
+
 
 @pytest.fixture(autouse=True)
 def _clear_rate_limit():
