@@ -28,6 +28,8 @@ _VISA_WORDS = (
     'dv clearance',
     'eligible to work in the uk',
     'eligibility to work',
+    'authorized to work',
+    'authorised to work',
     'skilled worker',
     'graduate visa',
     'relocation',
@@ -40,7 +42,14 @@ _DECLINE = (
     'without sponsorship',
     'do not offer',
 )
-_RTW = ('must have', 'must already have', 'must be eligible to work', 'right to work')
+_RTW = (
+    'must have',
+    'must already have',
+    'must be eligible to work',
+    'right to work',
+    'authorized to work',
+    'authorised to work',
+)
 _OFFER = (
     'sponsorship available',
     'we can sponsor',
@@ -105,7 +114,8 @@ _SALARY_RE = re.compile(
     r'(?:\s*(?:[-–]|to)\s*(?:£|€|GBP|NT\$|TWD)?\s*'
     r'(\d{1,3}(?:,\d{3})+|\d+)'
     r'(k)?)?'
-    r'(?:\s*(per annum|pa|per day|per hour|a year))?',
+    r'(?:\s*(?:gross\s+)?'
+    r'(per annum|pa|per day|per hour|a year|per month|monthly|a month))?',
     re.IGNORECASE,
 )
 _CURRENCY = {'£': 'GBP', '€': 'EUR', 'gbp': 'GBP', 'nt$': 'TWD', 'twd': 'TWD'}
@@ -115,6 +125,9 @@ _PERIOD = {
     'a year': 'year',
     'per day': 'day',
     'per hour': 'hour',
+    'per month': 'month',
+    'monthly': 'month',
+    'a month': 'month',
 }
 
 
@@ -182,8 +195,12 @@ _EXPERIENCE_RE = re.compile(
 def extract_experience(text):
     for match in _EXPERIENCE_RE.finditer(text):
         start, end = match.span()
-        window = text[max(0, start - 30) : min(len(text), end + 30)]
-        if 'experience' not in window.lower():
+        line_start = text.rfind('\n', 0, start) + 1
+        line_end = text.find('\n', end)
+        if line_end == -1:
+            line_end = len(text)
+        line = text[line_start:line_end]
+        if 'experience' not in line.lower():
             continue
         years_min = int(match.group(1))
         years_max = int(match.group(2)) if match.group(2) else None
@@ -193,13 +210,25 @@ def extract_experience(text):
 
 # Skills
 _REQUIRED_HEAD = re.compile(
-    r'^(requirements|must have|essential|what you.?ll need)\s*$',
+    r'^(requirements|required skills|must have(?: skills(?:/experience)?)?|'
+    r'essential(?: skills)?|what you.?ll need|'
+    r'what (?:we|they).?re looking for)$',
     re.I,
 )
 _NICE_HEAD = re.compile(
-    r'^(nice to have|desirable|bonus(?: points)?|preferred|plus)\s*$',
+    r'^(nice to haves?|desirable(?: skills)?|bonus(?: points)?|preferred|plus|'
+    r'advantageous(?: skills(?:/experience)?)?)$',
     re.I,
 )
+
+
+def _heading_key(line):
+    text = line.strip()
+    text = text.replace('\u2019', "'").replace('\u2018', "'")
+    text = re.sub(r'^#+\s*', '', text)
+    text = text.strip('*').strip()
+    text = text.rstrip(':').strip()
+    return re.sub(r'\s+', ' ', text)
 
 
 def _longest(skill):
@@ -225,12 +254,12 @@ def _split_skill_sections(text):
             buf.clear()
 
     for line in text.splitlines():
-        stripped = line.strip()
-        if _REQUIRED_HEAD.match(stripped):
+        heading = _heading_key(line)
+        if _REQUIRED_HEAD.match(heading):
             flush()
             bucket = 'required'
             continue
-        if _NICE_HEAD.match(stripped):
+        if _NICE_HEAD.match(heading):
             flush()
             bucket = 'nice_to_have'
             continue
@@ -239,23 +268,38 @@ def _split_skill_sections(text):
     return sections
 
 
-def _skill_in(chunk, terms):
-    for term in terms:
-        pattern = re.compile(rf'(?<![\w.]){re.escape(term)}(?!\w)', re.I)
-        if pattern.search(chunk):
-            return True
-    return False
+def _term_spans(chunk, terms, name_case_sensitive):
+    spans = []
+    for index, term in enumerate(terms):
+        ignore_case = not (name_case_sensitive and index == 0)
+        flags = re.I if ignore_case else 0
+        pattern = re.compile(rf'(?<![\w.]){re.escape(term)}(?!\w)', flags)
+        spans.extend(match.span() for match in pattern.finditer(chunk))
+    return spans
+
+
+def _first_free_span(spans, occupied):
+    for span in spans:
+        if any(span[0] < end and start < span[1] for start, end in occupied):
+            continue
+        return span
+    return None
 
 
 def extract_skills(text):
     rank = {'required': 3, 'nice_to_have': 2, 'mentioned': 1}
     found = {}
     sections = _split_skill_sections(text)
+    occupied = [[] for _ in sections]
     for skill in load_skills():
         terms = [skill['name'], *skill['aliases']]
-        for bucket, chunk in sections:
-            if not _skill_in(chunk, terms):
+        name_case_sensitive = bool(skill.get('case_sensitive'))
+        for index, (bucket, chunk) in enumerate(sections):
+            spans = _term_spans(chunk, terms, name_case_sensitive)
+            span = _first_free_span(spans, occupied[index])
+            if span is None:
                 continue
+            occupied[index].extend(spans)
             name = skill['name']
             if name not in found or rank[bucket] > rank[found[name]]:
                 found[name] = bucket

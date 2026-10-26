@@ -16,6 +16,7 @@
 - name: Go
   aliases: [golang]
   category: language
+  case_sensitive: true
 - name: SQL
   aliases: []
   category: language
@@ -59,8 +60,9 @@
   aliases: []
   category: frontend
 - name: REST
-  aliases: []
+  aliases: [restful, rest api]
   category: frontend
+  case_sensitive: true
 - name: WebSocket
   aliases: []
   category: frontend
@@ -221,13 +223,13 @@
   aliases: []
   category: data
 - name: LLM
-  aliases: [large language model, GenAI]
+  aliases: [llms, large language model, GenAI]
   category: data
 - name: OpenAI
   aliases: []
   category: data
 - name: Anthropic
-  aliases: [claude]
+  aliases: []
   category: data
 - name: RAG
   aliases: []
@@ -242,7 +244,7 @@
   aliases: [scrum]
   category: practice
 - name: TDD
-  aliases: []
+  aliases: [test-driven development]
   category: practice
 - name: Unit Testing
   aliases: []
