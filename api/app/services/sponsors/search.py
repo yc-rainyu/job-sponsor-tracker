@@ -20,10 +20,12 @@ class SearchHit(NamedTuple):
     score: float
 
 
-def search_sponsors(session: Session, query: str, limit: int = 10) -> list[SearchHit]:
+def search_sponsors(
+    session: Session, query: str, limit: int = 10, offset: int = 0
+) -> tuple[list[SearchHit], int]:
     query_norm, _, _ = normalise_name(query)
     if not query_norm:
-        return []
+        return [], 0
 
     alias_ids = set(
         session.scalars(
@@ -59,11 +61,12 @@ def search_sponsors(session: Session, query: str, limit: int = 10) -> list[Searc
         ranked.append((sponsor, match_type, score))
 
     ranked.sort(key=lambda item: (-item[2], item[0].town or ''))
-    ranked = ranked[:limit]
+    total = len(ranked)
+    ranked = ranked[offset : offset + limit]
 
     ids = [sponsor.id for sponsor, _, _ in ranked]
     if not ids:
-        return []
+        return [], total
     route_rows = session.scalars(
         select(SponsorRoute).where(SponsorRoute.sponsor_id.in_(ids))
     ).all()
@@ -89,7 +92,7 @@ def search_sponsors(session: Session, query: str, limit: int = 10) -> list[Searc
                 score=score,
             )
         )
-    return hits
+    return hits, total
 
 
 def _pick_layer(sponsor, query_norm, alias_ids, trading_sim, word_sim, fuzzy_sim):

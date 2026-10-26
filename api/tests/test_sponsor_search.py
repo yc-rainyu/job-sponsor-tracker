@@ -58,12 +58,16 @@ def _seed(session, tmp_path):
     )
 
 
-def _search(client, query):
-    return client.get('/sponsors/search', params={'q': query})
+def _search(client, query, **params):
+    return client.get('/sponsors/search', params={'q': query, **params})
 
 
-def _names(rows):
-    return [row['registered_name'] for row in rows]
+def _hits(response):
+    return response.json()['hits']
+
+
+def _names(response):
+    return [row['registered_name'] for row in _hits(response)]
 
 
 # exact match on the trading name
@@ -71,8 +75,8 @@ def test_deliveroo(client, session, tmp_path):
     _seed(session, tmp_path)
     response = _search(client, 'Deliveroo')
     assert response.status_code == 200
-    rows = response.json()
-    assert _names(rows) == ['Roofoods Ltd t/a Deliveroo']
+    rows = _hits(response)
+    assert _names(response) == ['Roofoods Ltd t/a Deliveroo']
     row = rows[0]
     assert row['trading_name'] == 'Deliveroo'
     assert row['town'] == 'London'
@@ -88,8 +92,8 @@ def test_delivero(client, session, tmp_path):
     _seed(session, tmp_path)
     response = _search(client, 'Delivero')
     assert response.status_code == 200
-    rows = response.json()
-    assert _names(rows) == ['Roofoods Ltd t/a Deliveroo']
+    rows = _hits(response)
+    assert _names(response) == ['Roofoods Ltd t/a Deliveroo']
     assert rows[0]['match_type'] == 'trading_name'
 
 
@@ -98,8 +102,8 @@ def test_admiral(client, session, tmp_path):
     _seed(session, tmp_path)
     response = _search(client, 'Admiral')
     assert response.status_code == 200
-    rows = response.json()
-    assert _names(rows) == ['Eui Limited']
+    rows = _hits(response)
+    assert _names(response) == ['Eui Limited']
     assert rows[0]['town'] == 'Cardiff'
     assert rows[0]['match_type'] == 'alias'
     assert rows[0]['score'] == 0.98
@@ -109,8 +113,8 @@ def test_exxonmobil(client, session, tmp_path):
     _seed(session, tmp_path)
     response = _search(client, 'ExxonMobil')
     assert response.status_code == 200
-    rows = response.json()
-    assert _names(rows) == ['ESSO Petroleum Company Ltd']
+    rows = _hits(response)
+    assert _names(response) == ['ESSO Petroleum Company Ltd']
     assert rows[0]['town'] == 'Leatherhead'
     assert rows[0]['match_type'] == 'alias'
 
@@ -120,7 +124,7 @@ def test_jp_morgan(client, session, tmp_path):
     _seed(session, tmp_path)
     response = _search(client, 'JP Morgan')
     assert response.status_code == 200
-    assert set(_names(response.json())) == {
+    assert set(_names(response)) == {
         'J.P. Morgan Chase Bank N.A.',
         'J.P. Morgan Europe Limited',
         'J.P. Morgan Securities plc',
@@ -132,8 +136,8 @@ def test_stripe(client, session, tmp_path):
     _seed(session, tmp_path)
     response = _search(client, 'Stripe')
     assert response.status_code == 200
-    rows = response.json()
-    assert 'Stripe Payments UK Ltd' in _names(rows)
+    rows = _hits(response)
+    assert 'Stripe Payments UK Ltd' in _names(response)
     assert rows[0]['match_type'] != 'exact'
 
 
@@ -142,7 +146,8 @@ def test_unknown(client, session, tmp_path):
     _seed(session, tmp_path)
     response = _search(client, 'Definitely Not A Sponsor')
     assert response.status_code == 200
-    assert response.json() == []
+    assert _hits(response) == []
+    assert response.json()['total'] == 0
 
 
 # blank query is empty
@@ -150,7 +155,17 @@ def test_blank(client, session, tmp_path):
     _seed(session, tmp_path)
     response = _search(client, '')
     assert response.status_code == 200
-    assert response.json() == []
+    assert _hits(response) == []
+    assert response.json()['total'] == 0
+
+
+def test_offset(client, session, tmp_path):
+    _seed(session, tmp_path)
+    first = _search(client, 'JP Morgan', limit=1, offset=0)
+    second = _search(client, 'JP Morgan', limit=1, offset=1)
+    assert first.json()['total'] == 3
+    assert second.json()['total'] == 3
+    assert _hits(first)[0]['id'] != _hits(second)[0]['id']
 
 
 # third call in the same minute is rejected

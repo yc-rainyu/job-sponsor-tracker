@@ -15,6 +15,8 @@ def search(
     session: Annotated[Session, Depends(get_db)],
     _: Annotated[None, Depends(limit_search)],
     query: Annotated[str, Query(alias='q')] = '',
-    limit: int = 10,
+    limit: Annotated[int, Query(ge=1, le=50)] = 10,
+    offset: Annotated[int, Query(ge=0)] = 0,
 ):
-    return [hit._asdict() for hit in search_sponsors(session, query, limit)]
+    hits, total = search_sponsors(session, query, limit, offset)
+    return {'hits': [hit._asdict() for hit in hits], 'total': total}

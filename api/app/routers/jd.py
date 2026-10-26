@@ -26,7 +26,7 @@ def analyse_jd(
     result = analyse(body.text)
     company = (body.company or '').strip()
     if company:
-        hits = search_sponsors(session, company)
+        hits, _ = search_sponsors(session, company)
         result['company_matches'] = [hit._asdict() for hit in hits]
     else:
         result['company_matches'] = []
