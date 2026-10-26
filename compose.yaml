@@ -14,7 +14,9 @@ services:
       retries: 10
 
   api:
-    build: ./api
+    build:
+      context: .
+      dockerfile: api/Dockerfile
     ports:
       - '8000:8000'
     environment:
@@ -26,7 +28,7 @@ services:
         condition: service_healthy
     volumes:
       - ./api:/app
-      - ./data:/app/data
+      - ./data:/data:ro
       - api_venv:/app/.venv
     command:
       - uvicorn

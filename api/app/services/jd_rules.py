@@ -3,10 +3,7 @@ from pathlib import Path
 
 import yaml
 
-_ROOT = Path(__file__).resolve().parents[2]
-SKILLS_PATH = _ROOT / 'data' / 'skills.yaml'
-if not SKILLS_PATH.exists():
-    SKILLS_PATH = _ROOT.parent / 'data' / 'skills.yaml'
+SKILLS_PATH = Path(__file__).resolve().parents[3] / 'data' / 'skills.yaml'
 
 
 # Visa

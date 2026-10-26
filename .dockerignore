@@ -1,0 +1,10 @@
+# build context is the repo root, only api/ and data/ go in
+*
+!api
+!data
+api/.venv
+api/.env
+api/.pytest_cache
+api/.ruff_cache
+api/tests
+**/__pycache__
