@@ -52,10 +52,10 @@ def _write(tmp_path: Path, header: str, rows: list[str], name: str) -> Path:
     return path
 
 
-def _seed(session, tmp_path):
+def _seed(session, tmp_path, extra_rows=()):
     import_register(
         session,
-        _write(tmp_path, REGISTER_HEADER, REGISTER, 'register.csv'),
+        _write(tmp_path, REGISTER_HEADER, [*REGISTER, *extra_rows], 'register.csv'),
         PUBLISHED,
     )
     import_aliases(
@@ -215,6 +215,17 @@ def test_exact_before_word_tie(client, session, tmp_path):
     ]
     assert rows[0]['match_type'] == 'exact'
     assert rows[1]['score'] == 1.0
+
+
+# the other name scores 1.0 on "admiral", the alias still goes first
+def test_alias_before_word_match(client, session, tmp_path):
+    _seed(
+        session,
+        tmp_path,
+        ['Admiral Care Ltd,Leeds,,Worker (A rating),Skilled Worker'],
+    )
+    response = _search(client, 'Admiral')
+    assert _names(response) == ['Eui Limited', 'Admiral Care Ltd']
 
 
 def test_query_too_long(client):

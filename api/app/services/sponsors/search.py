@@ -90,10 +90,10 @@ def search_sponsors(
             ),
             or_(exact, alias, trading_hit, word_hit, fuzzy_hit),
         )
-        # a word match can also score 1.0, exact wins the tie
+        # layer first, a word match can score 1.0 and would beat an alias (0.98)
         .order_by(
+            case((exact, 0), (alias, 1), else_=2),
             score.desc(),
-            case((exact, 0), else_=1),
             func.coalesce(Sponsor.town, ''),
             Sponsor.id,
         )
