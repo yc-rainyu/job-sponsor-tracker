@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { Badge } from '@/components/ui/badge'
 import type { AnalyseResult as Result } from '@/lib/api'
 
-function visaVariant(verdict: string) {
+function visaVariant(verdict: Result['visa']['verdict']) {
   if (verdict === 'offers') return 'default'
   if (verdict === 'declines') return 'destructive'
   return 'secondary'
@@ -13,8 +13,6 @@ function visaVariant(verdict: string) {
 
 export function AnalyseResult({ result }: { result: Result }) {
   const t = useTranslations('Analyse')
-  const visaKey = `visa.${result.visa.verdict}`
-  const workKey = result.work_mode ? `workModeValue.${result.work_mode}` : null
   const skillGroups = [
     {
       key: 'required',
@@ -42,7 +40,7 @@ export function AnalyseResult({ result }: { result: Result }) {
             variant={visaVariant(result.visa.verdict)}
             className="text-base"
           >
-            {t.has(visaKey) ? t(visaKey) : result.visa.verdict}
+            {t(`visa.${result.visa.verdict}`)}
           </Badge>
         </div>
         {result.visa.sentences.length > 0 ? (
@@ -63,7 +61,11 @@ export function AnalyseResult({ result }: { result: Result }) {
           />
           <Fact
             label={t('workMode')}
-            value={workKey && t.has(workKey) ? t(workKey) : t('notFound')}
+            value={
+              result.work_mode
+                ? t(`workModeValue.${result.work_mode}`)
+                : t('notFound')
+            }
           />
           <Fact
             label={t('experience')}

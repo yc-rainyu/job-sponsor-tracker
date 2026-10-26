@@ -1,68 +1,19 @@
-export type SponsorHit = {
-  id: number
-  registered_name: string
-  trading_name: string | null
-  town: string | null
-  rating: string | null
-  routes: string[]
-  has_skilled_worker: boolean
-  match_type: string
-  score: number
-}
+import type { components } from '@/lib/api-schema'
 
-export type AnalyseResult = {
-  visa: {
-    verdict: string
-    sentences: { text: string; label: string }[]
+// generated from the FastAPI schema, run `pnpm gen:api` after changing the api
+type Schemas = components['schemas']
+
+export type SponsorHit = Schemas['SponsorHit']
+export type SearchResult = Schemas['SearchResult']
+export type AnalyseResult = Schemas['AnalyseResult']
+export type RegisterInfo = Schemas['RegisterInfo']
+
+async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(`/api${path}`, init)
+  if (!response.ok) {
+    throw new Error(`${response.status} ${response.statusText}`)
   }
-  salary: {
-    min: number | null
-    max: number | null
-    currency: string | null
-    period: string | null
-    raw: string
-  } | null
-  work_mode: string | null
-  experience_years: {
-    min: number | null
-    max: number | null
-    raw: string
-  } | null
-  skills: {
-    required: string[]
-    nice_to_have: string[]
-    mentioned: string[]
-  }
-  company_matches: SponsorHit[]
-}
-
-async function errorMessage(res: Response) {
-  try {
-    const body = await res.json()
-    if (typeof body?.detail === 'string') return body.detail
-  } catch {}
-  return `${res.status} ${res.statusText}`
-}
-
-export async function apiFetch<T>(
-  path: string,
-  init?: RequestInit
-): Promise<T> {
-  const res = await fetch(`/api${path}`, {
-    ...init,
-    credentials: 'include',
-  })
-
-  if (!res.ok) {
-    throw new Error(await errorMessage(res))
-  }
-
-  return res.json() as Promise<T>
-}
-
-export type SponsorSearchPage = {
-  hits: SponsorHit[]
-  total: number
+  return response.json() as Promise<T>
 }
 
 export function searchSponsors(query: string, page = 1, pageSize = 10) {
@@ -71,24 +22,17 @@ export function searchSponsors(query: string, page = 1, pageSize = 10) {
     limit: String(pageSize),
     offset: String((page - 1) * pageSize),
   })
-  return apiFetch<SponsorSearchPage>(`/sponsors/search?${params}`)
+  return apiFetch<SearchResult>(`/sponsors/search?${params}`)
 }
 
 export function analyseJd(text: string) {
   return apiFetch<AnalyseResult>('/jd/analyse', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text } satisfies Schemas['AnalyseBody']),
   })
 }
 
-export type Health = {
-  status: string
-  db: string
-  version: string
-  register_published_on: string | null
-}
-
-export function getHealth() {
-  return apiFetch<Health>('/health')
+export function getRegisterInfo() {
+  return apiFetch<RegisterInfo>('/sponsors/register')
 }

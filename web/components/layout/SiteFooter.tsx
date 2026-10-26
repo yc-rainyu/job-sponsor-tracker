@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 
-import { getHealth } from '@/lib/api'
+import { getRegisterInfo } from '@/lib/api'
 
 const GITHUB_URL = 'https://github.com/yc-rainyu/job-sponsor-tracker'
 const OGL_URL =
@@ -12,10 +12,10 @@ const OGL_URL =
 export function SiteFooter() {
   const t = useTranslations('Footer')
   const { data } = useQuery({
-    queryKey: ['health'],
-    queryFn: getHealth,
+    queryKey: ['register'],
+    queryFn: getRegisterInfo,
   })
-  const published = data?.register_published_on
+  const published = data?.published_on
   const publishedLabel = published
     ? new Date(`${published}T00:00:00`).toLocaleDateString('en-GB', {
         day: 'numeric',
