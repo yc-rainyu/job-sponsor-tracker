@@ -26,8 +26,11 @@ def search_sponsors(
     session: Session, query: str, limit: int = 10, offset: int = 0
 ) -> tuple[list[SearchHit], int]:
     query_norm, _, _ = normalise_name(query)
-    # blank, or only suffixes that most of the register shares
-    if set(query_norm.split()) <= _LEGAL_SUFFIXES:
+    # most names end in one of these, so only exact matches look at them
+    query_core = ' '.join(
+        word for word in query_norm.split() if word not in _LEGAL_SUFFIXES
+    )
+    if not query_core:
         return [], 0
 
     # looked up first, as a subquery it stops the trigram indexes being used
@@ -42,9 +45,9 @@ def search_sponsors(
         Sponsor.trading_name_norm == query_norm,
     )
     alias = Sponsor.id.in_(alias_ids) if alias_ids else false()
-    trading_sim = func.word_similarity(query_norm, Sponsor.trading_name_norm)
-    word_sim = func.word_similarity(query_norm, Sponsor.legal_name_norm)
-    fuzzy_sim = func.similarity(query_norm, Sponsor.legal_name_norm)
+    trading_sim = func.word_similarity(query_core, Sponsor.trading_name_norm)
+    word_sim = func.word_similarity(query_core, Sponsor.legal_name_norm)
+    fuzzy_sim = func.similarity(query_core, Sponsor.legal_name_norm)
     trading_hit = trading_sim >= settings.search_trading_threshold
     word_hit = word_sim >= settings.search_word_threshold
     fuzzy_hit = fuzzy_sim >= settings.search_fuzzy_threshold
@@ -81,13 +84,19 @@ def search_sponsors(
             or_(
                 exact,
                 alias,
-                Sponsor.trading_name_norm.op('%>')(query_norm),
-                Sponsor.legal_name_norm.op('%>')(query_norm),
-                Sponsor.legal_name_norm.op('%')(query_norm),
+                Sponsor.trading_name_norm.op('%>')(query_core),
+                Sponsor.legal_name_norm.op('%>')(query_core),
+                Sponsor.legal_name_norm.op('%')(query_core),
             ),
             or_(exact, alias, trading_hit, word_hit, fuzzy_hit),
         )
-        .order_by(score.desc(), func.coalesce(Sponsor.town, ''), Sponsor.id)
+        # a word match can also score 1.0, exact wins the tie
+        .order_by(
+            score.desc(),
+            case((exact, 0), else_=1),
+            func.coalesce(Sponsor.town, ''),
+            Sponsor.id,
+        )
         .limit(limit)
         .offset(offset)
     ).all()

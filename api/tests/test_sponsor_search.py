@@ -36,6 +36,8 @@ REGISTER = [
     'Mixed Licence Ltd,Slough,,Worker (B rating),Skilled Worker',
     'Mixed Licence Ltd,Slough,,Temporary Worker (A rating),Creative Worker',
     'Premium Rated Ltd,London,,Worker (A (Premium)),Skilled Worker',
+    # word match on "roofoods" that would sort before the exact one by town
+    'Roofoods Holdings Ltd,Bath,,Worker (A rating),Skilled Worker',
 ]
 
 ALIASES = [
@@ -195,6 +197,24 @@ def test_suffix_only(client, session, tmp_path):
     assert response.status_code == 200
     assert _hits(response) == []
     assert response.json()['total'] == 0
+
+
+# the suffix alone used to make most of the register match
+def test_suffix_ignored_for_fuzzy(client, session, tmp_path):
+    _seed(session, tmp_path)
+    response = _search(client, 'A Ltd')
+    assert response.json()['total'] == 0
+
+
+def test_exact_before_word_tie(client, session, tmp_path):
+    _seed(session, tmp_path)
+    rows = _hits(_search(client, 'Roofoods Ltd'))
+    assert [row['registered_name'] for row in rows[:2]] == [
+        'Roofoods Ltd t/a Deliveroo',
+        'Roofoods Holdings Ltd',
+    ]
+    assert rows[0]['match_type'] == 'exact'
+    assert rows[1]['score'] == 1.0
 
 
 def test_query_too_long(client):
