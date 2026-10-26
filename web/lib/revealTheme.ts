@@ -55,10 +55,7 @@ export async function revealThemeChange(
 
     document.documentElement.animate(
       {
-        clipPath: [
-          'circle(0px at 0px 0px)',
-          `circle(${radius}px at 0px 0px)`,
-        ],
+        clipPath: ['circle(0px at 0px 0px)', `circle(${radius}px at 0px 0px)`],
       },
       { ...timing, pseudoElement: '::view-transition-new(root)' }
     )

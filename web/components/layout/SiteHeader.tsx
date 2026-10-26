@@ -36,7 +36,7 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'flex items-center px-5 text-lg outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring/30',
+                  'flex items-center px-5 text-lg transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring/30',
                   active
                     ? 'bg-muted font-medium text-foreground'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'

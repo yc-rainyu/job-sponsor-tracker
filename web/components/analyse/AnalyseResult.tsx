@@ -14,9 +14,7 @@ function visaVariant(verdict: string) {
 export function AnalyseResult({ result }: { result: Result }) {
   const t = useTranslations('Analyse')
   const visaKey = `visa.${result.visa.verdict}`
-  const workKey = result.work_mode
-    ? `workModeValue.${result.work_mode}`
-    : null
+  const workKey = result.work_mode ? `workModeValue.${result.work_mode}` : null
   const skillGroups = [
     {
       key: 'required',
@@ -40,7 +38,10 @@ export function AnalyseResult({ result }: { result: Result }) {
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-medium">{t('visaHeading')}</h2>
         <div className="flex flex-wrap gap-2">
-          <Badge variant={visaVariant(result.visa.verdict)} className="text-base">
+          <Badge
+            variant={visaVariant(result.visa.verdict)}
+            className="text-base"
+          >
             {t.has(visaKey) ? t(visaKey) : result.visa.verdict}
           </Badge>
         </div>
@@ -62,9 +63,7 @@ export function AnalyseResult({ result }: { result: Result }) {
           />
           <Fact
             label={t('workMode')}
-            value={
-              workKey && t.has(workKey) ? t(workKey) : t('notFound')
-            }
+            value={workKey && t.has(workKey) ? t(workKey) : t('notFound')}
           />
           <Fact
             label={t('experience')}

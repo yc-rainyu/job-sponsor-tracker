@@ -150,10 +150,7 @@ function SearchStatus({
           </Button>
           {pageItems(page, pages).map((pageNum, index) =>
             pageNum === 'gap' ? (
-              <span
-                key={`gap-${index}`}
-                className="px-1 text-muted-foreground"
-              >
+              <span key={`gap-${index}`} className="px-1 text-muted-foreground">
                 …
               </span>
             ) : (
