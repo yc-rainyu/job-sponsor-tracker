@@ -55,13 +55,13 @@ def test_import(session, tmp_path):
     assert result.removed == 0
     assert result.total == 4
 
-    snap = session.scalars(select(RegisterSnapshot)).one()
-    assert snap.row_count == 6
-    assert snap.org_count == 4
-    assert snap.added_count == 4
-    assert snap.removed_count == 0
-    assert snap.published_date == PUBLISHED
-    assert snap.source_file == 'register.csv'
+    snapshot = session.scalars(select(RegisterSnapshot)).one()
+    assert snapshot.row_count == 6
+    assert snapshot.org_count == 4
+    assert snapshot.added_count == 4
+    assert snapshot.removed_count == 0
+    assert snapshot.published_date == PUBLISHED
+    assert snapshot.source_file == 'register.csv'
 
     deliveroo = _sponsor(session, 'Roofoods Ltd t/a Deliveroo')
     assert deliveroo.legal_name_norm == 'roofoods ltd'
@@ -89,7 +89,8 @@ def test_reimport(session, tmp_path):
     path = _write(tmp_path, V1)
     import_register(session, path, PUBLISHED)
     ids = {
-        name: sid for name, sid in session.execute(select(Sponsor.name_raw, Sponsor.id))
+        name: sponsor_id
+        for name, sponsor_id in session.execute(select(Sponsor.name_raw, Sponsor.id))
     }
 
     result = import_register(session, path, PUBLISHED)
@@ -99,7 +100,8 @@ def test_reimport(session, tmp_path):
     assert result.removed == 0
     assert result.total == 4
     assert {
-        name: sid for name, sid in session.execute(select(Sponsor.name_raw, Sponsor.id))
+        name: sponsor_id
+        for name, sponsor_id in session.execute(select(Sponsor.name_raw, Sponsor.id))
     } == ids
     assert len(session.scalars(select(RegisterSnapshot)).all()) == 2
 

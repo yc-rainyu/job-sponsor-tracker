@@ -3,8 +3,7 @@ from datetime import date
 from pathlib import Path
 from typing import NamedTuple
 
-from sqlalchemy import delete, func, select, update
-from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import delete, func, insert, select, update
 from sqlalchemy.orm import Session
 
 from app.models.register import RegisterSnapshot, Sponsor, SponsorRoute
@@ -53,14 +52,15 @@ def _read_csv(path: Path) -> tuple[int, dict]:
     return row_count, orgs
 
 
-# upsert orgs, rebuild routes, mark anyone missing
+# upsert by diffing in python rather than ON CONFLICT, so we can count
+# who is new, who is back on the register and who has gone
 def import_register(
     session: Session, csv_path: Path | str, published: date
 ) -> ImportResult:
     csv_path = Path(csv_path)
     row_count, orgs = _read_csv(csv_path)
 
-    snap = RegisterSnapshot(
+    snapshot = RegisterSnapshot(
         published_date=published,
         source_file=csv_path.name,
         row_count=row_count,
@@ -68,12 +68,12 @@ def import_register(
         added_count=0,
         removed_count=0,
     )
-    session.add(snap)
+    session.add(snapshot)
     session.flush()
 
     existing = {
-        (name, town): (sid, removed)
-        for sid, name, town, removed in session.execute(
+        (name, town): (sponsor_id, removed_time)
+        for sponsor_id, name, town, removed_time in session.execute(
             select(
                 Sponsor.id,
                 Sponsor.name_raw,
@@ -87,8 +87,8 @@ def import_register(
     new_rows = []
     updates = []
     for key, org in orgs.items():
-        prev = existing.get(key)
-        if prev is None:
+        previous = existing.get(key)
+        if previous is None:
             added += 1
             new_rows.append(
                 {
@@ -98,22 +98,22 @@ def import_register(
                     'legal_name_norm': org['legal_name_norm'],
                     'trading_name_raw': org['trading_name_raw'],
                     'trading_name_norm': org['trading_name_norm'],
-                    'first_seen_snapshot_id': snap.id,
-                    'last_seen_snapshot_id': snap.id,
+                    'first_seen_snapshot_id': snapshot.id,
+                    'last_seen_snapshot_id': snapshot.id,
                 }
             )
         else:
-            sid, removed = prev
-            if removed is not None:
+            sponsor_id, removed_time = previous
+            if removed_time is not None:
                 added += 1
             updates.append(
                 {
-                    'id': sid,
+                    'id': sponsor_id,
                     'county': org['county'],
                     'legal_name_norm': org['legal_name_norm'],
                     'trading_name_raw': org['trading_name_raw'],
                     'trading_name_norm': org['trading_name_norm'],
-                    'last_seen_snapshot_id': snap.id,
+                    'last_seen_snapshot_id': snapshot.id,
                     'removed_time': None,
                 }
             )
@@ -125,8 +125,8 @@ def import_register(
     session.flush()
 
     id_by_key = {
-        (name, town): sid
-        for sid, name, town in session.execute(
+        (name, town): sponsor_id
+        for sponsor_id, name, town in session.execute(
             select(Sponsor.id, Sponsor.name_raw, Sponsor.town)
         )
     }
@@ -134,7 +134,7 @@ def import_register(
     session.execute(
         delete(SponsorRoute).where(
             SponsorRoute.sponsor_id.in_(
-                select(Sponsor.id).where(Sponsor.last_seen_snapshot_id == snap.id)
+                select(Sponsor.id).where(Sponsor.last_seen_snapshot_id == snapshot.id)
             )
         )
     )
@@ -148,7 +148,7 @@ def import_register(
 
     removed = session.execute(
         update(Sponsor)
-        .where(Sponsor.last_seen_snapshot_id != snap.id)
+        .where(Sponsor.last_seen_snapshot_id != snapshot.id)
         .where(Sponsor.removed_time.is_(None))
         .values(removed_time=func.now())
     ).rowcount
@@ -157,8 +157,8 @@ def import_register(
         select(func.count()).select_from(Sponsor).where(Sponsor.removed_time.is_(None))
     )
 
-    snap.added_count = added
-    snap.removed_count = removed
+    snapshot.added_count = added
+    snapshot.removed_count = removed
     session.flush()
 
     return ImportResult(added=added, removed=removed, total=total)

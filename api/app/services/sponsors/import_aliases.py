@@ -60,11 +60,11 @@ def import_aliases(session: Session, csv_path: Path | str) -> AliasResult:
         )
 
     if missing:
-        bits = [
+        labels = [
             f'{row["name"]} ({row["town"]})' if row['town'] else row['name']
             for row in missing
         ]
-        raise ValueError('could not match ' + ', '.join(bits))
+        raise ValueError('could not match ' + ', '.join(labels))
 
     if new_rows:
         session.execute(insert(SponsorAlias), new_rows)

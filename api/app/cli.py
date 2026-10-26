@@ -10,24 +10,24 @@ from app.services.sponsors.import_register import import_register
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    sub = parser.add_subparsers(dest='cmd', required=True)
+    commands = parser.add_subparsers(dest='command', required=True)
 
-    import_register_p = sub.add_parser('import-register')
-    import_register_p.add_argument('csv')
-    import_register_p.add_argument('--published', required=True)
+    register_parser = commands.add_parser('import-register')
+    register_parser.add_argument('csv')
+    register_parser.add_argument('--published', required=True)
 
-    import_aliases_p = sub.add_parser('import-aliases')
-    import_aliases_p.add_argument('csv')
+    aliases_parser = commands.add_parser('import-aliases')
+    aliases_parser.add_argument('csv')
 
     args = parser.parse_args()
-    if args.cmd == 'import-register':
+    if args.command == 'import-register':
         with Session(engine) as session:
             result = import_register(
                 session, args.csv, date.fromisoformat(args.published)
             )
             session.commit()
         print(f'added {result.added}  removed {result.removed}  total {result.total}')
-    elif args.cmd == 'import-aliases':
+    elif args.command == 'import-aliases':
         with Session(engine) as session:
             result = import_aliases(session, args.csv)
             session.commit()
