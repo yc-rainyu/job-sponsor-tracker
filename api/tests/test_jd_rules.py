@@ -99,3 +99,13 @@ def test_llms_plural():
 def test_tdd_phrase():
     got = analyse('We use a test-driven development approach.')
     assert 'TDD' in got['skills']['mentioned']
+
+
+def test_funding_is_not_salary():
+    got = analyse('We raised £20m last year. Salary £60,000 a year.')
+    assert got['salary']['min'] == 60000
+
+
+def test_visa_word_starts_a_word():
+    got = analyse('It is advisable to apply early.')
+    assert got['visa']['verdict'] == 'none'

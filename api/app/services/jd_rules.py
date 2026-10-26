@@ -1,4 +1,5 @@
 import re
+from functools import cache
 from pathlib import Path
 
 import yaml
@@ -34,6 +35,11 @@ _VISA_WORDS = (
     'graduate visa',
     'relocation',
 )
+# only at the start of a word, so "advisable" has no visa but "sponsors" still counts
+_VISA_WORD_RE = re.compile(
+    r'(?<!\w)(?:' + '|'.join(re.escape(word) for word in _VISA_WORDS) + ')',
+    re.I,
+)
 _DECLINE = (
     'unable',
     'cannot',
@@ -61,9 +67,10 @@ _NO_SPONSOR = re.compile(
     r'\b(?:no|not)\b.*\bsponsorship\b|\bsponsorship\b.*\b(?:no|not)\b',
     re.I,
 )
+_VERDICT_ORDER = ('declines', 'requires_rtw', 'offers', 'mentions')
 
 
-def split_sentences(text):
+def split_sentences(text: str) -> list[str]:
     sentences = []
     for line in text.splitlines():
         line = line.strip()
@@ -77,12 +84,12 @@ def split_sentences(text):
     return sentences
 
 
-def _contains(sentence, phrases):
+def _contains(sentence: str, phrases: tuple[str, ...]) -> bool:
     lower = sentence.lower()
     return any(phrase in lower for phrase in phrases)
 
 
-def _label(sentence):
+def _label(sentence: str) -> str:
     if _contains(sentence, _DECLINE) or _NO_SPONSOR.search(sentence):
         return 'declines'
     if _contains(sentence, _RTW):
@@ -92,25 +99,25 @@ def _label(sentence):
     return 'mentions'
 
 
-def detect_visa(text):
-    hits = []
-    for sentence in split_sentences(text):
-        if not _contains(sentence, _VISA_WORDS):
-            continue
-        hits.append({'text': sentence, 'label': _label(sentence)})
-    if not hits:
-        return {'verdict': 'none', 'sentences': []}
-    for verdict in ('declines', 'requires_rtw', 'offers', 'mentions'):
-        if any(hit['label'] == verdict for hit in hits):
-            return {'verdict': verdict, 'sentences': hits}
+def detect_visa(text: str) -> dict:
+    hits = [
+        {'text': sentence, 'label': _label(sentence)}
+        for sentence in split_sentences(text)
+        if _VISA_WORD_RE.search(sentence)
+    ]
+    labels = {hit['label'] for hit in hits}
+    verdict = next((label for label in _VERDICT_ORDER if label in labels), 'none')
+    return {'verdict': verdict, 'sentences': hits}
 
 
 # Salary
 _SALARY_RE = re.compile(
     r'(up to\s+)?'
     r'(£|€|GBP|NT\$|TWD)\s*'
-    r'(\d{1,3}(?:,\d{3})+|\d+)'
+    r'(\d{1,3}(?:,\d{3})+|\d+)(?!\d|\.\d)'
     r'(k)?'
+    # £20m or £1.5bn is funding, not pay
+    r'(?!\s*(?:m|bn|million|billion)\b)'
     r'(?:\s*(?:[-–]|to)\s*(?:£|€|GBP|NT\$|TWD)?\s*'
     r'(\d{1,3}(?:,\d{3})+|\d+)'
     r'(k)?)?'
@@ -131,14 +138,14 @@ _PERIOD = {
 }
 
 
-def _amount(num, thousands):
-    value = int(num.replace(',', ''))
+def _amount(digits: str, thousands: bool) -> int:
+    value = int(digits.replace(',', ''))
     if thousands:
         value *= 1000
     return value
 
 
-def extract_salary(text):
+def extract_salary(text: str) -> dict | None:
     match = _SALARY_RE.search(text)
     if not match:
         return None
@@ -178,7 +185,7 @@ _WORK_MODE = {
 }
 
 
-def extract_work_mode(text):
+def extract_work_mode(text: str) -> str | None:
     match = _WORK_MODE_RE.search(text)
     if not match:
         return None
@@ -192,7 +199,7 @@ _EXPERIENCE_RE = re.compile(
 )
 
 
-def extract_experience(text):
+def extract_experience(text: str) -> dict | None:
     for match in _EXPERIENCE_RE.finditer(text):
         start, end = match.span()
         line_start = text.rfind('\n', 0, start) + 1
@@ -220,38 +227,58 @@ _NICE_HEAD = re.compile(
     r'advantageous(?: skills(?:/experience)?)?)$',
     re.I,
 )
+_BUCKET_RANK = {'required': 3, 'nice_to_have': 2, 'mentioned': 1}
 
 
-def _heading_key(line):
+def _heading_key(line: str) -> str:
     text = line.strip()
-    text = text.replace('\u2019', "'").replace('\u2018', "'")
+    text = text.replace('’', "'").replace('‘', "'")
     text = re.sub(r'^#+\s*', '', text)
     text = text.strip('*').strip()
     text = text.rstrip(':').strip()
     return re.sub(r'\s+', ' ', text)
 
 
-def _longest(skill):
+def _longest(skill: dict) -> int:
     names = [skill['name'], *skill['aliases']]
     return max(len(name) for name in names)
 
 
-def load_skills():
+# read once per process, restart the api after editing skills.yaml
+@cache
+def load_skills() -> list[dict]:
     with SKILLS_PATH.open() as skills_file:
         skills = yaml.safe_load(skills_file)
     skills.sort(key=_longest, reverse=True)
     return skills
 
 
-def _split_skill_sections(text):
+@cache
+def _skill_patterns() -> list[tuple[str, list[re.Pattern[str]]]]:
+    patterns = []
+    for skill in load_skills():
+        terms = [skill['name'], *skill['aliases']]
+        name_case_sensitive = bool(skill.get('case_sensitive'))
+        compiled = [
+            re.compile(
+                rf'(?<![\w.]){re.escape(term)}(?!\w)',
+                0 if name_case_sensitive and index == 0 else re.I,
+            )
+            for index, term in enumerate(terms)
+        ]
+        patterns.append((skill['name'], compiled))
+    return patterns
+
+
+def _split_skill_sections(text: str) -> list[tuple[str, str]]:
     sections = []
     bucket = 'mentioned'
-    buf = []
+    section_lines = []
 
     def flush():
-        if buf:
-            sections.append((bucket, '\n'.join(buf)))
-            buf.clear()
+        if section_lines:
+            sections.append((bucket, '\n'.join(section_lines)))
+            section_lines.clear()
 
     for line in text.splitlines():
         heading = _heading_key(line)
@@ -263,22 +290,14 @@ def _split_skill_sections(text):
             flush()
             bucket = 'nice_to_have'
             continue
-        buf.append(line)
+        section_lines.append(line)
     flush()
     return sections
 
 
-def _term_spans(chunk, terms, name_case_sensitive):
-    spans = []
-    for index, term in enumerate(terms):
-        ignore_case = not (name_case_sensitive and index == 0)
-        flags = re.I if ignore_case else 0
-        pattern = re.compile(rf'(?<![\w.]){re.escape(term)}(?!\w)', flags)
-        spans.extend(match.span() for match in pattern.finditer(chunk))
-    return spans
-
-
-def _first_free_span(spans, occupied):
+def _first_free_span(
+    spans: list[tuple[int, int]], occupied: list[tuple[int, int]]
+) -> tuple[int, int] | None:
     for span in spans:
         if any(span[0] < end and start < span[1] for start, end in occupied):
             continue
@@ -286,22 +305,21 @@ def _first_free_span(spans, occupied):
     return None
 
 
-def extract_skills(text):
-    rank = {'required': 3, 'nice_to_have': 2, 'mentioned': 1}
+def extract_skills(text: str) -> dict[str, list[str]]:
     found = {}
     sections = _split_skill_sections(text)
     occupied = [[] for _ in sections]
-    for skill in load_skills():
-        terms = [skill['name'], *skill['aliases']]
-        name_case_sensitive = bool(skill.get('case_sensitive'))
+    for name, patterns in _skill_patterns():
         for index, (bucket, chunk) in enumerate(sections):
-            spans = _term_spans(chunk, terms, name_case_sensitive)
-            span = _first_free_span(spans, occupied[index])
-            if span is None:
+            spans = [
+                match.span()
+                for pattern in patterns
+                for match in pattern.finditer(chunk)
+            ]
+            if _first_free_span(spans, occupied[index]) is None:
                 continue
             occupied[index].extend(spans)
-            name = skill['name']
-            if name not in found or rank[bucket] > rank[found[name]]:
+            if name not in found or _BUCKET_RANK[bucket] > _BUCKET_RANK[found[name]]:
                 found[name] = bucket
     result = {'required': [], 'nice_to_have': [], 'mentioned': []}
     for name, bucket in found.items():
@@ -309,7 +327,7 @@ def extract_skills(text):
     return result
 
 
-def analyse(text):
+def analyse(text: str) -> dict:
     return {
         'visa': detect_visa(text),
         'salary': extract_salary(text),
