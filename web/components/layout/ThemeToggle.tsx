@@ -4,17 +4,28 @@ import { Moon02Icon, Sun01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useTheme } from 'next-themes'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useState, useSyncExternalStore } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { revealThemeChange } from '@/lib/revealTheme'
 import { cn } from '@/lib/utils'
 
+const subscribe = () => () => {}
+
+function useIsHydrated() {
+  return useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false
+  )
+}
+
 export function ThemeToggle() {
   const t = useTranslations('Nav')
+  const hydrated = useIsHydrated()
   const { resolvedTheme, setTheme } = useTheme()
   const [preview, setPreview] = useState(false)
-  const isDark = resolvedTheme === 'dark'
+  const isDark = hydrated && resolvedTheme === 'dark'
 
   return (
     <Button
@@ -31,7 +42,7 @@ export function ThemeToggle() {
         revealThemeChange(isDark ? 'light' : 'dark', setTheme)
       }}
     >
-      {resolvedTheme ? (
+      {hydrated && resolvedTheme ? (
         <>
           <span
             aria-hidden
