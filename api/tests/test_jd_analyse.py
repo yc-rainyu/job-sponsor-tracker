@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from app.core.settings import settings
-from tests.test_sponsor_search import _seed
 
 FIXTURES = Path(__file__).parent / 'fixtures' / 'jd'
 
@@ -27,8 +26,8 @@ def test_too_long(client):
     assert response.status_code == 422
 
 
-def test_company_match(client, session, tmp_path):
-    _seed(session, tmp_path)
+def test_company_match(client, seed_sponsors):
+    seed_sponsors()
     text = (FIXTURES / '01-declines-explicit.txt').read_text()
     response = _analyse(client, text, company='Deliveroo')
     assert response.status_code == 200

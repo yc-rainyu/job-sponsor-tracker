@@ -1,30 +1,17 @@
-from typing import NamedTuple
-
 from sqlalchemy import case, false, func, or_, select
 from sqlalchemy.orm import Session
 
 from app.core.settings import settings
 from app.models.register import Sponsor, SponsorAlias, SponsorRoute
+from app.schemas.sponsors import SponsorHit
 from app.services.sponsors.normalise import normalise_name
 
 _LEGAL_SUFFIXES = {'ltd', 'plc', 'llp', 'co'}
 
 
-class SearchHit(NamedTuple):
-    id: int
-    registered_name: str
-    trading_name: str | None
-    town: str | None
-    rating: str | None
-    routes: list[str]
-    has_skilled_worker: bool
-    match_type: str
-    score: float
-
-
 def search_sponsors(
     session: Session, query: str, limit: int = 10, offset: int = 0
-) -> tuple[list[SearchHit], int]:
+) -> tuple[list[SponsorHit], int]:
     query_norm, _, _ = normalise_name(query)
     # most names end in one of these, so only exact matches look at them
     query_core = ' '.join(
@@ -67,6 +54,20 @@ def search_sponsors(
         else_=fuzzy_sim,
     ).label('score')
 
+    conditions = (
+        Sponsor.removed_time.is_(None),
+        # operators narrow rows through the GIN indexes using pg_trgm's own
+        # thresholds (0.6, 0.3), the next filter applies the settings
+        or_(
+            exact,
+            alias,
+            Sponsor.trading_name_norm.op('%>')(query_core),
+            Sponsor.legal_name_norm.op('%>')(query_core),
+            Sponsor.legal_name_norm.op('%')(query_core),
+        ),
+        or_(exact, alias, trading_hit, word_hit, fuzzy_hit),
+    )
+
     matches = session.execute(
         select(
             Sponsor.id,
@@ -77,19 +78,7 @@ def search_sponsors(
             score,
             func.count().over().label('total'),
         )
-        .where(
-            Sponsor.removed_time.is_(None),
-            # operators narrow rows through the GIN indexes using pg_trgm's own
-            # thresholds (0.6, 0.3), the next filter applies the settings
-            or_(
-                exact,
-                alias,
-                Sponsor.trading_name_norm.op('%>')(query_core),
-                Sponsor.legal_name_norm.op('%>')(query_core),
-                Sponsor.legal_name_norm.op('%')(query_core),
-            ),
-            or_(exact, alias, trading_hit, word_hit, fuzzy_hit),
-        )
+        .where(*conditions)
         # layer first, a word match can score 1.0 and would beat an alias (0.98)
         .order_by(
             case((exact, 0), (alias, 1), else_=2),
@@ -101,7 +90,9 @@ def search_sponsors(
         .offset(offset)
     ).all()
     if not matches:
-        return [], 0
+        # past the last page there is no row to carry the window count
+        total = session.scalar(select(func.count()).where(*conditions)) if offset else 0
+        return [], total
 
     ids = [match.id for match in matches]
     route_rows = session.scalars(
@@ -119,7 +110,7 @@ def search_sponsors(
     for match in matches:
         routes = routes_by_id.get(match.id, [])
         hits.append(
-            SearchHit(
+            SponsorHit(
                 id=match.id,
                 registered_name=match.name_raw,
                 trading_name=match.trading_name_raw,
