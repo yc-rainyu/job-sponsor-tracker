@@ -19,14 +19,20 @@ _url = os.environ['DATABASE_URL']
 os.environ['DATABASE_URL'] = _url.rsplit('/', 1)[0] + '/jst_test'
 os.environ['APP_ENV'] = 'test'
 
+from app.core.deps import get_db  # noqa: E402
+from app.core.rate_limit import reset  # noqa: E402
 from app.db.engine import engine  # noqa: E402
 from app.main import app  # noqa: E402
 
 
 @pytest.fixture
-def client():
+def client(session):
+    def _get_db():
+        yield session
+    app.dependency_overrides[get_db] = _get_db
     with TestClient(app) as c:
         yield c
+    app.dependency_overrides.clear()
 
 
 @pytest.fixture
@@ -37,3 +43,7 @@ def session():
         yield sess
         sess.close()
         trans.rollback()
+
+@pytest.fixture(autouse=True)
+def _clear_rate_limit():
+    reset()

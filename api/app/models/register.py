@@ -1,9 +1,10 @@
 import datetime
 
-from sqlalchemy import DateTime, UniqueConstraint, Index, ForeignKey, func
+from sqlalchemy import DateTime, ForeignKey, Index, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
+
 
 class RegisterSnapshot(Base):
     __tablename__ = 'register_snapshots'
