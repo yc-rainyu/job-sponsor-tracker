@@ -15,8 +15,8 @@
     "search": "Search sponsors",
     "empty": "Search a company to see if it is on the register.",
     "searching": "Searching the register…",
-    "searchError": "Could not search the register. Check the API is running and try again.",
-    "noneFound": "No licensed sponsor matched this name. That does not mean they cannot sponsor — try a parent company or the registered legal name.",
+    "searchError": "Could not search the register. Try again in a minute.",
+    "noneFound": "No licensed sponsor matched this name. That does not mean they cannot sponsor. Try a parent company or the registered legal name.",
     "skilledWorker": "Skilled Worker",
     "noSkilledWorker": "No Skilled Worker route",
     "ratingA": "A rating",
@@ -38,7 +38,7 @@
     "overLimit": "This text is over 20,000 characters. Shorten it before analysing.",
     "empty": "Paste a job description to see visa wording, pay, and skills.",
     "analysing": "Analysing the job description…",
-    "analyseError": "Could not analyse this job description. Check the API is running and try again.",
+    "analyseError": "Could not analyse this job description. Try again in a minute.",
     "visaHeading": "Sponsorship",
     "factsHeading": "The role",
     "skillsHeading": "Skills",
@@ -69,12 +69,5 @@
     "oglLink": "Open Government Licence v3.0",
     "disclaimer": "Not affiliated with the Home Office. Not immigration advice.",
     "github": "GitHub"
-  },
-  "Home": {
-    "apiStatus": "API status",
-    "loading": "Checking the API…",
-    "error": "The API is not responding. Make sure the backend is running.",
-    "version": "Version {version}",
-    "db": "Database {status}"
   }
 }

@@ -1,63 +1,46 @@
 import { flushSync } from 'react-dom'
 
+// same length as ::view-transition-group(root) in globals.css
 const REVEAL_MS = 800
 
 type ThemeName = 'light' | 'dark'
 
-function canReveal() {
-  return (
-    'startViewTransition' in document &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
-}
-
 function applyTheme(theme: ThemeName, setTheme: (theme: string) => void) {
+  // next-themes sets the class in an effect, too late for the new snapshot
   document.documentElement.classList.toggle('dark', theme === 'dark')
   setTheme(theme)
-}
-
-function afterPaint() {
-  return new Promise<void>((resolve) => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => resolve())
-    })
-  })
 }
 
 export async function revealThemeChange(
   theme: ThemeName,
   setTheme: (theme: string) => void
 ) {
-  if (!canReveal()) {
+  const reduceMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches
+  if (!('startViewTransition' in document) || reduceMotion) {
     applyTheme(theme, setTheme)
     return
   }
 
-  const radius = Math.hypot(window.innerWidth, window.innerHeight)
   const transition = document.startViewTransition(() => {
     flushSync(() => applyTheme(theme, setTheme))
   })
-
   try {
     await transition.ready
-    await afterPaint()
+  } catch {
+    // a second toggle before this one finished skips it, nothing to animate
+    return
+  }
 
-    const timing: KeyframeAnimationOptions = {
+  // grow the new theme as a circle from the top left, where the toggle sits
+  const radius = Math.hypot(window.innerWidth, window.innerHeight)
+  document.documentElement.animate(
+    { clipPath: ['circle(0px at 0px 0px)', `circle(${radius}px at 0px 0px)`] },
+    {
       duration: REVEAL_MS,
       easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-      fill: 'both',
+      pseudoElement: '::view-transition-new(root)',
     }
-
-    document.documentElement.animate(
-      { opacity: [1, 1] },
-      { ...timing, pseudoElement: '::view-transition-group(root)' }
-    )
-
-    document.documentElement.animate(
-      {
-        clipPath: ['circle(0px at 0px 0px)', `circle(${radius}px at 0px 0px)`],
-      },
-      { ...timing, pseudoElement: '::view-transition-new(root)' }
-    )
-  } catch {}
+  )
 }

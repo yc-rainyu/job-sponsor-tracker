@@ -68,13 +68,9 @@ export function SponsorSearch() {
   )
 }
 
-function pageItems(current: number, pages: number) {
+function pageItems(current: number, pages: number): (number | 'gap')[] {
   if (pages <= 7) {
-    const all = []
-    for (let pageNum = 1; pageNum <= pages; pageNum++) {
-      all.push(pageNum)
-    }
-    return all
+    return Array.from({ length: pages }, (_, index) => index + 1)
   }
 
   const items: (number | 'gap')[] = [1]

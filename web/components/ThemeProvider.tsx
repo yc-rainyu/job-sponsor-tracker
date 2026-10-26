@@ -1,14 +1,16 @@
 'use client'
 
-import * as React from 'react'
 import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes'
+import { useEffect, type ComponentProps } from 'react'
 
 import { revealThemeChange } from '@/lib/revealTheme'
 
-function ThemeProvider({
+const TYPING_TAGS = ['INPUT', 'TEXTAREA', 'SELECT']
+
+export function ThemeProvider({
   children,
   ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
+}: ComponentProps<typeof NextThemesProvider>) {
   return (
     <NextThemesProvider
       attribute="class"
@@ -24,50 +26,35 @@ function ThemeProvider({
 }
 
 function isTypingTarget(target: EventTarget | null) {
-  if (!(target instanceof HTMLElement)) {
-    return false
-  }
-
   return (
-    target.isContentEditable ||
-    target.tagName === 'INPUT' ||
-    target.tagName === 'TEXTAREA' ||
-    target.tagName === 'SELECT'
+    target instanceof HTMLElement &&
+    (target.isContentEditable || TYPING_TAGS.includes(target.tagName))
   )
 }
 
+// press d to switch theme, unless typing or holding a modifier key
 function ThemeHotkey() {
   const { resolvedTheme, setTheme } = useTheme()
 
-  React.useEffect(() => {
+  useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if (event.defaultPrevented || event.repeat) {
+      if (
+        event.key.toLowerCase() !== 'd' ||
+        event.repeat ||
+        event.defaultPrevented ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.altKey ||
+        isTypingTarget(event.target)
+      ) {
         return
       }
-
-      if (event.metaKey || event.ctrlKey || event.altKey) {
-        return
-      }
-
-      if (event.key.toLowerCase() !== 'd') {
-        return
-      }
-
-      if (isTypingTarget(event.target)) {
-        return
-      }
-
       revealThemeChange(resolvedTheme === 'dark' ? 'light' : 'dark', setTheme)
     }
 
     window.addEventListener('keydown', onKeyDown)
-
-    return () => {
-      window.removeEventListener('keydown', onKeyDown)
-    }
+    return () => window.removeEventListener('keydown', onKeyDown)
   }, [resolvedTheme, setTheme])
 
   return null
 }
-
-export { ThemeProvider }
