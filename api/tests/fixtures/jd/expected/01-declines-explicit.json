@@ -1,0 +1,38 @@
+{
+  "visa": {
+    "verdict": "declines",
+    "sentences": [
+      {
+        "text": "Unfortunately, we are unable to offer visa sponsorship for this role.",
+        "label": "declines"
+      }
+    ]
+  },
+  "salary": {
+    "min": 50000,
+    "max": 60000,
+    "currency": "GBP",
+    "period": "year",
+    "raw": "£50,000 - £60,000 per annum"
+  },
+  "work_mode": "hybrid",
+  "experience_years": {
+    "min": 3,
+    "max": null,
+    "raw": "3+ years"
+  },
+  "skills": {
+    "required": [
+      "Python",
+      "PostgreSQL",
+      "React",
+      "TypeScript"
+    ],
+    "nice_to_have": [
+      "Docker",
+      "AWS",
+      "Celery"
+    ],
+    "mentioned": []
+  }
+}

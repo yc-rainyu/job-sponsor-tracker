@@ -9,10 +9,18 @@
 
 name: jst-prod
 
+# cap each container at 3 x 10 MB of logs so they cannot fill the disk
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: '3'
+
 services:
   db:
     image: postgres:17
     env_file: ../.env
+    logging: *logging
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
@@ -23,11 +31,16 @@ services:
     restart: unless-stopped
 
   api:
-    build: ../api
+    build:
+      context: ..
+      dockerfile: api/Dockerfile
+    logging: *logging
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       APP_ENV: prod
       JWT_SECRET: ${JWT_SECRET:-}
+      # only caddy can reach the api, and caddy ignores X-Forwarded-For sent by clients
+      FORWARDED_ALLOW_IPS: '*'
     depends_on:
       db:
         condition: service_healthy
@@ -35,6 +48,7 @@ services:
 
   caddy:
     image: caddy:2
+    logging: *logging
     ports:
       - '80:80'
       - '443:443'

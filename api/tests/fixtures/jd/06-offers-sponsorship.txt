@@ -1,0 +1,18 @@
+Senior Software Engineer (Python)
+Brightwater Health | Remote (UK) | up to £85k
+
+We build scheduling software for NHS community teams. Fully remote, with quarterly meet-ups in Birmingham.
+
+What you'll need
+- 5+ years of experience building backend services in Python
+- FastAPI or Django
+- PostgreSQL and Redis
+- Docker and Kubernetes
+- A habit of writing tests first (TDD)
+
+Bonus points
+- Terraform
+- GitHub Actions
+- Experience in healthcare or another regulated sector
+
+Visa sponsorship available for the right candidate. We also offer a relocation allowance for candidates moving to the UK.

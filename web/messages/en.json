@@ -1,10 +1,73 @@
 {
-  "Home": {
+  "Nav": {
     "title": "Job Sponsor Tracker",
-    "apiStatus": "API status",
-    "loading": "Checking the API…",
-    "error": "The API is not responding. Make sure the backend is running.",
-    "version": "Version {version}",
-    "db": "Database {status}"
+    "nav": "Site",
+    "sponsors": "Sponsors",
+    "analyse": "Analyse",
+    "themeToDark": "Switch to dark theme",
+    "themeToLight": "Switch to light theme"
+  },
+  "Sponsors": {
+    "title": "Sponsors",
+    "lead": "Look up a company on the UK visa sponsor register.",
+    "queryLabel": "Company",
+    "queryPlaceholder": "Registered or trading name",
+    "search": "Search sponsors",
+    "empty": "Search a company to see if it is on the register.",
+    "searching": "Searching the register…",
+    "searchError": "Could not search the register. Try again in a minute.",
+    "noneFound": "No licensed sponsor matched this name. That does not mean they cannot sponsor. Try a parent company or the registered legal name.",
+    "skilledWorker": "Skilled Worker",
+    "noSkilledWorker": "No Skilled Worker route",
+    "ratingA": "A rating",
+    "ratingB": "B rating",
+    "ratingBHint": "B rating: cannot issue new certificates of sponsorship until it improves.",
+    "ratingUnknown": "Rating not listed",
+    "previous": "Previous",
+    "next": "Next",
+    "pages": "Pages",
+    "pageNumber": "Page {page}"
+  },
+  "Analyse": {
+    "title": "Analyse",
+    "lead": "Paste a job description to pull out visa wording, pay, and skills.",
+    "jdLabel": "Job description",
+    "jdPlaceholder": "Paste the job description",
+    "analyse": "Analyse description",
+    "charCount": "{count} / 20,000",
+    "overLimit": "This text is over 20,000 characters. Shorten it before analysing.",
+    "empty": "Paste a job description to see visa wording, pay, and skills.",
+    "analysing": "Analysing the job description…",
+    "analyseError": "Could not analyse this job description. Try again in a minute.",
+    "visaHeading": "Sponsorship",
+    "factsHeading": "The role",
+    "skillsHeading": "Skills",
+    "salary": "Salary",
+    "workMode": "Work mode",
+    "experience": "Experience",
+    "notFound": "Not found",
+    "noSkills": "No listed skills matched the dictionary.",
+    "skillsRequired": "Required",
+    "skillsNice": "Nice to have",
+    "skillsMentioned": "Mentioned",
+    "visa": {
+      "offers": "Offers sponsorship",
+      "declines": "Says no sponsorship",
+      "requires_rtw": "Requires right to work",
+      "mentions": "Mentions visa",
+      "none": "Not mentioned"
+    },
+    "workModeValue": {
+      "remote": "Remote",
+      "hybrid": "Hybrid",
+      "onsite": "On-site"
+    }
+  },
+  "Footer": {
+    "registerDate": "Register published {date}",
+    "ogl": "Contains public sector information licensed under the",
+    "oglLink": "Open Government Licence v3.0",
+    "disclaimer": "Not affiliated with the Home Office. Not immigration advice.",
+    "github": "GitHub"
   }
 }

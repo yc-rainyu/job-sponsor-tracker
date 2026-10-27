@@ -1,0 +1,45 @@
+{
+  "visa": {
+    "verdict": "offers",
+    "sentences": [
+      {
+        "text": "Visa sponsorship available for the right candidate.",
+        "label": "offers"
+      },
+      {
+        "text": "We also offer a relocation allowance for candidates moving to the UK.",
+        "label": "mentions"
+      }
+    ]
+  },
+  "salary": {
+    "min": null,
+    "max": 85000,
+    "currency": "GBP",
+    "period": "year",
+    "raw": "up to £85k"
+  },
+  "work_mode": "remote",
+  "experience_years": {
+    "min": 5,
+    "max": null,
+    "raw": "5+ years"
+  },
+  "skills": {
+    "required": [
+      "Python",
+      "FastAPI",
+      "Django",
+      "PostgreSQL",
+      "Redis",
+      "Docker",
+      "Kubernetes",
+      "TDD"
+    ],
+    "nice_to_have": [
+      "Terraform",
+      "GitHub Actions"
+    ],
+    "mentioned": []
+  }
+}

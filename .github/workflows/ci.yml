@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   pull_request:
 
 jobs:
@@ -54,6 +54,9 @@ jobs:
       - name: Ruff
         run: uv run ruff check
 
+      - name: Ruff format
+        run: uv run ruff format --check
+
       - name: Pytest
         run: uv run pytest -q
 
@@ -81,5 +84,23 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Prettier
+        run: pnpm exec prettier --check "**/*.{ts,tsx}"
+
       - name: Build
         run: pnpm build
+
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build api image
+        run: docker build -f api/Dockerfile -t jst-api .
+
+      # no database here, so skip the entrypoint and just load the app and the data
+      - name: Smoke test
+        run: >-
+          docker run --rm --entrypoint python
+          -e DATABASE_URL=postgresql+psycopg://ci:ci@localhost/ci
+          jst-api -c "import app.main; from app.services.jd_rules import analyse; analyse('Python')"

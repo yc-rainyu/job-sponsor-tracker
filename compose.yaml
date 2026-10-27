@@ -14,9 +14,11 @@ services:
       retries: 10
 
   api:
-    build: ./api
+    build:
+      context: .
+      dockerfile: api/Dockerfile
     ports:
-      - '8000:8000'
+      - '127.0.0.1:8000:8000'
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       APP_ENV: dev
@@ -26,6 +28,7 @@ services:
         condition: service_healthy
     volumes:
       - ./api:/app
+      - ./data:/data:ro
       - api_venv:/app/.venv
     command:
       - uvicorn

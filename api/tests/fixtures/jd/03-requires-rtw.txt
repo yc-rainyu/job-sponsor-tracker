@@ -1,0 +1,20 @@
+Front-End Developer (React)
+Harbourside Software – Bristol, on-site
+£45-55k depending on experience
+
+Harbourside makes booking software for marinas and harbours. Small team, big customers.
+
+Must have
+- Minimum of 2 years' experience building production React applications
+- TypeScript, HTML and CSS
+- Familiarity with REST APIs
+- Git
+
+Preferred
+- Next.js
+- Tailwind
+- Jest or Vitest
+
+This role is based in our Bristol office five days a week.
+
+Applicants must have the right to work in the UK.
