@@ -41,7 +41,14 @@ uv run python -m app.cli import-register path/to/register.csv --published YYYY-M
 uv run python -m app.cli import-aliases ../data/aliases.csv
 ```
 
-Tests: `uv run pytest` in `api/`, and `pnpm lint && pnpm build` in `web/`.
+Tests (the test database needs one migration before the first run):
+
+```bash
+cd api
+DATABASE_URL=postgresql+psycopg://jst:change-me@localhost:5432/jst_test uv run alembic upgrade head
+uv run pytest
+cd ../web && pnpm lint && pnpm build
+```
 
 ## Data model
 
