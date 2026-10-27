@@ -3,7 +3,7 @@ name = "app"
 version = "0.1.0"
 description = "Job Sponsor Tracker API"
 authors = [
-    { name = "Yuching", email = "salia0923@gmail.com" }
+    { name = "Yuching", email = "52666976+yc-rainyu@users.noreply.github.com" }
 ]
 requires-python = ">=3.13"
 dependencies = [
@@ -18,7 +18,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "httpx>=0.28.1",
+    "httpx2>=2.16.0",
     "pytest>=9.1.1",
     "ruff>=0.17.1",
 ]
