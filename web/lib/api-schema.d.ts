@@ -92,7 +92,7 @@ export interface components {
             experience_years: components["schemas"]["Experience"] | null;
             skills: components["schemas"]["Skills"];
             /** Company Matches */
-            company_matches: components["schemas"]["SponsorHit"][];
+            company_matches: components["schemas"]["SponsorResult"][];
         };
         /** Experience */
         Experience: {
@@ -147,7 +147,7 @@ export interface components {
         /** SearchResult */
         SearchResult: {
             /** Hits */
-            hits: components["schemas"]["SponsorHit"][];
+            hits: components["schemas"]["SponsorResult"][];
             /** Total */
             total: number;
         };
@@ -160,8 +160,8 @@ export interface components {
             /** Mentioned */
             mentioned: string[];
         };
-        /** SponsorHit */
-        SponsorHit: {
+        /** SponsorResult */
+        SponsorResult: {
             /** Id */
             id: number;
             /** Registered Name */

@@ -2,7 +2,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from app.schemas.sponsors import SponsorHit
+from app.schemas.sponsors import SponsorResult
 
 VisaLabel = Literal['declines', 'requires_rtw', 'offers', 'mentions']
 
@@ -48,4 +48,4 @@ class AnalyseResult(BaseModel):
     work_mode: Literal['remote', 'hybrid', 'onsite'] | None
     experience_years: Experience | None
     skills: Skills
-    company_matches: list[SponsorHit]
+    company_matches: list[SponsorResult]

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.core.settings import settings
 from app.models.register import Sponsor, SponsorAlias, SponsorRoute
-from app.schemas.sponsors import SponsorHit
+from app.schemas.sponsors import SponsorResult
 from app.services.sponsors.normalise import normalise_name
 
 _LEGAL_SUFFIXES = {'ltd', 'plc', 'llp', 'co'}
@@ -11,7 +11,7 @@ _LEGAL_SUFFIXES = {'ltd', 'plc', 'llp', 'co'}
 
 def search_sponsors(
     session: Session, query: str, limit: int = 10, offset: int = 0
-) -> tuple[list[SponsorHit], int]:
+) -> tuple[list[SponsorResult], int]:
     query_norm, _, _ = normalise_name(query)
     # most names end in one of these, so only exact matches look at them
     query_core = ' '.join(
@@ -110,7 +110,7 @@ def search_sponsors(
     for match in matches:
         routes = routes_by_id.get(match.id, [])
         hits.append(
-            SponsorHit(
+            SponsorResult(
                 id=match.id,
                 registered_name=match.name_raw,
                 trading_name=match.trading_name_raw,
