@@ -1,0 +1,10 @@
+[Unit]
+Description=Back up the jst database to S3
+Wants=network-online.target
+After=network-online.target docker.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+Environment=PATH=/usr/bin:/bin:/snap/bin
+ExecStart=/home/ubuntu/job-sponsor-tracker/deploy/backup.sh
