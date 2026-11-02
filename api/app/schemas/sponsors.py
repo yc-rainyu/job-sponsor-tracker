@@ -4,7 +4,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 
-class SponsorHit(BaseModel):
+class SponsorResult(BaseModel):
     id: int
     registered_name: str
     trading_name: str | None
@@ -17,7 +17,7 @@ class SponsorHit(BaseModel):
 
 
 class SearchResult(BaseModel):
-    hits: list[SponsorHit]
+    hits: list[SponsorResult]
     total: int
 
 

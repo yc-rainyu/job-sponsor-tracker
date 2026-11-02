@@ -23,6 +23,48 @@ Browser → Vercel (Next.js) → /api/* rewrite → Caddy → FastAPI → Postgr
 
 The browser only calls `/api/*` on the frontend's domain, and Vercel forwards those requests to the backend, so no CORS setup is needed. The frontend's API types are generated from the backend's OpenAPI schema.
 
+## Repository layout
+
+```
+job-sponsor-tracker
+├── api                              // FastAPI backend
+│   ├── app
+│   │   ├── main.py                  // api routers
+│   │   ├── cli.py                   // import-register and import-aliases
+│   │   ├── core                     // settings, rate limit, request deps
+│   │   ├── db                       // engine and session
+│   │   ├── models                   // SQLAlchemy tables
+│   │   ├── schemas                  // Pydantic request/response shapes
+│   │   ├── routers                  // HTTP endpoints (keep these thin)
+│   │   └── services                 // business logic
+│   ├── alembic
+│   ├── tests                        // pytest
+│   ├── Dockerfile
+│   └── pyproject.toml               // uv deps, ruff, pytest
+├── web                              // Next.js frontend
+│   ├── app                          // routes: / (sponsors) and /analyse
+│   ├── components
+│   │   ├── ui                       // shadcn primitives (kebab-case)
+│   │   ├── layout
+│   │   ├── sponsors
+│   │   └── analyse
+│   ├── lib                          // API client and generated OpenAPI types
+│   ├── messages                     // next-intl copy (en.json)
+│   ├── i18n
+│   └── next.config.ts
+├── data
+│   ├── aliases.csv
+│   └── skills.yaml                  // skill dictionary for the job-ad parser
+├── docker
+│   └── postgres
+│       └── init                     // creates jst_test on first database boot
+├── deploy                           // production compose, Caddyfile, deploy.sh
+├── .github/workflows                // CI (ruff, pytest, lint, build, image smoke)
+├── compose.yaml                     // local PostgreSQL + API
+├── .env.example
+└── README.md
+```
+
 ## Run locally
 
 Requirements: Docker, Node.js 22, pnpm 9, [uv](https://docs.astral.sh/uv/)

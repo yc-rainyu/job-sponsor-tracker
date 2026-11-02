@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
-import { searchSponsors, type SponsorHit } from '@/lib/api'
+import { searchSponsors, type SponsorResult } from '@/lib/api'
 
 const PAGE_SIZE = 10
 
@@ -95,7 +95,7 @@ function SearchStatus({
 }: {
   loading: boolean
   error: boolean
-  hits: SponsorHit[] | undefined
+  hits: SponsorResult[] | undefined
   total: number
   page: number
   onPage: (page: number) => void
@@ -176,7 +176,7 @@ function SearchStatus({
   )
 }
 
-function SponsorRow({ hit }: { hit: SponsorHit }) {
+function SponsorRow({ hit }: { hit: SponsorResult }) {
   const t = useTranslations('Sponsors')
   let ratingText = t('ratingUnknown')
   if (hit.rating === 'A') ratingText = t('ratingA')

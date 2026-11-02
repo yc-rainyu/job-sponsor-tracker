@@ -3,7 +3,7 @@ import type { components } from '@/lib/api-schema'
 // generated from the FastAPI schema, run `pnpm gen:api` after changing the api
 type Schemas = components['schemas']
 
-export type SponsorHit = Schemas['SponsorHit']
+export type SponsorResult = Schemas['SponsorResult']
 export type SearchResult = Schemas['SearchResult']
 export type AnalyseResult = Schemas['AnalyseResult']
 export type RegisterInfo = Schemas['RegisterInfo']
