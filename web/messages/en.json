@@ -5,7 +5,8 @@
     "sponsors": "Sponsors",
     "analyse": "Analyse",
     "themeToDark": "Switch to dark theme",
-    "themeToLight": "Switch to light theme"
+    "themeToLight": "Switch to light theme",
+    "applications": "Applications"
   },
   "Sponsors": {
     "title": "Sponsors",
@@ -69,5 +70,17 @@
     "oglLink": "Open Government Licence v3.0",
     "disclaimer": "Not affiliated with the Home Office. Not immigration advice.",
     "github": "GitHub"
+  },
+  "Auth": {
+    "account": "Account menu",
+    "signOut": "Sign out",
+    "signInError": "Sign-in failed. Try again.",
+    "signOutError": "Could not sign out. Try again.",
+    "meError": "Could not check your sign-in. Reload the page."
+  },
+  "Applications": {
+    "title": "Applications",
+    "lead": "Track the jobs you have applied for.",
+    "empty": "No applications yet. Add your first one."
   }
 }
