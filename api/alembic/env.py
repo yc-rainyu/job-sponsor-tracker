@@ -14,6 +14,7 @@ config.set_main_option('sqlalchemy.url', settings.database_url)
 
 # imported only to register the tables on Base.metadata, ruff --fix would drop it
 import app.models.register  # noqa: F401
+import app.models.user  # noqa: F401
 from app.db.base import Base
 
 target_metadata = Base.metadata

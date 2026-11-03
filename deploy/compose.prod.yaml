@@ -44,6 +44,7 @@ services:
       APP_ENV: prod
       JWT_SECRET: ${JWT_SECRET:-}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      # only caddy can reach the api, and caddy ignores X-Forwarded-For sent by clients
       FORWARDED_ALLOW_IPS: '*'
     depends_on:
       db:
