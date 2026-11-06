@@ -24,6 +24,7 @@ services:
       APP_ENV: dev
       JWT_SECRET: ${JWT_SECRET:-}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      PROXY_KEY: ${PROXY_KEY:-}
     depends_on:
       db:
         condition: service_healthy

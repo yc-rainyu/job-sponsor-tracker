@@ -1,3 +1,4 @@
+import secrets
 import threading
 import time
 
@@ -18,11 +19,26 @@ def reset() -> None:
         _hits.clear()
 
 
+def client_ip(request: Request) -> str:
+    """The visitor's IP: the one Next's proxy vouches for, else the connection's."""
+    connection_ip = request.client.host if request.client else 'unknown'
+    # an unset key would match an empty header, so unset means the feature is off
+    if not settings.proxy_key:
+        return connection_ip
+    forwarded = request.headers.get('X-Jst-Client-Ip')
+    sent_key = request.headers.get('X-Jst-Proxy-Key', '')
+    # bytes, because compare_digest raises on non-ascii str and anyone can send one
+    if forwarded and secrets.compare_digest(
+        sent_key.encode(), settings.proxy_key.encode()
+    ):
+        return forwarded
+    return connection_ip
+
+
 def _limit(
     request: Request, name: str, max_hits: int, window: float, detail: str
 ) -> None:
-    ip = request.client.host if request.client else 'unknown'
-    key = f'{name}:{ip}'
+    key = f'{name}:{client_ip(request)}'
     now = time.monotonic()
     with _lock:
         recent = [stamp for stamp in _hits.get(key, []) if now - stamp < window]
