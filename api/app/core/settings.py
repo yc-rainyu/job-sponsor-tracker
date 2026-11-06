@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     app_env: str = 'dev'
     jwt_secret: str = ''
     google_client_id: str = ''
+    proxy_key: str = ''
     version: str = '0.1.0'
     search_trading_threshold: float = 0.8
     search_word_threshold: float = 0.6
