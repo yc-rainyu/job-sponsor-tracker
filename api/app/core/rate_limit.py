@@ -5,7 +5,8 @@ from fastapi import HTTPException, Request
 
 from app.core.settings import settings
 
-_WINDOW = 60.0
+MINUTE = 60.0
+HOUR = 3600.0
 _MAX_KEYS = 10_000
 _hits: dict[str, list[float]] = {}
 # sync dependencies run in a thread pool, so two requests can check at once
@@ -17,21 +18,21 @@ def reset() -> None:
         _hits.clear()
 
 
-def _limit(request: Request, name: str, max_hits: int, detail: str) -> None:
+def _limit(
+    request: Request, name: str, max_hits: int, window: float, detail: str
+) -> None:
     ip = request.client.host if request.client else 'unknown'
     key = f'{name}:{ip}'
     now = time.monotonic()
     with _lock:
-        recent = [stamp for stamp in _hits.get(key, []) if now - stamp < _WINDOW]
+        recent = [stamp for stamp in _hits.get(key, []) if now - stamp < window]
         if len(recent) >= max_hits:
             raise HTTPException(status_code=429, detail=detail)
         recent.append(now)
         _hits[key] = recent
-        # forget ips that went quiet so memory does not keep growing
+
         if len(_hits) > _MAX_KEYS:
-            quiet = [
-                old for old, stamps in _hits.items() if now - stamps[-1] >= _WINDOW
-            ]
+            quiet = [old for old, stamps in _hits.items() if now - stamps[-1] >= HOUR]
             for old in quiet:
                 del _hits[old]
 
@@ -41,6 +42,7 @@ def limit_search(request: Request) -> None:
         request,
         'search',
         settings.search_rate_limit_per_minute,
+        MINUTE,
         'Too many searches. Try again in a minute.',
     )
 
@@ -50,5 +52,16 @@ def limit_analyse(request: Request) -> None:
         request,
         'analyse',
         settings.analyse_rate_limit_per_minute,
+        MINUTE,
         'Too many analyses. Try again in a minute.',
+    )
+
+
+def limit_demo(request: Request) -> None:
+    _limit(
+        request,
+        'demo',
+        settings.demo_rate_limit_per_hour,
+        HOUR,
+        'Too many demo accounts from this network. Try again in an hour.',
     )

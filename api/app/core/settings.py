@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     search_fuzzy_threshold: float = 0.3
     search_rate_limit_per_minute: int = 60
     analyse_rate_limit_per_minute: int = 20
+    demo_rate_limit_per_hour: int = 5
 
     @model_validator(mode='after')
     def _check_jwt_secret(self) -> Self:
