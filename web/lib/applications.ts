@@ -29,6 +29,7 @@ export const CHANNELS = [
   'company_site',
   'linkedin_easy_apply',
   'job_board_104',
+  'job_board_cake',
   'agency',
   'email',
   'other',
@@ -58,6 +59,10 @@ export const EMPTY_FILTERS: Filters = {
 
 export function hasCoverLetter(row: Application) {
   return row.cover_letter !== ''
+}
+
+export function skillCount(row: Application) {
+  return row.skills.required.length + row.skills.nice_to_have.length
 }
 
 // the same filters as the list, for the CSV link; "no date" has no api equivalent

@@ -42,6 +42,13 @@ class Application(Base):
         default=lambda: {'status': 'unchecked'},
         server_default='{"status": "unchecked"}',
     )
+    skills: Mapped[dict[str, Any]] = mapped_column(
+        JSONB,
+        default=lambda: {'required': [], 'nice_to_have': []},
+        server_default='{"required": [], "nice_to_have": []}',
+    )
+    # snapshot of the rules result when saved from the analyse page, else null
+    analysis: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )

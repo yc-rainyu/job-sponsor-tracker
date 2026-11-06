@@ -1,8 +1,10 @@
 import { z } from 'zod'
 
 import {
+  type Analysis,
   type Application,
   type ApplicationCreate,
+  type ApplicationSkills,
   type ApplicationUpdate,
   type SponsorCheck,
   localToday,
@@ -10,6 +12,10 @@ import {
 import { CHANNELS, COUNTRIES, STATUSES, WORK_MODES } from '@/lib/applications'
 
 export const UNCHECKED: SponsorCheck = { status: 'unchecked' }
+export const EMPTY_SKILLS: ApplicationSkills = {
+  required: [],
+  nice_to_have: [],
+}
 
 // what the inputs hold: strings for everything typed, '' when empty
 export type FormValues = {
@@ -29,6 +35,13 @@ export type FormValues = {
   next_step_at: string
   cover_letter: string
   notes: string
+  skills: ApplicationSkills
+}
+
+// carried from the analyse page into a new record; neither is an input
+export type CreateExtras = {
+  jd_text: string | null
+  analysis: Analysis | null
 }
 
 export const LIMITS = {
@@ -36,11 +49,14 @@ export const LIMITS = {
   short: 500,
   url: 2000,
   long: 20000,
+  skill: 100,
+  skillsPerGroup: 50,
 } as const
 
 type Messages = {
   required: string
   tooLong: (max: number) => string
+  tooMany: (max: number) => string
 }
 
 // mirrors the api limits so the user hears about them before the request
@@ -50,6 +66,11 @@ export function buildSchema(messages: Messages) {
       .string()
       .trim()
       .max(max, { error: messages.tooLong(max) })
+  const skillList = z
+    .array(z.string().trim().min(1).max(LIMITS.skill))
+    .max(LIMITS.skillsPerGroup, {
+      error: messages.tooMany(LIMITS.skillsPerGroup),
+    })
   return z.object({
     applied_on: z.string(),
     is_approx: z.boolean(),
@@ -71,10 +92,14 @@ export function buildSchema(messages: Messages) {
     notes: z
       .string()
       .max(LIMITS.long, { error: messages.tooLong(LIMITS.long) }),
+    skills: z.object({
+      required: skillList,
+      nice_to_have: skillList,
+    }),
   })
 }
 
-export function emptyValues(): FormValues {
+export function emptyValues(prefill: Partial<FormValues> = {}): FormValues {
   return {
     applied_on: localToday(),
     is_approx: false,
@@ -92,6 +117,8 @@ export function emptyValues(): FormValues {
     next_step_at: '',
     cover_letter: '',
     notes: '',
+    skills: EMPTY_SKILLS,
+    ...prefill,
   }
 }
 
@@ -120,6 +147,7 @@ export function toFormValues(row: Application): FormValues {
     next_step_at: row.next_step_at ? toLocalDateTime(row.next_step_at) : '',
     cover_letter: row.cover_letter,
     notes: row.notes ?? '',
+    skills: row.skills,
   }
 }
 
@@ -128,7 +156,10 @@ function blank(value: string) {
   return trimmed === '' ? null : trimmed
 }
 
-export function toCreateBody(values: FormValues): ApplicationCreate {
+export function toCreateBody(
+  values: FormValues,
+  extras?: CreateExtras
+): ApplicationCreate {
   return {
     applied_on: values.applied_on || null,
     is_approx: values.is_approx,
@@ -148,6 +179,8 @@ export function toCreateBody(values: FormValues): ApplicationCreate {
       ? new Date(values.next_step_at).toISOString()
       : null,
     sponsor_check: values.sponsor_check,
+    skills: values.skills,
+    ...extras,
   }
 }
 
@@ -172,6 +205,9 @@ function sameCheck(a: SponsorCheck, b: SponsorCheck) {
 function sameValue(key: keyof ApplicationCreate, next: unknown, prev: unknown) {
   if (key === 'sponsor_check') {
     return sameCheck(next as SponsorCheck, prev as SponsorCheck)
+  }
+  if (key === 'skills') {
+    return JSON.stringify(next) === JSON.stringify(prev)
   }
   if (key === 'next_step_at' && next && prev) {
     return (

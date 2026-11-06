@@ -62,7 +62,11 @@
       "remote": "Remote",
       "hybrid": "Hybrid",
       "onsite": "On-site"
-    }
+    },
+    "saveToTracker": "Save to tracker",
+    "signInToSave": "Sign in to save this to your tracker.",
+    "savedToast": "Saved to your tracker.",
+    "savedToastAction": "View applications"
   },
   "Footer": {
     "registerDate": "Register published {date}",
@@ -156,6 +160,7 @@
       "company_site": "Company site",
       "linkedin_easy_apply": "LinkedIn Easy Apply",
       "job_board_104": "104",
+      "job_board_cake": "Cake",
       "agency": "Agency",
       "email": "Email",
       "other": "Other"
@@ -208,8 +213,20 @@
       "saveError": "Could not save. Check the fields and try again.",
       "errors": {
         "required": "Required",
-        "tooLong": "Keep it under {max} characters"
-      }
+        "tooLong": "Keep it under {max} characters",
+        "tooMany": "Keep it to {max} or fewer"
+      },
+      "jobDescription": "Job description",
+      "jobDescriptionAdd": "Add job description",
+      "jobDescriptionEdit": "Edit",
+      "skills": "Skills",
+      "skillsHint": "Type a skill and press Enter, or separate several with commas.",
+      "skillsRequired": "Required",
+      "skillsNice": "Nice to have",
+      "skillPlaceholder": "Add a skill",
+      "skillRemove": "Remove {skill}",
+      "skillAdd": "Add skill",
+      "jobDescriptionAttached": "Attached"
     },
     "deleteDialog": {
       "title": "Delete this application?",
@@ -225,6 +242,15 @@
     "toasts": {
       "statusError": "Could not change the status. Try again.",
       "deleteError": "Could not delete this application. Try again."
-    }
+    },
+    "jobDescriptionSheet": {
+      "title": "Job description",
+      "placeholder": "Paste the job description",
+      "charCount": "{count, number} / 20,000",
+      "save": "Save job description",
+      "saveError": "Could not save the job description. Try again."
+    },
+    "skillsCount": "{count, plural, one {# skill} other {# skills}}",
+    "skillsOpen": "Show skills"
   }
 }

@@ -26,6 +26,17 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "PostgreSQL",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Kubernetes",
+        "Kafka"
+      ]
     }
   },
   {
@@ -46,6 +57,16 @@
     "next_step_at": null,
     "sponsor_check": {
       "status": "unchecked"
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "React",
+        "TypeScript"
+      ],
+      "nice_to_have": [
+        "AWS"
+      ]
     }
   },
   {
@@ -75,6 +96,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Kotlin",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "Kafka"
+      ]
     }
   },
   {
@@ -104,6 +135,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Spring",
+        "React"
+      ],
+      "nice_to_have": [
+        "Kubernetes"
+      ]
     }
   },
   {
@@ -133,6 +174,17 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "React",
+        "GraphQL"
+      ]
     }
   },
   {
@@ -153,6 +205,16 @@
     "next_step_at": "2026-11-08T16:00:00Z",
     "sponsor_check": {
       "status": "agency"
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "SQL",
+        "Linux"
+      ],
+      "nice_to_have": [
+        "C#"
+      ]
     }
   },
   {
@@ -182,6 +244,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Kotlin",
+        "Spring"
+      ],
+      "nice_to_have": [
+        "GCP"
+      ]
     }
   },
   {
@@ -211,6 +283,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Go",
+        "Python",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Kubernetes"
+      ]
     }
   },
   {
@@ -231,6 +313,17 @@
     "next_step_at": null,
     "sponsor_check": {
       "status": "not_found"
+    },
+    "skills": {
+      "required": [
+        "TypeScript",
+        "Next.js",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "Docker",
+        "Playwright"
+      ]
     }
   },
   {
@@ -260,6 +353,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Linux"
+      ],
+      "nice_to_have": [
+        "Docker",
+        "Kubernetes"
+      ]
     }
   },
   {
@@ -289,6 +392,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "JavaScript",
+        "React",
+        "Node.js"
+      ],
+      "nice_to_have": [
+        "Azure"
+      ]
     }
   },
   {
@@ -367,6 +480,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Linux",
+        "Git"
+      ],
+      "nice_to_have": [
+        "Rust"
+      ]
     }
   },
   {
@@ -396,6 +519,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "TDD",
+        "Agile"
+      ],
+      "nice_to_have": [
+        "Kotlin"
+      ]
     }
   },
   {
@@ -425,6 +558,17 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "LLM",
+        "Redis"
+      ]
     }
   },
   {
@@ -454,6 +598,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Python",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Kubernetes"
+      ]
     }
   },
   {
@@ -512,6 +666,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Kubernetes",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Kafka"
+      ]
     }
   },
   {
@@ -541,6 +705,16 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "Kafka",
+        "Terraform"
+      ]
     }
   },
   {
@@ -570,6 +744,15 @@
       "rating": "A",
       "checked_at": null,
       "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Azure"
+      ],
+      "nice_to_have": [
+        "Terraform"
+      ]
     }
   },
   {
@@ -619,6 +802,16 @@
     "next_step_at": null,
     "sponsor_check": {
       "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "SQL",
+        "Kubernetes"
+      ],
+      "nice_to_have": [
+        "Java"
+      ]
     }
   },
   {
@@ -639,6 +832,16 @@
     "next_step_at": null,
     "sponsor_check": {
       "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "Kubernetes"
+      ]
     }
   },
   {
@@ -659,6 +862,14 @@
     "next_step_at": null,
     "sponsor_check": {
       "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "React",
+        "TypeScript"
+      ],
+      "nice_to_have": []
     }
   },
   {
@@ -699,6 +910,16 @@
     "next_step_at": null,
     "sponsor_check": {
       "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "React"
+      ]
     }
   },
   {
@@ -739,6 +960,16 @@
     "next_step_at": null,
     "sponsor_check": {
       "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Kotlin",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Scala"
+      ]
     }
   },
   {
@@ -759,6 +990,16 @@
     "next_step_at": null,
     "sponsor_check": {
       "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "GCP",
+        "Kubernetes"
+      ],
+      "nice_to_have": [
+        "Python"
+      ]
     }
   }
 ]

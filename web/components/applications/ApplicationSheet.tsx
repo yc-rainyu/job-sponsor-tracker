@@ -7,6 +7,8 @@ import { Controller, useForm, useWatch } from 'react-hook-form'
 import { toast } from 'sonner'
 
 import { CompanyField } from '@/components/applications/CompanyField'
+import { JobDescriptionSheet } from '@/components/applications/JobDescriptionSheet'
+import { SkillChips } from '@/components/applications/SkillChips'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,6 +27,8 @@ import {
   FieldDescription,
   FieldError,
   FieldLabel,
+  FieldLegend,
+  FieldSet,
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
@@ -42,7 +46,12 @@ import {
   useDeleteApplication,
   useUpdateApplication,
 } from '@/hooks/useApplicationMutations'
-import { ApiError, type Application, type SponsorCheck } from '@/lib/api'
+import {
+  type Analysis,
+  ApiError,
+  type Application,
+  type SponsorCheck,
+} from '@/lib/api'
 import {
   type FormValues,
   UNCHECKED,
@@ -60,23 +69,33 @@ import {
   WORK_MODES,
 } from '@/lib/applications'
 
+// handed over by the analyse page: some field values, plus text and snapshot that are never inputs
+export type CreatePrefill = {
+  values?: Partial<FormValues>
+  jd_text?: string
+  analysis?: Analysis | null
+}
+
 export type SheetState =
   | { mode: 'closed' }
-  | { mode: 'create' }
+  | { mode: 'create'; prefill?: CreatePrefill }
   | { mode: 'edit'; application: Application }
 
 export function ApplicationSheet({
   state,
   onClose,
+  onCreated,
 }: {
   state: SheetState
   onClose: () => void
+  onCreated?: (application: Application) => void
 }) {
   const dirtyRef = useRef(false)
   // keep the last open state while the sheet slides out, so it does not go blank
   const [shown, setShown] = useState(state)
   if (state.mode !== 'closed' && state !== shown) setShown(state)
   const application = shown.mode === 'edit' ? shown.application : null
+  const prefill = shown.mode === 'create' ? shown.prefill : undefined
 
   return (
     <Sheet
@@ -96,8 +115,10 @@ export function ApplicationSheet({
           <ApplicationForm
             key={application?.id ?? 'new'}
             application={application}
+            prefill={prefill}
             dirtyRef={dirtyRef}
             onClose={onClose}
+            onCreated={onCreated}
           />
         ) : null}
       </SheetContent>
@@ -182,12 +203,16 @@ function TextareaField({
 
 function ApplicationForm({
   application,
+  prefill,
   dirtyRef,
   onClose,
+  onCreated,
 }: {
   application: Application | null
+  prefill?: CreatePrefill
   dirtyRef: RefObject<boolean>
   onClose: () => void
+  onCreated?: (application: Application) => void
 }) {
   const t = useTranslations('Applications')
   const create = useCreateApplication()
@@ -198,6 +223,7 @@ function ApplicationForm({
       buildSchema({
         required: t('form.errors.required'),
         tooLong: (max) => t('form.errors.tooLong', { max }),
+        tooMany: (max) => t('form.errors.tooMany', { max }),
       }),
     [t]
   )
@@ -209,10 +235,17 @@ function ApplicationForm({
     formState: { errors, isDirty, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: application ? toFormValues(application) : emptyValues(),
+    defaultValues: application
+      ? toFormValues(application)
+      : emptyValues(prefill?.values),
   })
   const [error, setError] = useState<string | null>(null)
   const sponsorCheck = useWatch({ control, name: 'sponsor_check' })
+  // never an input: the small sheet changes it and reports the new text back here
+  const [jdText, setJdText] = useState(
+    application?.jd_text ?? prefill?.jd_text ?? ''
+  )
+  const [jdOpen, setJdOpen] = useState(false)
 
   useEffect(() => {
     dirtyRef.current = isDirty
@@ -243,7 +276,18 @@ function ApplicationForm({
           await update.mutateAsync({ id: application.id, body })
         }
       } else {
-        await create.mutateAsync(toCreateBody(values))
+        const created = await create.mutateAsync(
+          toCreateBody(
+            values,
+            prefill
+              ? {
+                  jd_text: prefill.jd_text ?? null,
+                  analysis: prefill.analysis ?? null,
+                }
+              : undefined
+          )
+        )
+        onCreated?.(created)
       }
       onClose()
     } catch (caught) {
@@ -437,13 +481,68 @@ function ApplicationForm({
             {...register('next_step_at')}
           />
 
+          {application || jdText ? (
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:col-span-2">
+              <span className="font-medium">{t('form.jobDescription')}</span>
+              {jdText && !application ? (
+                <span className="text-muted-foreground">
+                  {t('form.jobDescriptionAttached')}
+                </span>
+              ) : null}
+              {application ? (
+                <Button
+                  type="button"
+                  variant="link"
+                  size="xs"
+                  className="h-auto px-0"
+                  onClick={() => setJdOpen(true)}
+                >
+                  {jdText
+                    ? t('form.jobDescriptionEdit')
+                    : t('form.jobDescriptionAdd')}
+                </Button>
+              ) : null}
+            </div>
+          ) : null}
+
+          <FieldSet className="gap-3 sm:col-span-2">
+            <FieldLegend>{t('form.skills')}</FieldLegend>
+            <Controller
+              control={control}
+              name="skills.required"
+              render={({ field }) => (
+                <SkillChips
+                  id="skills_required"
+                  label={t('form.skillsRequired')}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={errors.skills?.required}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="skills.nice_to_have"
+              render={({ field }) => (
+                <SkillChips
+                  id="skills_nice_to_have"
+                  label={t('form.skillsNice')}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={errors.skills?.nice_to_have}
+                />
+              )}
+            />
+            <FieldDescription>{t('form.skillsHint')}</FieldDescription>
+          </FieldSet>
+
           <TextareaField
             id="cover_letter"
             className="sm:col-span-2"
             label={t('form.coverLetter')}
             placeholder={t('form.coverLetterPlaceholder')}
             error={errors.cover_letter}
-            rows={4}
+            rows={8}
             {...register('cover_letter')}
           />
           <TextareaField
@@ -511,6 +610,15 @@ function ApplicationForm({
           {application ? t('form.save') : t('form.create')}
         </Button>
       </SheetFooter>
+      {application ? (
+        <JobDescriptionSheet
+          open={jdOpen}
+          application={application}
+          text={jdText}
+          onClose={() => setJdOpen(false)}
+          onSaved={setJdText}
+        />
+      ) : null}
     </form>
   )
 }

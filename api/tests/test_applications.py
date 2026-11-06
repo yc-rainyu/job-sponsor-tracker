@@ -24,6 +24,23 @@ ON_LIST = {
     'checked_at': '2026-11-04T10:00:00Z',
     'register_published_on': '2026-10-16',
 }
+EMPTY_SKILLS = {'required': [], 'nice_to_have': []}
+SKILLS = {
+    'required': ['Python', 'PostgreSQL'],
+    'nice_to_have': ['Docker'],
+}
+ANALYSIS = {
+    'visa': 'declines',
+    'salary': {
+        'min': 50000,
+        'max': 60000,
+        'currency': 'GBP',
+        'period': 'year',
+        'raw': '£50,000 - £60,000 per annum',
+    },
+    'work_mode': 'hybrid',
+    'experience_years': {'min': 3, 'max': None, 'raw': '3+ years'},
+}
 
 
 def _new_user(session):
@@ -80,8 +97,25 @@ def test_create_fills_defaults(client, user):
         'checked_at': None,
         'register_published_on': None,
     }
+    assert body['skills'] == EMPTY_SKILLS
+    assert body['analysis'] is None
     assert body['status_changed_at'] is not None
     assert body['created_at'] is not None
+
+
+def test_create_keeps_skills_and_analysis(client, user):
+    body = _create(client, skills=SKILLS, analysis=ANALYSIS, jd_text='We hire.')
+    assert body['skills'] == SKILLS
+    assert body['analysis'] == ANALYSIS
+    assert body['jd_text'] == 'We hire.'
+
+
+def test_create_trims_skill_names(client, user):
+    body = _create(client, skills={'required': ['  Python  ']})
+    assert body['skills'] == {
+        'required': ['Python'],
+        'nice_to_have': [],
+    }
 
 
 def test_create_keeps_sponsor_check(client, user):
@@ -100,8 +134,31 @@ def test_create_keeps_sponsor_check(client, user):
         {'status': 'hired'},
         {'country': 'FR'},
         {'sponsor_check': {'status': 'maybe'}},
+        {'skills': {'required': ['x' * 101]}},
+        {'skills': {'required': ['Python'] * 51}},
+        {'skills': {'required': ['']}},
+        {'skills': ['Python']},
+        {'analysis': {'visa': 'maybe'}},
+        {
+            'analysis': {
+                'visa': 'none',
+                'salary': {'max': 1, 'currency': 'GBP', 'raw': 'x' * 201},
+            }
+        },
     ],
-    ids=['no-company', 'blank-company', 'bad-status', 'bad-country', 'bad-sponsor'],
+    ids=[
+        'no-company',
+        'blank-company',
+        'bad-status',
+        'bad-country',
+        'bad-sponsor',
+        'skill-too-long',
+        'too-many-skills',
+        'blank-skill',
+        'skills-not-grouped',
+        'bad-visa',
+        'salary-raw-too-long',
+    ],
 )
 def test_create_rejects_bad_values(client, user, bad):
     payload = {**MINIMAL, **bad}
@@ -181,7 +238,25 @@ def test_patch_can_clear_optional_field(client, user):
     assert body['next_step'] is None
 
 
-@pytest.mark.parametrize('field', ['company', 'status', 'sponsor_check', 'is_approx'])
+def test_patch_skills_and_clear_analysis(client, user):
+    created = _create(client, skills=SKILLS, analysis=ANALYSIS)
+    body = client.patch(
+        f'/applications/{created["id"]}',
+        json={'skills': {'required': ['Go']}, 'analysis': None},
+    ).json()
+    assert body['skills'] == {'required': ['Go'], 'nice_to_have': []}
+    assert body['analysis'] is None
+
+
+def test_patch_other_fields_keeps_skills(client, user):
+    created = _create(client, skills=SKILLS)
+    body = client.patch(f'/applications/{created["id"]}', json={'notes': 'x'}).json()
+    assert body['skills'] == SKILLS
+
+
+@pytest.mark.parametrize(
+    'field', ['company', 'status', 'sponsor_check', 'is_approx', 'skills']
+)
 def test_patch_rejects_null_on_required_field(client, user, field):
     created = _create(client)
     response = client.patch(f'/applications/{created["id"]}', json={field: None})

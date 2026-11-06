@@ -12,6 +12,8 @@ export type Application = Schemas['Application']
 export type ApplicationCreate = Schemas['ApplicationCreate']
 export type ApplicationUpdate = Schemas['ApplicationUpdate']
 export type SponsorCheck = Schemas['SponsorCheck']
+export type ApplicationSkills = Schemas['ApplicationSkills']
+export type Analysis = Schemas['Analysis']
 
 // the api explains failures as {"detail": "..."}; keep it so the ui can show it
 export class ApiError extends Error {

@@ -3,8 +3,13 @@
 import { useTranslations } from 'next-intl'
 
 import { Badge } from '@/components/ui/badge'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import type { Application } from '@/lib/api'
-import { formatDateTime, hasCoverLetter } from '@/lib/applications'
+import { formatDateTime, hasCoverLetter, skillCount } from '@/lib/applications'
 import { cn } from '@/lib/utils'
 
 type Status = Application['status']
@@ -51,6 +56,55 @@ export function SponsorBadge({ status }: { status: SponsorStatus }) {
   )
 }
 
+// tag with the skill count; opens a read-only list, editing stays in the drawer
+export function SkillsBadge({ row }: { row: Application }) {
+  const t = useTranslations('Applications')
+  const count = skillCount(row)
+  if (count === 0) return null
+  const groups = [
+    {
+      key: 'required',
+      label: t('form.skillsRequired'),
+      items: row.skills.required,
+    },
+    {
+      key: 'nice_to_have',
+      label: t('form.skillsNice'),
+      items: row.skills.nice_to_have,
+    },
+  ].filter((group) => group.items.length > 0)
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Badge
+          asChild
+          variant="outline"
+          className="cursor-pointer px-2 py-0 hover:bg-muted"
+        >
+          <button type="button" title={t('skillsOpen')}>
+            {t('skillsCount', { count })}
+          </button>
+        </Badge>
+      </PopoverTrigger>
+      <PopoverContent className="flex w-80 max-w-[calc(100vw-2rem)] flex-col gap-3">
+        {groups.map((group) => (
+          <div key={group.key} className="flex flex-col gap-1.5">
+            <p className="text-sm text-muted-foreground">{group.label}</p>
+            <ul className="flex flex-wrap gap-1.5">
+              {group.items.map((skill) => (
+                <li key={skill}>
+                  <Badge variant="secondary">{skill}</Badge>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </PopoverContent>
+    </Popover>
+  )
+}
+
 export function CompanyBlock({
   row,
   clampNotes = false,
@@ -86,6 +140,7 @@ export function CompanyBlock({
             </button>
           </Badge>
         ) : null}
+        <SkillsBadge row={row} />
         <SponsorBadge status={row.sponsor_check.status} />
       </div>
       <span>{row.role}</span>
