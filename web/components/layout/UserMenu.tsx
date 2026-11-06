@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { APPLICATIONS_KEY } from '@/hooks/useApplications'
 import { ME_KEY } from '@/hooks/useMe'
 import { logout, type Me } from '@/lib/api'
 
@@ -20,7 +21,10 @@ export function UserMenu({ me }: { me: Me }) {
   const queryClient = useQueryClient()
   const signOut = useMutation({
     mutationFn: logout,
-    onSuccess: () => queryClient.setQueryData(ME_KEY, null),
+    onSuccess: () => {
+      queryClient.setQueryData(ME_KEY, null)
+      queryClient.removeQueries({ queryKey: APPLICATIONS_KEY })
+    },
   })
   const initial = (me.display_name ?? me.email ?? '').charAt(0).toUpperCase()
 
@@ -50,14 +54,14 @@ export function UserMenu({ me }: { me: Me }) {
             {me.display_name ? (
               <span className="text-sm text-foreground">{me.display_name}</span>
             ) : null}
-            <span>{me.email}</span>
+            <span>{me.is_demo ? t('demoAccount') : me.email}</span>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             disabled={signOut.isPending}
             onSelect={() => signOut.mutate()}
           >
-            {t('signOut')}
+            {me.is_demo ? t('endDemo') : t('signOut')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

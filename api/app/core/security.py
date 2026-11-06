@@ -8,11 +8,14 @@ from app.core.settings import settings
 
 SESSION_COOKIE = 'session'
 SESSION_AGE = datetime.timedelta(days=7)
+DEMO_SESSION_AGE = datetime.timedelta(hours=24)
 _ALGORITHM = 'HS256'
 
 
-def create_session_token(user_id: uuid.UUID) -> str:
-    expires = datetime.datetime.now(datetime.UTC) + SESSION_AGE
+def create_session_token(
+    user_id: uuid.UUID, lifetime: datetime.timedelta = SESSION_AGE
+) -> str:
+    expires = datetime.datetime.now(datetime.UTC) + lifetime
     return jwt.encode(
         {
             'sub': str(user_id),
@@ -33,11 +36,13 @@ def read_session_token(token: str) -> uuid.UUID:
     return uuid.UUID(payload['sub'])
 
 
-def set_session_cookie(response: Response, token: str) -> None:
+def set_session_cookie(
+    response: Response, token: str, lifetime: datetime.timedelta = SESSION_AGE
+) -> None:
     response.set_cookie(
         SESSION_COOKIE,
         token,
-        max_age=int(SESSION_AGE.total_seconds()),
+        max_age=int(lifetime.total_seconds()),
         path='/',
         secure=True,
         httponly=True,
