@@ -76,11 +76,155 @@
     "signOut": "Sign out",
     "signInError": "Sign-in failed. Try again.",
     "signOutError": "Could not sign out. Try again.",
-    "meError": "Could not check your sign-in. Reload the page."
+    "meError": "Could not check your sign-in. Reload the page.",
+    "tryDemo": "Try the demo",
+    "demoError": "Could not start the demo. Try again in a minute.",
+    "demoAccount": "Demo account",
+    "endDemo": "End demo"
   },
   "Applications": {
     "title": "Applications",
     "lead": "Track the jobs you have applied for.",
-    "empty": "No applications yet. Add your first one."
+    "empty": "No applications yet. Add your first one.",
+    "loadError": "Could not load your applications. Reload the page.",
+    "count": "{count, plural, one {# application} other {# applications}}",
+    "noDate": "No date",
+    "columns": {
+      "applied": "Applied",
+      "company": "Company",
+      "role": "Role",
+      "country": "Country",
+      "status": "Status",
+      "sponsor": "Visa sponsor",
+      "location": "Location",
+      "channel": "Channel",
+      "salary": "Salary stated",
+      "days": "Days"
+    },
+    "country": {
+      "UK": "UK",
+      "TW": "Taiwan",
+      "NL": "Netherlands",
+      "US": "US",
+      "other": "Other"
+    },
+    "status": {
+      "draft": "Draft",
+      "applied": "Applied",
+      "interviewing": "Interviewing",
+      "offer": "Offer",
+      "rejected": "Rejected",
+      "withdrawn": "Withdrawn",
+      "no_response": "No response"
+    },
+    "sponsor": {
+      "on_list": "Licensed sponsor",
+      "not_found": "Not on the register",
+      "agency": "Via agency",
+      "not_applicable": "Not applicable",
+      "unchecked": "Not checked"
+    },
+    "today": "{count} today",
+    "search": "Search company, role, notes",
+    "filters": {
+      "country": "Country",
+      "status": "Status",
+      "sponsor": "Visa sponsor",
+      "all": "All",
+      "noDate": "No date"
+    },
+    "sponsorHelp": "Licensed sponsor means the company is on the UK register of licensed sponsors for Skilled Worker visas, as of the register date. It is not a promise of sponsorship.",
+    "view": {
+      "label": "View",
+      "table": "Table",
+      "cards": "Cards"
+    },
+    "noMatch": "No applications match these filters.",
+    "clearFilters": "Clear filters",
+    "days": "{count, plural, =0 {Today} one {# day} other {# days}}",
+    "coverLetter": "Cover letter",
+    "coverLetterTitle": "Cover letter sent",
+    "next": "Next: {step}",
+    "sortBy": "Sort by {column}",
+    "workMode": {
+      "onsite": "On-site",
+      "hybrid": "Hybrid",
+      "remote": "Remote",
+      "unknown": "Not stated"
+    },
+    "channel": {
+      "company_site": "Company site",
+      "linkedin_easy_apply": "LinkedIn Easy Apply",
+      "job_board_104": "104",
+      "agency": "Agency",
+      "email": "Email",
+      "other": "Other"
+    },
+    "demoNotice": "Demo account. Data is deleted after 24 hours.",
+    "add": "Add application",
+    "export": "Export CSV",
+    "edit": "Edit",
+    "changeStatus": "Change status",
+    "coverLetterOpen": "Open cover letter",
+    "form": {
+      "addTitle": "Add application",
+      "editTitle": "Edit application",
+      "addDescription": "Record a job you applied for.",
+      "appliedOn": "Applied on",
+      "approx": "Date is approximate",
+      "country": "Country",
+      "company": "Company",
+      "companyPlaceholder": "Company name",
+      "companyHint": "Type two or more letters to see matches on the UK sponsor register. Pick one to record it as a licensed sponsor.",
+      "suggestions": "Register matches",
+      "searching": "Searching the register…",
+      "noMatches": "No matches on the register. You can still save the name as typed.",
+      "rating": "Rating {rating}",
+      "skilledWorker": "Skilled Worker",
+      "matched": "Licensed sponsor: {name}",
+      "clearMatch": "Clear",
+      "role": "Role",
+      "location": "Location",
+      "locationPlaceholder": "City or area",
+      "workMode": "Work mode",
+      "channel": "Applied via",
+      "status": "Status",
+      "sponsor": "Visa sponsor",
+      "sponsorHint": "Licensed sponsor is set by picking a company from the register matches above.",
+      "salary": "Salary stated",
+      "salaryPlaceholder": "What you told them, e.g. £65,000",
+      "jobUrl": "Job URL",
+      "nextStep": "Next step",
+      "nextStepPlaceholder": "e.g. Technical interview",
+      "nextStepAt": "When",
+      "coverLetter": "Cover letter",
+      "coverLetterPlaceholder": "Paste the cover letter you sent. Leave empty if you did not send one.",
+      "notes": "Notes",
+      "notesPlaceholder": "Anything worth remembering about this role",
+      "save": "Save application",
+      "create": "Add application",
+      "cancel": "Cancel",
+      "delete": "Delete this application",
+      "saveError": "Could not save. Check the fields and try again.",
+      "errors": {
+        "required": "Required",
+        "tooLong": "Keep it under {max} characters"
+      }
+    },
+    "deleteDialog": {
+      "title": "Delete this application?",
+      "description": "{company} · {role} will be removed. This cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Keep it"
+    },
+    "coverLetterSheet": {
+      "title": "Cover letter",
+      "save": "Save cover letter",
+      "saveError": "Could not save the cover letter. Try again."
+    },
+    "toasts": {
+      "statusError": "Could not change the status. Try again.",
+      "deleteError": "Could not delete this application. Try again."
+    }
   }
 }
