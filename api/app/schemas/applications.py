@@ -9,7 +9,13 @@ from app.schemas.jd import Experience, Salary, VisaLabel
 Country = Literal['UK', 'TW', 'NL', 'US', 'other']
 WorkMode = Literal['onsite', 'hybrid', 'remote', 'unknown']
 Channel = Literal[
-    'company_site', 'linkedin_easy_apply', 'job_board_104', 'agency', 'email', 'other'
+    'company_site',
+    'linkedin_easy_apply',
+    'job_board_104',
+    'job_board_cake',
+    'agency',
+    'email',
+    'other',
 ]
 Status = Literal[
     'draft', 'applied', 'interviewing', 'offer', 'rejected', 'withdrawn', 'no_response'

@@ -256,7 +256,7 @@ export interface components {
              * Channel
              * @enum {string}
              */
-            channel: "company_site" | "linkedin_easy_apply" | "job_board_104" | "agency" | "email" | "other";
+            channel: "company_site" | "linkedin_easy_apply" | "job_board_104" | "job_board_cake" | "agency" | "email" | "other";
             /**
              * Status
              * @enum {string}
@@ -326,7 +326,7 @@ export interface components {
              * @default other
              * @enum {string}
              */
-            channel: "company_site" | "linkedin_easy_apply" | "job_board_104" | "agency" | "email" | "other";
+            channel: "company_site" | "linkedin_easy_apply" | "job_board_104" | "job_board_cake" | "agency" | "email" | "other";
             /**
              * Status
              * @default applied
@@ -384,7 +384,7 @@ export interface components {
             /** Work Mode */
             work_mode?: ("onsite" | "hybrid" | "remote" | "unknown") | null;
             /** Channel */
-            channel?: ("company_site" | "linkedin_easy_apply" | "job_board_104" | "agency" | "email" | "other") | null;
+            channel?: ("company_site" | "linkedin_easy_apply" | "job_board_104" | "job_board_cake" | "agency" | "email" | "other") | null;
             /** Status */
             status?: ("draft" | "applied" | "interviewing" | "offer" | "rejected" | "withdrawn" | "no_response") | null;
             /** Salary Stated */

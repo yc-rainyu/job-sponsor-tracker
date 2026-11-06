@@ -29,6 +29,7 @@ export const CHANNELS = [
   'company_site',
   'linkedin_easy_apply',
   'job_board_104',
+  'job_board_cake',
   'agency',
   'email',
   'other',
