@@ -135,7 +135,7 @@ export function ApplicationsTable({
         cell: ({ row }) => (
           <Button
             type="button"
-            variant="ghost"
+            variant="outline"
             size="sm"
             className="-my-1"
             onClick={() => onEdit(row.original)}

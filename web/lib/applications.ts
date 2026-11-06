@@ -60,6 +60,10 @@ export function hasCoverLetter(row: Application) {
   return row.cover_letter !== ''
 }
 
+export function skillCount(row: Application) {
+  return row.skills.required.length + row.skills.nice_to_have.length
+}
+
 // the same filters as the list, for the CSV link; "no date" has no api equivalent
 export function exportParams(filters: Filters) {
   const params = new URLSearchParams()

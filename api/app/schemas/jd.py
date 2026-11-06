@@ -27,13 +27,13 @@ class Salary(BaseModel):
     max: int
     currency: Literal['GBP', 'EUR', 'TWD']
     period: Literal['year', 'month', 'day', 'hour'] | None
-    raw: str
+    raw: str = Field(max_length=200)
 
 
 class Experience(BaseModel):
     min: int
     max: int | None
-    raw: str
+    raw: str = Field(max_length=200)
 
 
 class Skills(BaseModel):

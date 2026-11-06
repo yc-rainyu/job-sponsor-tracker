@@ -216,6 +216,15 @@ export interface components {
             /** Company Matches */
             company_matches: components["schemas"]["SponsorResult"][];
         };
+        /** Analysis */
+        Analysis: {
+            /** Visa */
+            visa: ("declines" | "requires_rtw" | "offers" | "mentions") | "none";
+            salary?: components["schemas"]["Salary"] | null;
+            /** Work Mode */
+            work_mode?: ("remote" | "hybrid" | "onsite") | null;
+            experience_years?: components["schemas"]["Experience"] | null;
+        };
         /** Application */
         Application: {
             /**
@@ -273,6 +282,8 @@ export interface components {
             /** Next Step At */
             next_step_at: string | null;
             sponsor_check: components["schemas"]["SponsorCheck"];
+            skills: components["schemas"]["ApplicationSkills"];
+            analysis: components["schemas"]["Analysis"] | null;
             /**
              * Created At
              * Format: date-time
@@ -340,6 +351,21 @@ export interface components {
             /** Next Step At */
             next_step_at?: string | null;
             sponsor_check?: components["schemas"]["SponsorCheck"];
+            skills?: components["schemas"]["ApplicationSkills"];
+            analysis?: components["schemas"]["Analysis"] | null;
+        };
+        /** ApplicationSkills */
+        ApplicationSkills: {
+            /**
+             * Required
+             * @default []
+             */
+            required: string[];
+            /**
+             * Nice To Have
+             * @default []
+             */
+            nice_to_have: string[];
         };
         /** ApplicationUpdate */
         ApplicationUpdate: {
@@ -376,6 +402,8 @@ export interface components {
             /** Next Step At */
             next_step_at?: string | null;
             sponsor_check?: components["schemas"]["SponsorCheck"] | null;
+            skills?: components["schemas"]["ApplicationSkills"] | null;
+            analysis?: components["schemas"]["Analysis"] | null;
         };
         /** DemoBody */
         DemoBody: {

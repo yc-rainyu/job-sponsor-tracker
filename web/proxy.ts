@@ -5,7 +5,7 @@ const PROXY_KEY = process.env.PROXY_KEY
 
 export const config = { matcher: '/api/:path*' }
 
-// rate limit per visitor instead of per Vercel egress address
+// forwards the visitor's IP so the api can rate limit per visitor, not per Vercel address
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
   const target = `${API_URL}${pathname.slice('/api'.length)}${search}`
