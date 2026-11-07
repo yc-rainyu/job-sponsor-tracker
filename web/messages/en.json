@@ -23,11 +23,15 @@
     "ratingA": "A rating",
     "ratingB": "B rating",
     "ratingBHint": "B rating: cannot issue new certificates of sponsorship until it improves.",
-    "ratingUnknown": "Rating not listed",
+    "ratingUnknown": "Rating not listed"
+  },
+  "Pagination": {
     "previous": "Previous",
     "next": "Next",
     "pages": "Pages",
-    "pageNumber": "Page {page}"
+    "pageNumber": "Page {page}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page"
   },
   "Analyse": {
     "title": "Analyse",
@@ -73,7 +77,9 @@
     "ogl": "Contains public sector information licensed under the",
     "oglLink": "Open Government Licence v3.0",
     "disclaimer": "Not affiliated with the Home Office. Not immigration advice.",
-    "github": "GitHub"
+    "github": "GitHub",
+    "privacy": "Privacy",
+    "terms": "Terms"
   },
   "Auth": {
     "account": "Account menu",
@@ -84,7 +90,16 @@
     "tryDemo": "Try the demo",
     "demoError": "Could not start the demo. Try again in a minute.",
     "demoAccount": "Demo account",
-    "endDemo": "End demo"
+    "endDemo": "End demo",
+    "deleteAccount": "Delete my account",
+    "deleteDialog": {
+      "title": "Delete your account?",
+      "description": "Your account and all your applications are deleted right away. This cannot be undone. If you want a copy, use Export CSV on the Applications page first.",
+      "confirm": "Delete account",
+      "cancel": "Keep my account",
+      "error": "Could not delete your account. Try again."
+    },
+    "accountDeleted": "Your account and applications were deleted."
   },
   "Applications": {
     "title": "Applications",
@@ -251,6 +266,75 @@
       "saveError": "Could not save the job description. Try again."
     },
     "skillsCount": "{count, plural, one {# skill} other {# skills}}",
-    "skillsOpen": "Show skills"
+    "skillsOpen": "Show skills",
+    "range": "{from}–{to} of {total}",
+    "perPage": "Per page"
+  },
+  "Privacy": {
+    "title": "Privacy",
+    "lead": "What this site stores about you, and how to delete it. Last updated 8 November 2026.",
+    "stored": {
+      "title": "What is stored",
+      "account": "When you sign in with Google: your email address, name, profile picture link and Google account ID, plus when you signed up and last signed in. Nothing else is requested from Google.",
+      "tracker": "What you enter in the tracker: applications, notes, cover letters, skills and any job descriptions you save with them."
+    },
+    "notStored": {
+      "title": "What is not stored",
+      "analyse": "Job descriptions you analyse without saving. They are checked and discarded, and never written to the logs.",
+      "tracking": "No ads, no analytics and no tracking cookies. Your data is not sold or shared."
+    },
+    "browser": {
+      "title": "Cookies and browser storage",
+      "session": "One cookie, <code>session</code>, keeps you signed in for 7 days (24 hours for a demo). Scripts on the page cannot read it.",
+      "local": "Your theme and your table or cards choice are saved in your browser and never sent to the server.",
+      "google": "The Google sign-in button is loaded from Google, and Google's own privacy policy covers it."
+    },
+    "where": {
+      "title": "Where it is kept",
+      "hosting": "The website runs on Vercel. The database runs on a server in AWS's London region.",
+      "backups": "The database is backed up every night. Backups are kept in AWS storage in London for 30 days.",
+      "logs": "Vercel and the server keep short-term request logs, including IP addresses, to keep the site running and limit abuse."
+    },
+    "delete": {
+      "title": "Deleting your data",
+      "how": "Open the account menu (your picture, top right) and choose Delete my account. Your account, its Google sign-in link and all your applications are deleted straight away.",
+      "backups": "Copies in the nightly backups disappear within 30 days, when those backups expire.",
+      "export": "Want a copy first? Use Export CSV on the Applications page.",
+      "demo": "Demo accounts and their data are deleted automatically after 24 hours."
+    },
+    "sources": {
+      "title": "Where the public data comes from",
+      "register": "Sponsor data is the Home Office <register>register of licensed sponsors</register>, published on GOV.UK under the Open Government Licence v3.0. The date of the copy in use is shown at the bottom of every page.",
+      "demo": "Demo applications are made up. The company names come from the public register."
+    },
+    "contact": {
+      "title": "Questions",
+      "github": "Open an issue on <issues>GitHub</issues>. Issues are public, so leave personal details out."
+    }
+  },
+  "Terms": {
+    "title": "Terms",
+    "lead": "The rules for using this site, in short. Last updated 8 November 2026.",
+    "advice": {
+      "title": "Not immigration advice",
+      "info": "This site organises public information. It is not legal or immigration advice, and it does not tell you whether you can get a visa.",
+      "adviser": "For advice about your own situation, talk to a regulated immigration adviser or solicitor."
+    },
+    "guarantees": {
+      "title": "No guarantees",
+      "register": "A company on the register holds a sponsor licence. That does not mean it will sponsor a particular job. A company missing from the register may still be able to sponsor, for example under a parent company or another legal name.",
+      "date": "The register shown is a copy from the date at the bottom of the page. Check <register>GOV.UK</register> for the latest version.",
+      "analysis": "Job description analysis is automated and can be wrong. Read the original text before you rely on it.",
+      "service": "The site is provided as is. It may change, have outages or close."
+    },
+    "account": {
+      "title": "Your account",
+      "delete": "You can delete your account at any time from the account menu. <privacy>Privacy</privacy> explains what is stored and what deleting removes.",
+      "use": "Do not use the site to break the law, overload it or collect its data automatically. Requests are rate limited."
+    },
+    "licence": {
+      "title": "Licence",
+      "data": "Register data is used under the Open Government Licence v3.0. The code is open source under the MIT licence on <github>GitHub</github>."
+    }
   }
 }

@@ -4,6 +4,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
+import { Pagination } from '@/components/Pagination'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -68,23 +69,6 @@ export function SponsorSearch() {
   )
 }
 
-function pageItems(current: number, pages: number): (number | 'gap')[] {
-  if (pages <= 7) {
-    return Array.from({ length: pages }, (_, index) => index + 1)
-  }
-
-  const items: (number | 'gap')[] = [1]
-  const start = Math.max(2, current - 1)
-  const end = Math.min(pages - 1, current + 1)
-  if (start > 2) items.push('gap')
-  for (let pageNum = start; pageNum <= end; pageNum++) {
-    items.push(pageNum)
-  }
-  if (end < pages - 1) items.push('gap')
-  items.push(pages)
-  return items
-}
-
 function SearchStatus({
   loading,
   error,
@@ -132,45 +116,12 @@ function SearchStatus({
         ))}
       </ul>
       {total > PAGE_SIZE ? (
-        <nav
-          aria-label={t('pages')}
+        <Pagination
+          page={page}
+          pages={pages}
+          onPage={onPage}
           className="flex flex-wrap items-center justify-center gap-2"
-        >
-          <Button
-            type="button"
-            variant="ghost"
-            disabled={page <= 1}
-            onClick={() => onPage(page - 1)}
-          >
-            {t('previous')}
-          </Button>
-          {pageItems(page, pages).map((pageNum, index) =>
-            pageNum === 'gap' ? (
-              <span key={`gap-${index}`} className="px-1 text-muted-foreground">
-                …
-              </span>
-            ) : (
-              <Button
-                key={pageNum}
-                type="button"
-                variant={pageNum === page ? 'default' : 'ghost'}
-                aria-label={t('pageNumber', { page: pageNum })}
-                aria-current={pageNum === page ? 'page' : undefined}
-                onClick={() => onPage(pageNum)}
-              >
-                {pageNum}
-              </Button>
-            )
-          )}
-          <Button
-            type="button"
-            variant="ghost"
-            disabled={page >= pages}
-            onClick={() => onPage(page + 1)}
-          >
-            {t('next')}
-          </Button>
-        </nav>
+        />
       ) : null}
     </div>
   )

@@ -1,10 +1,13 @@
 import secrets
 import threading
 import time
+from typing import Annotated
 
-from fastapi import HTTPException, Request
+from fastapi import Depends, HTTPException, Request
 
+from app.core.deps import get_current_user
 from app.core.settings import settings
+from app.models.user import User
 
 MINUTE = 60.0
 HOUR = 3600.0
@@ -35,10 +38,7 @@ def client_ip(request: Request) -> str:
     return connection_ip
 
 
-def _limit(
-    request: Request, name: str, max_hits: int, window: float, detail: str
-) -> None:
-    key = f'{name}:{client_ip(request)}'
+def _limit(key: str, max_hits: int, window: float, detail: str) -> None:
     now = time.monotonic()
     with _lock:
         recent = [stamp for stamp in _hits.get(key, []) if now - stamp < window]
@@ -55,8 +55,7 @@ def _limit(
 
 def limit_search(request: Request) -> None:
     _limit(
-        request,
-        'search',
+        f'search:{client_ip(request)}',
         settings.search_rate_limit_per_minute,
         MINUTE,
         'Too many searches. Try again in a minute.',
@@ -65,8 +64,7 @@ def limit_search(request: Request) -> None:
 
 def limit_analyse(request: Request) -> None:
     _limit(
-        request,
-        'analyse',
+        f'analyse:{client_ip(request)}',
         settings.analyse_rate_limit_per_minute,
         MINUTE,
         'Too many analyses. Try again in a minute.',
@@ -75,9 +73,27 @@ def limit_analyse(request: Request) -> None:
 
 def limit_demo(request: Request) -> None:
     _limit(
-        request,
-        'demo',
+        f'demo:{client_ip(request)}',
         settings.demo_rate_limit_per_hour,
         HOUR,
         'Too many demo accounts from this network. Try again in an hour.',
+    )
+
+
+def limit_google(request: Request) -> None:
+    _limit(
+        f'google:{client_ip(request)}',
+        settings.google_rate_limit_per_minute,
+        MINUTE,
+        'Too many sign-in attempts. Try again in a minute.',
+    )
+
+
+# keyed by account, so switching networks does not reset the count
+def limit_writes(user: Annotated[User, Depends(get_current_user)]) -> None:
+    _limit(
+        f'writes:{user.id}',
+        settings.write_rate_limit_per_minute,
+        MINUTE,
+        'Too many changes. Try again in a minute.',
     )

@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
 
 from app.core.deps import get_current_user, get_db
-from app.core.rate_limit import limit_demo
+from app.core.rate_limit import limit_demo, limit_google
 from app.core.security import (
     DEMO_SESSION_AGE,
     clear_session_cookie,
@@ -13,7 +13,11 @@ from app.core.security import (
 )
 from app.models.user import User
 from app.schemas.auth import DemoBody, GoogleSignInBody, Me
-from app.services.auth import sign_in_google_user, verify_google_credential
+from app.services.auth import (
+    delete_account,
+    sign_in_google_user,
+    verify_google_credential,
+)
 from app.services.demo import create_demo_user
 
 router = APIRouter()
@@ -24,6 +28,7 @@ def google_sign_in(
     body: GoogleSignInBody,
     response: Response,
     session: Annotated[Session, Depends(get_db)],
+    _: Annotated[None, Depends(limit_google)],
 ) -> Me:
     claims = verify_google_credential(body.credential)
     user = sign_in_google_user(session, claims)
@@ -52,4 +57,14 @@ def me(user: Annotated[User, Depends(get_current_user)]) -> Me:
 # no valid session needed, so an expired cookie can still be cleared
 @router.post('/auth/logout', status_code=204)
 def logout(response: Response) -> None:
+    clear_session_cookie(response)
+
+
+@router.delete('/auth/account', status_code=204)
+def delete_my_account(
+    response: Response,
+    session: Annotated[Session, Depends(get_db)],
+    user: Annotated[User, Depends(get_current_user)],
+) -> None:
+    delete_account(session, user)
     clear_session_cookie(response)

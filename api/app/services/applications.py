@@ -4,9 +4,10 @@ import io
 import uuid
 
 from fastapi import HTTPException
-from sqlalchemy import or_, select
+from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session
 
+from app.core.settings import settings
 from app.models.application import Application
 from app.models.user import User
 from app.schemas.applications import ApplicationCreate, ApplicationUpdate
@@ -89,6 +90,20 @@ def get_application(
 def create_application(
     session: Session, user: User, body: ApplicationCreate
 ) -> Application:
+    limit = (
+        settings.demo_application_limit if user.is_demo else settings.application_limit
+    )
+    count = session.scalar(
+        select(func.count())
+        .select_from(Application)
+        .where(Application.user_id == user.id)
+    )
+    if count >= limit:
+        raise HTTPException(
+            status_code=429,
+            detail=f'This account can hold up to {limit} applications. '
+            'Delete some to add more.',
+        )
     values = body.model_dump()
     # JSONB cannot hold datetime objects, so store the JSON form
     values['sponsor_check'] = body.sponsor_check.model_dump(mode='json')

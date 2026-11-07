@@ -5,6 +5,7 @@ import {
   type SortingState,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
@@ -35,10 +36,16 @@ const WRAPPING = new Set(['company', 'location', 'channel'])
 
 export function ApplicationsTable({
   rows,
+  pageIndex,
+  pageSize,
+  onSortChange,
   onEdit,
   onCoverLetter,
 }: {
   rows: Application[]
+  pageIndex: number
+  pageSize: number
+  onSortChange: () => void
   onEdit: (row: Application) => void
   onCoverLetter: (row: Application) => void
 }) {
@@ -148,13 +155,20 @@ export function ApplicationsTable({
     [t, onEdit, onCoverLetter]
   )
 
+  // sorted before paginated, so page 2 continues the whole sorted list
   const table = useReactTable({
     data: rows,
     columns,
-    state: { sorting },
-    onSortingChange: setSorting,
+    state: { sorting, pagination: { pageIndex, pageSize } },
+    onSortingChange: (updater) => {
+      setSorting(updater)
+      onSortChange()
+    },
+    // the page is owned by the parent; editing a row must not jump to page 1
+    autoResetPageIndex: false,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   })
 
   return (

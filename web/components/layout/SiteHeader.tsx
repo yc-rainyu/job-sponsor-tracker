@@ -30,7 +30,7 @@ export function SiteHeader() {
   const signedOut = !isPending && !me
 
   return (
-    <header className="relative z-20 border-b border-border bg-background shadow-[0_2px_12px_oklch(0.3_0.03_260_/_0.16)] dark:shadow-[0_4px_20px_oklch(0_0_0_/_0.55)]">
+    <header className="relative z-20 border-b border-border bg-background shadow-[0_2px_12px_oklch(0.3_0.03_260_/_0.16)] md:sticky md:top-0 dark:shadow-[0_4px_20px_oklch(0_0_0_/_0.55)]">
       <div className="flex flex-wrap items-center md:h-14 md:flex-nowrap md:items-stretch">
         <div className="flex h-12 items-center gap-2 px-3 md:h-14 md:px-4 lg:px-6">
           <ThemeToggle />

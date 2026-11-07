@@ -25,6 +25,10 @@ class Settings(BaseSettings):
     search_rate_limit_per_minute: int = 60
     analyse_rate_limit_per_minute: int = 20
     demo_rate_limit_per_hour: int = 5
+    google_rate_limit_per_minute: int = 20
+    write_rate_limit_per_minute: int = 30
+    application_limit: int = 1000
+    demo_application_limit: int = 50
 
     @model_validator(mode='after')
     def _check_jwt_secret(self) -> Self:

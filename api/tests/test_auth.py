@@ -133,3 +133,25 @@ def test_logout_then_me_is_401(client, fake_google):
     assert response.content == b''
     assert 'Max-Age=0' in response.headers['set-cookie']
     assert client.get('/auth/me').status_code == 401
+
+
+def test_oversized_credential_is_rejected_before_google(client, monkeypatch):
+    def fail(*args, **kwargs):
+        raise AssertionError('should not reach Google verification')
+
+    monkeypatch.setattr(auth.id_token, 'verify_oauth2_token', fail)
+    response = client.post('/auth/google', json={'credential': 'x' * 4097})
+    assert response.status_code == 422
+
+
+def test_sign_in_attempts_are_limited_per_ip(client, fake_google, monkeypatch):
+    monkeypatch.setattr(settings, 'google_rate_limit_per_minute', 2)
+    for _ in range(2):
+        assert (
+            client.post('/auth/google', json={'credential': 'token'}).status_code == 200
+        )
+    response = client.post('/auth/google', json={'credential': 'token'})
+    assert response.status_code == 429
+    assert response.json() == {
+        'detail': 'Too many sign-in attempts. Try again in a minute.'
+    }

@@ -3,6 +3,10 @@ import type { Application } from '@/lib/api'
 export type ViewMode = 'table' | 'cards'
 export const VIEW_STORAGE_KEY = 'jst.applications.view'
 
+export const PAGE_SIZES = [25, 50, 100] as const
+export const DEFAULT_PAGE_SIZE = 50
+export const PAGE_SIZE_STORAGE_KEY = 'jst.applications.pageSize'
+
 export const STATUSES = [
   'draft',
   'applied',

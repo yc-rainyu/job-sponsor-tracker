@@ -58,3 +58,9 @@ def sign_in_google_user(session: Session, claims: Mapping[str, Any]) -> User:
     user.last_login_at = datetime.datetime.now(datetime.UTC)
     session.commit()
     return user
+
+
+def delete_account(session: Session, user: User) -> None:
+    # applications and auth_identities go with it through ON DELETE CASCADE
+    session.delete(user)
+    session.commit()

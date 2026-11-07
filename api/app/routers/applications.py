@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, Query, Response
 from sqlalchemy.orm import Session
 
 from app.core.deps import get_current_user, get_db
+from app.core.rate_limit import limit_writes
 from app.models.user import User
 from app.schemas.applications import (
     Application,
@@ -20,6 +21,7 @@ router = APIRouter()
 
 Db = Annotated[Session, Depends(get_db)]
 CurrentUser = Annotated[User, Depends(get_current_user)]
+WriteLimit = Annotated[None, Depends(limit_writes)]
 
 
 @router.get('/applications')
@@ -44,7 +46,7 @@ def list_applications(
 
 @router.post('/applications', status_code=201)
 def create_application(
-    body: ApplicationCreate, session: Db, user: CurrentUser
+    body: ApplicationCreate, session: Db, user: CurrentUser, _: WriteLimit
 ) -> Application:
     return Application.model_validate(
         applications.create_application(session, user, body)
@@ -95,6 +97,7 @@ def update_application(
     body: ApplicationUpdate,
     session: Db,
     user: CurrentUser,
+    _: WriteLimit,
 ) -> Application:
     return Application.model_validate(
         applications.update_application(session, user, application_id, body)

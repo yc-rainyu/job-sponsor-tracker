@@ -101,6 +101,10 @@ export async function logout() {
   await request('/auth/logout', { method: 'POST' })
 }
 
+export async function deleteAccount() {
+  await request('/auth/account', { method: 'DELETE' })
+}
+
 // the browser's local date, so "today" matches what the user sees
 export function localToday() {
   const now = new Date()

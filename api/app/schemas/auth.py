@@ -1,11 +1,13 @@
 import datetime
 import uuid
+from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class GoogleSignInBody(BaseModel):
-    credential: str
+    # well above any Google ID token, so it only stops oversized bodies
+    credential: Annotated[str, Field(max_length=4096)]
 
 
 class DemoBody(BaseModel):

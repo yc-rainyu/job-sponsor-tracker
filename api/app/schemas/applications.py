@@ -34,13 +34,14 @@ SkillName = Annotated[
 SkillList = Annotated[list[SkillName], Field(max_length=50)]
 
 
+# built by the browser, so bound it like any other user input
 class SponsorCheck(BaseModel):
     status: SponsorStatus
-    sponsor_id: int | None = None
-    registered_name: str | None = None
-    town: str | None = None
+    sponsor_id: Annotated[int, Field(ge=1)] | None = None
+    registered_name: Short | None = None
+    town: Annotated[str, Field(max_length=200)] | None = None
     match_type: Literal['exact', 'alias', 'trading_name', 'word', 'fuzzy'] | None = None
-    score: float | None = None
+    score: Annotated[float, Field(ge=0, le=1)] | None = None
     has_skilled_worker: bool | None = None
     rating: Literal['A', 'B'] | None = None
     checked_at: datetime.datetime | None = None
