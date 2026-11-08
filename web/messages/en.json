@@ -5,7 +5,8 @@
     "sponsors": "Sponsors",
     "analyse": "Analyse",
     "themeToDark": "Switch to dark theme",
-    "themeToLight": "Switch to light theme"
+    "themeToLight": "Switch to light theme",
+    "applications": "Applications"
   },
   "Sponsors": {
     "title": "Sponsors",
@@ -22,11 +23,15 @@
     "ratingA": "A rating",
     "ratingB": "B rating",
     "ratingBHint": "B rating: cannot issue new certificates of sponsorship until it improves.",
-    "ratingUnknown": "Rating not listed",
+    "ratingUnknown": "Rating not listed"
+  },
+  "Pagination": {
     "previous": "Previous",
     "next": "Next",
     "pages": "Pages",
-    "pageNumber": "Page {page}"
+    "pageNumber": "Page {page}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page"
   },
   "Analyse": {
     "title": "Analyse",
@@ -61,13 +66,275 @@
       "remote": "Remote",
       "hybrid": "Hybrid",
       "onsite": "On-site"
-    }
+    },
+    "saveToTracker": "Save to tracker",
+    "signInToSave": "Sign in to save this to your tracker.",
+    "savedToast": "Saved to your tracker.",
+    "savedToastAction": "View applications"
   },
   "Footer": {
     "registerDate": "Register published {date}",
     "ogl": "Contains public sector information licensed under the",
     "oglLink": "Open Government Licence v3.0",
     "disclaimer": "Not affiliated with the Home Office. Not immigration advice.",
-    "github": "GitHub"
+    "github": "GitHub",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "Auth": {
+    "account": "Account menu",
+    "signOut": "Sign out",
+    "signInError": "Sign-in failed. Try again.",
+    "signOutError": "Could not sign out. Try again.",
+    "meError": "Could not check your sign-in. Reload the page.",
+    "tryDemo": "Try the demo",
+    "demoError": "Could not start the demo. Try again in a minute.",
+    "demoAccount": "Demo account",
+    "endDemo": "End demo",
+    "deleteAccount": "Delete my account",
+    "deleteDialog": {
+      "title": "Delete your account?",
+      "description": "Your account and all your applications are deleted right away. This cannot be undone. If you want a copy, use Export CSV on the Applications page first.",
+      "confirm": "Delete account",
+      "cancel": "Keep my account",
+      "error": "Could not delete your account. Try again."
+    },
+    "accountDeleted": "Your account and applications were deleted."
+  },
+  "Applications": {
+    "title": "Applications",
+    "lead": "Track the jobs you have applied for.",
+    "empty": "No applications yet. Add your first one.",
+    "loadError": "Could not load your applications. Reload the page.",
+    "count": "{count, plural, one {# application} other {# applications}}",
+    "noDate": "No date",
+    "columns": {
+      "applied": "Applied",
+      "company": "Company",
+      "role": "Role",
+      "country": "Country",
+      "status": "Status",
+      "sponsor": "Visa sponsor",
+      "location": "Location",
+      "channel": "Channel",
+      "salary": "Salary stated",
+      "days": "Days"
+    },
+    "country": {
+      "UK": "UK",
+      "TW": "Taiwan",
+      "NL": "Netherlands",
+      "US": "US",
+      "other": "Other"
+    },
+    "status": {
+      "draft": "Draft",
+      "applied": "Applied",
+      "interviewing": "Interviewing",
+      "offer": "Offer",
+      "rejected": "Rejected",
+      "withdrawn": "Withdrawn",
+      "no_response": "No response"
+    },
+    "sponsor": {
+      "on_list": "Licensed sponsor",
+      "not_found": "Not on the register",
+      "agency": "Via agency",
+      "not_applicable": "Not applicable",
+      "unchecked": "Not checked"
+    },
+    "today": "{count} today",
+    "search": "Search company, role, notes",
+    "filters": {
+      "country": "Country",
+      "status": "Status",
+      "sponsor": "Visa sponsor",
+      "all": "All",
+      "noDate": "No date"
+    },
+    "sponsorHelp": "Licensed sponsor means the company is on the UK register of licensed sponsors for Skilled Worker visas, as of the register date. It is not a promise of sponsorship.",
+    "view": {
+      "label": "View",
+      "table": "Table",
+      "cards": "Cards"
+    },
+    "noMatch": "No applications match these filters.",
+    "clearFilters": "Clear filters",
+    "days": "{count, plural, =0 {Today} one {# day} other {# days}}",
+    "coverLetter": "Cover letter",
+    "coverLetterTitle": "Cover letter sent",
+    "next": "Next: {step}",
+    "sortBy": "Sort by {column}",
+    "workMode": {
+      "onsite": "On-site",
+      "hybrid": "Hybrid",
+      "remote": "Remote",
+      "unknown": "Not stated"
+    },
+    "channel": {
+      "company_site": "Company site",
+      "linkedin_easy_apply": "LinkedIn Easy Apply",
+      "job_board_104": "104",
+      "job_board_cake": "Cake",
+      "agency": "Agency",
+      "email": "Email",
+      "other": "Other"
+    },
+    "demoNotice": "Demo account. Data is deleted after 24 hours.",
+    "add": "Add application",
+    "export": "Export CSV",
+    "edit": "Edit",
+    "changeStatus": "Change status",
+    "coverLetterOpen": "Open cover letter",
+    "form": {
+      "addTitle": "Add application",
+      "editTitle": "Edit application",
+      "addDescription": "Record a job you applied for.",
+      "appliedOn": "Applied on",
+      "approx": "Date is approximate",
+      "country": "Country",
+      "company": "Company",
+      "companyPlaceholder": "Company name",
+      "companyHint": "Type two or more letters to see matches on the UK sponsor register. Pick one to record it as a licensed sponsor.",
+      "suggestions": "Register matches",
+      "searching": "Searching the register…",
+      "noMatches": "No matches on the register. You can still save the name as typed.",
+      "rating": "Rating {rating}",
+      "skilledWorker": "Skilled Worker",
+      "matched": "Licensed sponsor: {name}",
+      "clearMatch": "Clear",
+      "role": "Role",
+      "location": "Location",
+      "locationPlaceholder": "City or area",
+      "workMode": "Work mode",
+      "channel": "Applied via",
+      "status": "Status",
+      "sponsor": "Visa sponsor",
+      "sponsorHint": "Licensed sponsor is set by picking a company from the register matches above.",
+      "salary": "Salary stated",
+      "salaryPlaceholder": "What you told them, e.g. £65,000",
+      "jobUrl": "Job URL",
+      "nextStep": "Next step",
+      "nextStepPlaceholder": "e.g. Technical interview",
+      "nextStepAt": "When",
+      "coverLetter": "Cover letter",
+      "coverLetterPlaceholder": "Paste the cover letter you sent. Leave empty if you did not send one.",
+      "notes": "Notes",
+      "notesPlaceholder": "Anything worth remembering about this role",
+      "save": "Save application",
+      "create": "Add application",
+      "cancel": "Cancel",
+      "delete": "Delete this application",
+      "saveError": "Could not save. Check the fields and try again.",
+      "errors": {
+        "required": "Required",
+        "tooLong": "Keep it under {max} characters",
+        "tooMany": "Keep it to {max} or fewer"
+      },
+      "jobDescription": "Job description",
+      "jobDescriptionAdd": "Add job description",
+      "jobDescriptionEdit": "Edit",
+      "skills": "Skills",
+      "skillsHint": "Type a skill and press Enter, or separate several with commas.",
+      "skillsRequired": "Required",
+      "skillsNice": "Nice to have",
+      "skillPlaceholder": "Add a skill",
+      "skillRemove": "Remove {skill}",
+      "skillAdd": "Add skill",
+      "jobDescriptionAttached": "Attached"
+    },
+    "deleteDialog": {
+      "title": "Delete this application?",
+      "description": "{company} · {role} will be removed. This cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Keep it"
+    },
+    "coverLetterSheet": {
+      "title": "Cover letter",
+      "save": "Save cover letter",
+      "saveError": "Could not save the cover letter. Try again."
+    },
+    "toasts": {
+      "statusError": "Could not change the status. Try again.",
+      "deleteError": "Could not delete this application. Try again."
+    },
+    "jobDescriptionSheet": {
+      "title": "Job description",
+      "placeholder": "Paste the job description",
+      "charCount": "{count, number} / 20,000",
+      "save": "Save job description",
+      "saveError": "Could not save the job description. Try again."
+    },
+    "skillsCount": "{count, plural, one {# skill} other {# skills}}",
+    "skillsOpen": "Show skills",
+    "range": "{from}–{to} of {total}",
+    "perPage": "Per page"
+  },
+  "Privacy": {
+    "title": "Privacy",
+    "lead": "What this site stores about you, and how to delete it. Last updated 8 November 2026.",
+    "stored": {
+      "title": "What is stored",
+      "account": "When you sign in with Google: your email address, name, profile picture link and Google account ID, plus when you signed up and last signed in. Nothing else is requested from Google.",
+      "tracker": "What you enter in the tracker: applications, notes, cover letters, skills and any job descriptions you save with them."
+    },
+    "notStored": {
+      "title": "What is not stored",
+      "analyse": "Job descriptions you analyse without saving. They are checked and discarded, and never written to the logs.",
+      "tracking": "No ads, no analytics and no tracking cookies. Your data is not sold or shared."
+    },
+    "browser": {
+      "title": "Cookies and browser storage",
+      "session": "One cookie, <code>session</code>, keeps you signed in for 7 days (24 hours for a demo). Scripts on the page cannot read it.",
+      "local": "Your theme and your table or cards choice are saved in your browser and never sent to the server.",
+      "google": "The Google sign-in button is loaded from Google, and Google's own privacy policy covers it."
+    },
+    "where": {
+      "title": "Where it is kept",
+      "hosting": "The website runs on Vercel. The database runs on a server in AWS's London region.",
+      "backups": "The database is backed up every night. Backups are kept in AWS storage in London for 30 days.",
+      "logs": "Vercel and the server keep short-term request logs, including IP addresses, to keep the site running and limit abuse."
+    },
+    "delete": {
+      "title": "Deleting your data",
+      "how": "Open the account menu (your picture, top right) and choose Delete my account. Your account, its Google sign-in link and all your applications are deleted straight away.",
+      "backups": "Copies in the nightly backups disappear within 30 days, when those backups expire.",
+      "export": "Want a copy first? Use Export CSV on the Applications page.",
+      "demo": "Demo accounts and their data are deleted automatically after 24 hours."
+    },
+    "sources": {
+      "title": "Where the public data comes from",
+      "register": "Sponsor data is the Home Office <register>register of licensed sponsors</register>, published on GOV.UK under the Open Government Licence v3.0. The date of the copy in use is shown at the bottom of every page.",
+      "demo": "Demo applications are made up. The company names come from the public register."
+    },
+    "contact": {
+      "title": "Questions",
+      "github": "Open an issue on <issues>GitHub</issues>. Issues are public, so leave personal details out."
+    }
+  },
+  "Terms": {
+    "title": "Terms",
+    "lead": "The rules for using this site, in short. Last updated 8 November 2026.",
+    "advice": {
+      "title": "Not immigration advice",
+      "info": "This site organises public information. It is not legal or immigration advice, and it does not tell you whether you can get a visa.",
+      "adviser": "For advice about your own situation, talk to a regulated immigration adviser or solicitor."
+    },
+    "guarantees": {
+      "title": "No guarantees",
+      "register": "A company on the register holds a sponsor licence. That does not mean it will sponsor a particular job. A company missing from the register may still be able to sponsor, for example under a parent company or another legal name.",
+      "date": "The register shown is a copy from the date at the bottom of the page. Check <register>GOV.UK</register> for the latest version.",
+      "analysis": "Job description analysis is automated and can be wrong. Read the original text before you rely on it.",
+      "service": "The site is provided as is. It may change, have outages or close."
+    },
+    "account": {
+      "title": "Your account",
+      "delete": "You can delete your account at any time from the account menu. <privacy>Privacy</privacy> explains what is stored and what deleting removes.",
+      "use": "Do not use the site to break the law, overload it or collect its data automatically. Requests are rate limited."
+    },
+    "licence": {
+      "title": "Licence",
+      "data": "Register data is used under the Open Government Licence v3.0. The code is open source under the MIT licence on <github>GitHub</github>."
+    }
   }
 }

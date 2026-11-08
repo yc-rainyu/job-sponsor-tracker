@@ -1,3 +1,7 @@
 {$SITE_ADDRESS} {
+	# uvicorn accepts any body size and pydantic checks lengths only after parsing
+	request_body {
+		max_size 1MB
+	}
 	reverse_proxy api:8000
 }

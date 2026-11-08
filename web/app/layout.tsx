@@ -32,7 +32,12 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn('font-sans antialiased', inter.variable, fontMono.variable)}
+      className={cn(
+        // room for the sticky header when focus or scrollIntoView moves the page
+        'font-sans antialiased md:scroll-pt-16',
+        inter.variable,
+        fontMono.variable
+      )}
     >
       <body>
         <ThemeProvider>

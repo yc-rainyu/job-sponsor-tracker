@@ -31,5 +31,8 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 USER app
 
+ARG GIT_SHA=dev
+ENV GIT_SHA=$GIT_SHA
+
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

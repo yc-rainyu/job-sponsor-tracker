@@ -18,6 +18,8 @@ if 'DATABASE_URL' not in os.environ and _env_file.is_file():
 os.environ['DATABASE_URL'] = os.environ['DATABASE_URL'].rsplit('/', 1)[0] + '/jst_test'
 os.environ['APP_ENV'] = 'test'
 
+os.environ['JWT_SECRET'] = 'test-only-secret-that-is-at-least-32-chars'
+
 from app.core.deps import get_db  # noqa: E402
 from app.core.rate_limit import reset  # noqa: E402
 from app.db.engine import engine  # noqa: E402
@@ -68,7 +70,7 @@ def client(session):
         yield session
 
     app.dependency_overrides[get_db] = _get_db
-    with TestClient(app) as test_client:
+    with TestClient(app, base_url='https://testserver') as test_client:
         yield test_client
     app.dependency_overrides.clear()
 

@@ -3,8 +3,6 @@
 import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes'
 import { useEffect, type ComponentProps } from 'react'
 
-import { revealThemeChange } from '@/lib/revealTheme'
-
 const TYPING_TAGS = ['INPUT', 'TEXTAREA', 'SELECT']
 
 export function ThemeProvider({
@@ -49,7 +47,7 @@ function ThemeHotkey() {
       ) {
         return
       }
-      revealThemeChange(resolvedTheme === 'dark' ? 'light' : 'dark', setTheme)
+      setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
     }
 
     window.addEventListener('keydown', onKeyDown)

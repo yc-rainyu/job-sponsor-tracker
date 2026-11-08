@@ -1,11 +1,14 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
 import { getRegisterInfo } from '@/lib/api'
+import { GITHUB_URL } from '@/lib/links'
 
-const GITHUB_URL = 'https://github.com/yc-rainyu/job-sponsor-tracker'
+const LINK =
+  'underline outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/30'
 const OGL_URL =
   'https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/'
 
@@ -30,10 +33,7 @@ export function SiteFooter() {
         <div className="flex max-w-xl flex-col gap-1">
           <p>
             {t('ogl')}{' '}
-            <a
-              href={OGL_URL}
-              className="underline outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/30"
-            >
+            <a href={OGL_URL} className={LINK}>
               {t('oglLink')}
             </a>
             .
@@ -46,12 +46,17 @@ export function SiteFooter() {
               {t('registerDate', { date: publishedLabel })}
             </p>
           ) : null}
-          <a
-            href={GITHUB_URL}
-            className="underline outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/30"
-          >
-            {t('github')}
-          </a>
+          <div className="flex gap-4">
+            <Link href="/privacy" className={LINK}>
+              {t('privacy')}
+            </Link>
+            <Link href="/terms" className={LINK}>
+              {t('terms')}
+            </Link>
+            <a href={GITHUB_URL} className={LINK}>
+              {t('github')}
+            </a>
+          </div>
         </div>
       </div>
     </footer>

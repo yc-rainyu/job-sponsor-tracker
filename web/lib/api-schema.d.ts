@@ -72,6 +72,145 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/google": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Google Sign In */
+        post: operations["google_sign_in_auth_google_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/demo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Demo Sign In */
+        post: operations["demo_sign_in_auth_demo_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Me */
+        get: operations["me_auth_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Logout */
+        post: operations["logout_auth_logout_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete My Account */
+        delete: operations["delete_my_account_auth_account_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Applications */
+        get: operations["list_applications_applications_get"];
+        put?: never;
+        /** Create Application */
+        post: operations["create_application_applications_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/export.csv": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Export Applications */
+        get: operations["export_applications_applications_export_csv_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/applications/{application_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Application */
+        get: operations["get_application_applications__application_id__get"];
+        put?: never;
+        post?: never;
+        /** Delete Application */
+        delete: operations["delete_application_applications__application_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Application */
+        patch: operations["update_application_applications__application_id__patch"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -94,6 +233,200 @@ export interface components {
             /** Company Matches */
             company_matches: components["schemas"]["SponsorResult"][];
         };
+        /** Analysis */
+        Analysis: {
+            /** Visa */
+            visa: ("declines" | "requires_rtw" | "offers" | "mentions") | "none";
+            salary?: components["schemas"]["Salary"] | null;
+            /** Work Mode */
+            work_mode?: ("remote" | "hybrid" | "onsite") | null;
+            experience_years?: components["schemas"]["Experience"] | null;
+        };
+        /** Application */
+        Application: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Applied On */
+            applied_on: string | null;
+            /** Is Approx */
+            is_approx: boolean;
+            /**
+             * Country
+             * @enum {string}
+             */
+            country: "UK" | "TW" | "NL" | "US" | "other";
+            /** Company */
+            company: string;
+            /** Role */
+            role: string;
+            /** Location */
+            location: string | null;
+            /**
+             * Work Mode
+             * @enum {string}
+             */
+            work_mode: "onsite" | "hybrid" | "remote" | "unknown";
+            /**
+             * Channel
+             * @enum {string}
+             */
+            channel: "company_site" | "linkedin_easy_apply" | "job_board_104" | "job_board_cake" | "agency" | "email" | "other";
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "draft" | "applied" | "interviewing" | "offer" | "rejected" | "withdrawn" | "no_response";
+            /**
+             * Status Changed At
+             * Format: date-time
+             */
+            status_changed_at: string;
+            /** Salary Stated */
+            salary_stated: string | null;
+            /** Cover Letter */
+            cover_letter: string;
+            /** Notes */
+            notes: string | null;
+            /** Job Url */
+            job_url: string | null;
+            /** Jd Text */
+            jd_text: string | null;
+            /** Next Step */
+            next_step: string | null;
+            /** Next Step At */
+            next_step_at: string | null;
+            sponsor_check: components["schemas"]["SponsorCheck"];
+            skills: components["schemas"]["ApplicationSkills"];
+            analysis: components["schemas"]["Analysis"] | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** ApplicationCreate */
+        ApplicationCreate: {
+            /** Company */
+            company: string;
+            /** Role */
+            role: string;
+            /**
+             * Country
+             * @enum {string}
+             */
+            country: "UK" | "TW" | "NL" | "US" | "other";
+            /** Applied On */
+            applied_on?: string | null;
+            /**
+             * Is Approx
+             * @default false
+             */
+            is_approx: boolean;
+            /** Location */
+            location?: string | null;
+            /**
+             * Work Mode
+             * @default unknown
+             * @enum {string}
+             */
+            work_mode: "onsite" | "hybrid" | "remote" | "unknown";
+            /**
+             * Channel
+             * @default other
+             * @enum {string}
+             */
+            channel: "company_site" | "linkedin_easy_apply" | "job_board_104" | "job_board_cake" | "agency" | "email" | "other";
+            /**
+             * Status
+             * @default applied
+             * @enum {string}
+             */
+            status: "draft" | "applied" | "interviewing" | "offer" | "rejected" | "withdrawn" | "no_response";
+            /** Salary Stated */
+            salary_stated?: string | null;
+            /**
+             * Cover Letter
+             * @default
+             */
+            cover_letter: string;
+            /** Notes */
+            notes?: string | null;
+            /** Job Url */
+            job_url?: string | null;
+            /** Jd Text */
+            jd_text?: string | null;
+            /** Next Step */
+            next_step?: string | null;
+            /** Next Step At */
+            next_step_at?: string | null;
+            sponsor_check?: components["schemas"]["SponsorCheck"];
+            skills?: components["schemas"]["ApplicationSkills"];
+            analysis?: components["schemas"]["Analysis"] | null;
+        };
+        /** ApplicationSkills */
+        ApplicationSkills: {
+            /**
+             * Required
+             * @default []
+             */
+            required: string[];
+            /**
+             * Nice To Have
+             * @default []
+             */
+            nice_to_have: string[];
+        };
+        /** ApplicationUpdate */
+        ApplicationUpdate: {
+            /** Company */
+            company?: string | null;
+            /** Role */
+            role?: string | null;
+            /** Country */
+            country?: ("UK" | "TW" | "NL" | "US" | "other") | null;
+            /** Applied On */
+            applied_on?: string | null;
+            /** Is Approx */
+            is_approx?: boolean | null;
+            /** Location */
+            location?: string | null;
+            /** Work Mode */
+            work_mode?: ("onsite" | "hybrid" | "remote" | "unknown") | null;
+            /** Channel */
+            channel?: ("company_site" | "linkedin_easy_apply" | "job_board_104" | "job_board_cake" | "agency" | "email" | "other") | null;
+            /** Status */
+            status?: ("draft" | "applied" | "interviewing" | "offer" | "rejected" | "withdrawn" | "no_response") | null;
+            /** Salary Stated */
+            salary_stated?: string | null;
+            /** Cover Letter */
+            cover_letter?: string | null;
+            /** Notes */
+            notes?: string | null;
+            /** Job Url */
+            job_url?: string | null;
+            /** Jd Text */
+            jd_text?: string | null;
+            /** Next Step */
+            next_step?: string | null;
+            /** Next Step At */
+            next_step_at?: string | null;
+            sponsor_check?: components["schemas"]["SponsorCheck"] | null;
+            skills?: components["schemas"]["ApplicationSkills"] | null;
+            analysis?: components["schemas"]["Analysis"] | null;
+        };
+        /** DemoBody */
+        DemoBody: {
+            /** Today */
+            today?: string | null;
+        };
         /** Experience */
         Experience: {
             /** Min */
@@ -102,6 +435,11 @@ export interface components {
             max: number | null;
             /** Raw */
             raw: string;
+        };
+        /** GoogleSignInBody */
+        GoogleSignInBody: {
+            /** Credential */
+            credential: string;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -122,6 +460,24 @@ export interface components {
             db: "ok";
             /** Version */
             version: string;
+            /** Commit */
+            commit: string;
+        };
+        /** Me */
+        Me: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Email */
+            email: string | null;
+            /** Display Name */
+            display_name: string | null;
+            /** Avatar Url */
+            avatar_url: string | null;
+            /** Is Demo */
+            is_demo: boolean;
         };
         /** RegisterInfo */
         RegisterInfo: {
@@ -159,6 +515,32 @@ export interface components {
             nice_to_have: string[];
             /** Mentioned */
             mentioned: string[];
+        };
+        /** SponsorCheck */
+        SponsorCheck: {
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "on_list" | "not_found" | "agency" | "not_applicable" | "unchecked";
+            /** Sponsor Id */
+            sponsor_id?: number | null;
+            /** Registered Name */
+            registered_name?: string | null;
+            /** Town */
+            town?: string | null;
+            /** Match Type */
+            match_type?: ("exact" | "alias" | "trading_name" | "word" | "fuzzy") | null;
+            /** Score */
+            score?: number | null;
+            /** Has Skilled Worker */
+            has_skilled_worker?: boolean | null;
+            /** Rating */
+            rating?: ("A" | "B") | null;
+            /** Checked At */
+            checked_at?: string | null;
+            /** Register Published On */
+            register_published_on?: string | null;
         };
         /** SponsorResult */
         SponsorResult: {
@@ -316,6 +698,358 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AnalyseResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    google_sign_in_auth_google_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GoogleSignInBody"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Me"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    demo_sign_in_auth_demo_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["DemoBody"] | null;
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Me"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    me_auth_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Me"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    logout_auth_logout_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_my_account_auth_account_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_applications_applications_get: {
+        parameters: {
+            query?: {
+                country?: ("UK" | "TW" | "NL" | "US" | "other") | null;
+                status?: ("draft" | "applied" | "interviewing" | "offer" | "rejected" | "withdrawn" | "no_response") | null;
+                sponsor_status?: ("on_list" | "not_found" | "agency" | "not_applicable" | "unchecked") | null;
+                q?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Application"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_application_applications_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Application"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    export_applications_applications_export_csv_get: {
+        parameters: {
+            query?: {
+                country?: ("UK" | "TW" | "NL" | "US" | "other") | null;
+                status?: ("draft" | "applied" | "interviewing" | "offer" | "rejected" | "withdrawn" | "no_response") | null;
+                sponsor_status?: ("on_list" | "not_found" | "agency" | "not_applicable" | "unchecked") | null;
+                q?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_application_applications__application_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                application_id: string;
+            };
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Application"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_application_applications__application_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                application_id: string;
+            };
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_application_applications__application_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                application_id: string;
+            };
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplicationUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Application"];
                 };
             };
             /** @description Validation Error */

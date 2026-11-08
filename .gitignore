@@ -8,3 +8,15 @@ __pycache__/
 .ruff_cache/
 node_modules/
 .next/
+
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+*.dump
+backup-*.sql
+
+web/test-results/
+web/playwright-report/

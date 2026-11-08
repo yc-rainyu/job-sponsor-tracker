@@ -1,0 +1,1005 @@
+[
+  {
+    "company": "Monzo",
+    "role": "Backend Engineer (Python)",
+    "country": "UK",
+    "applied_on": "2026-11-05",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": "£75,000",
+    "cover_letter": "Dear hiring team,\n\nI am applying for the Backend Engineer (Python) role. For the past three years I have built payment and ledger services in Python on PostgreSQL, most recently moving a batch settlement job to an event-driven design that cut end-of-day processing from forty minutes to under five.\n\nWhat draws me to Monzo is the engineering writing you publish on reliability and on-call. I care about the unglamorous parts: idempotent handlers, clear runbooks and dashboards that tell you what broke before a customer does.\n\nI hold a Skilled Worker visa and would need sponsorship to continue working in the UK. I would be glad to walk through my settlement project in more detail.\n\nKind regards",
+    "notes": "Applied through the careers page. Role sits in the payments platform team.",
+    "job_url": "https://monzo.com/careers",
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Monzo Bank Ltd",
+      "town": "London",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "PostgreSQL",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Kubernetes",
+        "Kafka"
+      ]
+    }
+  },
+  {
+    "company": "Capital One",
+    "role": "Software Engineer, Full Stack",
+    "country": "UK",
+    "applied_on": "2026-11-04",
+    "is_approx": false,
+    "location": "Nottingham",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Have not checked the register for this one yet.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "unchecked"
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "React",
+        "TypeScript"
+      ],
+      "nice_to_have": [
+        "AWS"
+      ]
+    }
+  },
+  {
+    "company": "Revolut",
+    "role": "Software Engineer, Backend",
+    "country": "UK",
+    "applied_on": "2026-11-03",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "onsite",
+    "channel": "linkedin_easy_apply",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Easy Apply. Expect an online assessment first.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Revolut Ltd",
+      "town": "London",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Kotlin",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "Kafka"
+      ]
+    }
+  },
+  {
+    "company": "Wise",
+    "role": "Full Stack Engineer",
+    "country": "UK",
+    "applied_on": "2026-11-01",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "interviewing",
+    "salary_stated": "£70,000",
+    "cover_letter": "Hello,\n\nI would like to be considered for the Full Stack Engineer position. I work across the stack every day: TypeScript and React on the front end, Python services behind them, and the PostgreSQL schemas underneath.\n\nLast year I led a small team that rebuilt an onboarding flow used by two hundred thousand people a month. We shipped it in slices behind feature flags, measured drop-off at every step and brought completion up by eleven points.\n\nWise's mission of cheap, transparent transfers is something I have used personally since moving countries, so I would be building something I already believe in.\n\nBest regards",
+    "notes": "Recruiter screen done. Technical interview next week.",
+    "job_url": "https://wise.jobs",
+    "next_step": "Technical interview (pair programming)",
+    "next_step_at": "2026-11-10T14:00:00Z",
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Wise Payments Limited",
+      "town": "London",
+      "match_type": "alias",
+      "score": 0.98,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Spring",
+        "React"
+      ],
+      "nice_to_have": [
+        "Kubernetes"
+      ]
+    }
+  },
+  {
+    "company": "Octopus Energy",
+    "role": "Software Engineer (Kraken)",
+    "country": "UK",
+    "applied_on": "2026-10-30",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Kraken platform team, Python and Django.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Octopus Energy Limited",
+      "town": "London",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "React",
+        "GraphQL"
+      ]
+    }
+  },
+  {
+    "company": "Undisclosed hedge fund (via recruiter)",
+    "role": "Python Developer, Trading Systems",
+    "country": "UK",
+    "applied_on": "2026-10-29",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "onsite",
+    "channel": "agency",
+    "status": "interviewing",
+    "salary_stated": "£90,000",
+    "cover_letter": "",
+    "notes": "Recruiter would not name the firm until the first interview.",
+    "job_url": null,
+    "next_step": "First interview with hiring manager",
+    "next_step_at": "2026-11-08T16:00:00Z",
+    "sponsor_check": {
+      "status": "agency"
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "SQL",
+        "Linux"
+      ],
+      "nice_to_have": [
+        "C#"
+      ]
+    }
+  },
+  {
+    "company": "Starling Bank",
+    "role": "Backend Engineer (Java/Kotlin)",
+    "country": "UK",
+    "applied_on": "2026-10-28",
+    "is_approx": false,
+    "location": "Southampton",
+    "work_mode": "onsite",
+    "channel": "company_site",
+    "status": "rejected",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Rejected at CV stage, no feedback.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "STARLING BANK LIMITED",
+      "town": "London",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Kotlin",
+        "Spring"
+      ],
+      "nice_to_have": [
+        "GCP"
+      ]
+    }
+  },
+  {
+    "company": "Deliveroo",
+    "role": "Software Engineer II, Consumer",
+    "country": "UK",
+    "applied_on": "2026-10-27",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "hybrid",
+    "channel": "linkedin_easy_apply",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": null,
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Roofoods Ltd t/a Deliveroo",
+      "town": "London",
+      "match_type": "exact",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Go",
+        "Python",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Kubernetes"
+      ]
+    }
+  },
+  {
+    "company": "Northwind Analytics",
+    "role": "Full Stack Engineer",
+    "country": "UK",
+    "applied_on": "2026-10-25",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "remote",
+    "channel": "linkedin_easy_apply",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Small startup, not on the register. Asked about sponsorship in the application form.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_found"
+    },
+    "skills": {
+      "required": [
+        "TypeScript",
+        "Next.js",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "Docker",
+        "Playwright"
+      ]
+    }
+  },
+  {
+    "company": "Ocado Technology",
+    "role": "Python Developer",
+    "country": "UK",
+    "applied_on": "2026-10-24",
+    "is_approx": false,
+    "location": "Hatfield",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "no_response",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "No reply after three weeks.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Ocado Central Services Limited",
+      "town": "Hatfield",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Linux"
+      ],
+      "nice_to_have": [
+        "Docker",
+        "Kubernetes"
+      ]
+    }
+  },
+  {
+    "company": "Accenture",
+    "role": "Full Stack Developer",
+    "country": "UK",
+    "applied_on": "2026-10-20",
+    "is_approx": false,
+    "location": "Manchester",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "rejected",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Automated rejection two days later.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Accenture (UK) Limited",
+      "town": "London",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "JavaScript",
+        "React",
+        "Node.js"
+      ],
+      "nice_to_have": [
+        "Azure"
+      ]
+    }
+  },
+  {
+    "company": "Brightline Robotics",
+    "role": "Software Engineer",
+    "country": "UK",
+    "applied_on": "2026-10-19",
+    "is_approx": false,
+    "location": "Bristol",
+    "work_mode": "onsite",
+    "channel": "company_site",
+    "status": "rejected",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Not on the register. Rejected: no sponsorship available.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_found"
+    }
+  },
+  {
+    "company": "Google",
+    "role": "Software Engineer, Early Career",
+    "country": "UK",
+    "applied_on": "2026-10-18",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "onsite",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Long shot. Online assessment invitation pending.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Google (UK) Limited",
+      "town": "London",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    }
+  },
+  {
+    "company": "Arm",
+    "role": "Software Engineer, Developer Tools",
+    "country": "UK",
+    "applied_on": "2026-10-16",
+    "is_approx": false,
+    "location": "Cambridge",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "interviewing",
+    "salary_stated": "£62,000",
+    "cover_letter": "Dear Developer Tools team,\n\nI am writing about the Software Engineer, Developer Tools opening in Cambridge. I enjoy building the tools other engineers rely on: internal CLIs, build caches, CI pipelines and the documentation that makes them usable.\n\nIn my current role I own a Python-based build orchestration tool used by sixty developers. I added incremental caching that halved median CI time and wrote the migration guide that got every team onto it within a quarter.\n\nI would value the chance to work on tooling for a platform as widely used as Arm's.\n\nYours sincerely",
+    "notes": "First-round interview went well. Waiting to hear about an on-site.",
+    "job_url": null,
+    "next_step": "On-site loop",
+    "next_step_at": "2026-11-12T10:00:00Z",
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Arm Limited",
+      "town": "Cambridge",
+      "match_type": "alias",
+      "score": 0.98,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Linux",
+        "Git"
+      ],
+      "nice_to_have": [
+        "Rust"
+      ]
+    }
+  },
+  {
+    "company": "Thoughtworks",
+    "role": "Developer Consultant",
+    "country": "UK",
+    "applied_on": "2026-10-08",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "hybrid",
+    "channel": "email",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "Dear Thoughtworks,\n\nI am applying for the Developer Consultant role. My background is product engineering in Python and TypeScript, and the part of the job I like most is working directly with the people who will use what we build.\n\nI pair most days, practise TDD by default and have run mob sessions to onboard new joiners. On my last project I helped a client team move from quarterly releases to weekly ones by introducing trunk-based development and a thin slice of end-to-end tests.\n\nConsulting appeals to me because every engagement is a new domain to learn quickly and a new team to leave in better shape.\n\nKind regards",
+    "notes": "Referred by a former colleague. Sent CV by email.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "ThoughtWorks Ltd",
+      "town": "London",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "TDD",
+        "Agile"
+      ],
+      "nice_to_have": [
+        "Kotlin"
+      ]
+    }
+  },
+  {
+    "company": "Cleo",
+    "role": "Backend Engineer (Python)",
+    "country": "UK",
+    "applied_on": "2026-10-06",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "remote",
+    "channel": "company_site",
+    "status": "rejected",
+    "salary_stated": "£80,000",
+    "cover_letter": "",
+    "notes": "Take-home submitted. Rejected after review.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Cleo AI Ltd",
+      "town": "London",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "LLM",
+        "Redis"
+      ]
+    }
+  },
+  {
+    "company": "Skyscanner",
+    "role": "Software Engineer, Flights",
+    "country": "UK",
+    "applied_on": "2026-09-30",
+    "is_approx": false,
+    "location": "Edinburgh",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "offer",
+    "salary_stated": "£68,000",
+    "cover_letter": "Dear hiring manager,\n\nI am applying for the Software Engineer position on the Flights team in Edinburgh. I have spent the last four years on high-traffic search and pricing systems in Python and Java, where latency budgets are measured in tens of milliseconds and correctness is measured in money.\n\nA recent project of mine replaced a nightly fare cache with a streaming update pipeline, which removed a class of stale-price complaints and simplified the on-call rota.\n\nI would be happy to talk through how I approach caching, partial failures and testing against flaky upstream providers.\n\nBest regards",
+    "notes": "Verbal offer received. Written offer expected this week.",
+    "job_url": null,
+    "next_step": "Review written offer",
+    "next_step_at": "2026-11-07T09:00:00Z",
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Skyscanner Limited",
+      "town": "Edinburgh",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Python",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Kubernetes"
+      ]
+    }
+  },
+  {
+    "company": "BBC",
+    "role": "Software Engineer, iPlayer",
+    "country": "UK",
+    "applied_on": "2026-09-26",
+    "is_approx": false,
+    "location": "Salford",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "On the register but without a Skilled Worker route. Ask about sponsorship early.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "BBC",
+      "town": "Salford",
+      "match_type": "exact",
+      "score": 1.0,
+      "has_skilled_worker": false,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    }
+  },
+  {
+    "company": "Sky",
+    "role": "Software Engineer, Streaming Platform",
+    "country": "UK",
+    "applied_on": "2026-10-23",
+    "is_approx": false,
+    "location": "Osterley",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": null,
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Sky UK Limited",
+      "town": "Middlesex",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Kubernetes",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Kafka"
+      ]
+    }
+  },
+  {
+    "company": "Zopa Bank",
+    "role": "Software Engineer",
+    "country": "UK",
+    "applied_on": "2026-10-14",
+    "is_approx": false,
+    "location": "London",
+    "work_mode": "hybrid",
+    "channel": "linkedin_easy_apply",
+    "status": "interviewing",
+    "salary_stated": "£72,000",
+    "cover_letter": "",
+    "notes": "Two rounds done. Final round with the engineering lead next.",
+    "job_url": null,
+    "next_step": "Final interview with the engineering lead",
+    "next_step_at": "2026-11-09T11:00:00Z",
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Zopa Bank Limited",
+      "town": "London",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "Kafka",
+        "Terraform"
+      ]
+    }
+  },
+  {
+    "company": "Rolls-Royce",
+    "role": "Software Developer, Digital",
+    "country": "UK",
+    "applied_on": "2026-10-02",
+    "is_approx": false,
+    "location": "Derby",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "no_response",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "No reply after a month.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "Rolls-Royce plc",
+      "town": "Derby",
+      "match_type": "word",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Azure"
+      ],
+      "nice_to_have": [
+        "Terraform"
+      ]
+    }
+  },
+  {
+    "company": "BT Group",
+    "role": "Software Engineer",
+    "country": "UK",
+    "applied_on": "2026-10-05",
+    "is_approx": false,
+    "location": "Bristol",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "withdrawn",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Withdrew after learning the role is mostly on-call support.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "on_list",
+      "sponsor_id": null,
+      "registered_name": "BT Group",
+      "town": "London",
+      "match_type": "exact",
+      "score": 1.0,
+      "has_skilled_worker": true,
+      "rating": "A",
+      "checked_at": null,
+      "register_published_on": null
+    }
+  },
+  {
+    "company": "Booking.com",
+    "role": "Software Engineer, Python",
+    "country": "NL",
+    "applied_on": "2026-10-26",
+    "is_approx": false,
+    "location": "Amsterdam",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "Dear team,\n\nI would like to apply for the Software Engineer, Python role in Amsterdam. I build backend services in Python and have worked on systems that serve millions of requests a day, with a focus on observability and graceful degradation.\n\nAt my current company I introduced structured logging and request tracing across a dozen services, which brought our mean time to diagnose incidents down from hours to minutes.\n\nI am open to relocating to the Netherlands and understand the role comes with visa support.\n\nKind regards",
+    "notes": "Relocation support listed. Highly skilled migrant route.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "SQL",
+        "Kubernetes"
+      ],
+      "nice_to_have": [
+        "Java"
+      ]
+    }
+  },
+  {
+    "company": "Mollie",
+    "role": "Backend Engineer (Python)",
+    "country": "NL",
+    "applied_on": "2026-10-17",
+    "is_approx": false,
+    "location": "Amsterdam",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "rejected",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Rejected after the take-home.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "Kubernetes"
+      ]
+    }
+  },
+  {
+    "company": "Adyen",
+    "role": "Full Stack Developer",
+    "country": "NL",
+    "applied_on": "2026-09-12",
+    "is_approx": false,
+    "location": "Amsterdam",
+    "work_mode": "onsite",
+    "channel": "company_site",
+    "status": "rejected",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Rejected after the online test.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "React",
+        "TypeScript"
+      ],
+      "nice_to_have": []
+    }
+  },
+  {
+    "company": "Automattic",
+    "role": "Software Engineer (PHP/JavaScript)",
+    "country": "US",
+    "applied_on": "2026-09-18",
+    "is_approx": true,
+    "location": "Remote",
+    "work_mode": "remote",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Fully remote, paid trial project if shortlisted. Date approximate.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_applicable"
+    }
+  },
+  {
+    "company": "Zapier",
+    "role": "Backend Engineer",
+    "country": "US",
+    "applied_on": "2026-09-24",
+    "is_approx": false,
+    "location": "Remote",
+    "work_mode": "remote",
+    "channel": "linkedin_easy_apply",
+    "status": "rejected",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Rejected at CV stage.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ],
+      "nice_to_have": [
+        "React"
+      ]
+    }
+  },
+  {
+    "company": "GitLab",
+    "role": "Backend Engineer (Ruby)",
+    "country": "US",
+    "applied_on": null,
+    "is_approx": false,
+    "location": "Remote",
+    "work_mode": "remote",
+    "channel": "company_site",
+    "status": "draft",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Draft. Still need to answer the application questions.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_applicable"
+    }
+  },
+  {
+    "company": "Zalando",
+    "role": "Software Engineer, Backend",
+    "country": "other",
+    "applied_on": "2026-10-11",
+    "is_approx": false,
+    "location": "Berlin",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": "Relocation package listed. EU Blue Card route.",
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "Kotlin",
+        "AWS"
+      ],
+      "nice_to_have": [
+        "Scala"
+      ]
+    }
+  },
+  {
+    "company": "Spotify",
+    "role": "Backend Engineer",
+    "country": "other",
+    "applied_on": "2026-10-09",
+    "is_approx": false,
+    "location": "Stockholm",
+    "work_mode": "hybrid",
+    "channel": "company_site",
+    "status": "applied",
+    "salary_stated": null,
+    "cover_letter": "",
+    "notes": null,
+    "job_url": null,
+    "next_step": null,
+    "next_step_at": null,
+    "sponsor_check": {
+      "status": "not_applicable"
+    },
+    "skills": {
+      "required": [
+        "Java",
+        "GCP",
+        "Kubernetes"
+      ],
+      "nice_to_have": [
+        "Python"
+      ]
+    }
+  }
+]

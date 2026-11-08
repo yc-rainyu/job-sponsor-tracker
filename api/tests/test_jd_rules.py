@@ -1,4 +1,5 @@
 import json
+import signal
 from pathlib import Path
 
 import pytest
@@ -109,3 +110,47 @@ def test_funding_is_not_salary():
 def test_visa_word_starts_a_word():
     got = analyse('It is advisable to apply early.')
     assert got['visa']['verdict'] == 'none'
+
+
+@pytest.mark.parametrize(
+    ('line', 'expected'),
+    [
+        ('3+ years of experience', (3, None)),
+        ('3-5 years of experience', (3, 5)),
+        ('3 - 5 years of experience', (3, 5)),
+        ('3 to 5 years of experience', (3, 5)),
+        ('2–4 years of experience', (2, 4)),
+        ('10+ years of experience', (10, None)),
+        ('Minimum 1 year of experience', (1, None)),
+    ],
+)
+def test_experience_phrasings(line, expected):
+    got = analyse(line)['experience_years']
+    assert (got['min'], got['max']) == expected
+
+
+def test_no_and_sponsorship_far_apart_still_declines():
+    got = analyse('There is no budget this year for visa sponsorship.')
+    assert got['visa']['verdict'] == 'declines'
+
+
+HOSTILE = {
+    'digits': '1' * 20000,
+    'spaces after a digit': '3' + ' ' * 19998 + 'x',
+    'no before sponsor': 'no ' * 6664 + 'sponsor',
+}
+
+
+def _too_slow(signum, frame):
+    raise TimeoutError('analyse took over 0.5s, a regex is probably backtracking')
+
+
+@pytest.mark.parametrize('text', HOSTILE.values(), ids=HOSTILE.keys())
+def test_hostile_input_stays_fast(text):
+    previous = signal.signal(signal.SIGALRM, _too_slow)
+    signal.setitimer(signal.ITIMER_REAL, 0.5)
+    try:
+        analyse(text)
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous)

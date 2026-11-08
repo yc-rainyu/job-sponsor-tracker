@@ -63,10 +63,8 @@ _OFFER = (
     'visa sponsorship offered',
     'open to sponsoring',
 )
-_NO_SPONSOR = re.compile(
-    r'\b(?:no|not)\b.*\bsponsorship\b|\bsponsorship\b.*\b(?:no|not)\b',
-    re.I,
-)
+_NO_WORD = re.compile(r'\b(?:no|not)\b', re.I)
+_SPONSORSHIP_WORD = re.compile(r'\bsponsorship\b', re.I)
 _VERDICT_ORDER = ('declines', 'requires_rtw', 'offers', 'mentions')
 
 
@@ -90,7 +88,9 @@ def _contains(sentence: str, phrases: tuple[str, ...]) -> bool:
 
 
 def _label(sentence: str) -> str:
-    if _contains(sentence, _DECLINE) or _NO_SPONSOR.search(sentence):
+    if _contains(sentence, _DECLINE) or (
+        _NO_WORD.search(sentence) and _SPONSORSHIP_WORD.search(sentence)
+    ):
         return 'declines'
     if _contains(sentence, _RTW):
         return 'requires_rtw'
@@ -194,7 +194,7 @@ def extract_work_mode(text: str) -> str | None:
 
 # Years of experience
 _EXPERIENCE_RE = re.compile(
-    r'(\d+)\+?\s*(?:-|to|–)?\s*(\d+)?\s*years?',
+    r'\b(\d{1,2})\+?(?:\s*(?:-|to|–)\s*(\d{1,2}))?\s*years?',
     re.I,
 )
 
