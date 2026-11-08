@@ -7,3 +7,4 @@ class Health(BaseModel):
     status: Literal['ok']
     db: Literal['ok']
     version: str
+    commit: str

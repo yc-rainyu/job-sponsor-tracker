@@ -460,6 +460,8 @@ export interface components {
             db: "ok";
             /** Version */
             version: string;
+            /** Commit */
+            commit: string;
         };
         /** Me */
         Me: {
