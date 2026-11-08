@@ -1,3 +1,5 @@
+import csv
+import io
 import uuid
 
 import pytest
@@ -360,6 +362,23 @@ def test_export_csv_takes_the_list_filters(client, user):
     assert len(lines) == 2
     assert 'Deliveroo' in lines[1]
     assert 'Monzo' not in response.text
+
+
+def test_export_csv_defuses_formulas(client, user):
+    _create(
+        client,
+        company='=HYPERLINK("https://example.com","Click")',
+        role='@SUM(A1:A9)',
+        location='-',
+        notes='+44 20 7946 0000',
+    )
+    response = client.get('/applications/export.csv')
+    row = next(csv.DictReader(io.StringIO(response.text)))
+    assert row['company'] == '\'=HYPERLINK("https://example.com","Click")'
+    assert row['role'] == "'@SUM(A1:A9)"
+    assert row['location'] == "'-"
+    assert row['notes'] == "'+44 20 7946 0000"
+    assert row['country'] == 'UK'
 
 
 def test_export_csv_requires_sign_in(client):
