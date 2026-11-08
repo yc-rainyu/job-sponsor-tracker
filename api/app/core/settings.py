@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     jwt_secret: str = ''
     google_client_id: str = ''
     proxy_key: str = ''
-    version: str = '0.1.0'
+    version: str = '0.2.0'
     git_sha: str = 'dev'
     search_trading_threshold: float = 0.8
     search_word_threshold: float = 0.6
