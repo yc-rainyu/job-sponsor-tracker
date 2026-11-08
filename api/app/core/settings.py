@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     google_client_id: str = ''
     proxy_key: str = ''
     version: str = '0.1.0'
+    git_sha: str = 'dev'
     search_trading_threshold: float = 0.8
     search_word_threshold: float = 0.6
     search_fuzzy_threshold: float = 0.3

@@ -16,4 +16,6 @@ router = APIRouter()
 @router.head('/health', include_in_schema=False)
 def health(session: Annotated[Session, Depends(get_db)]) -> Health:
     session.execute(text('SELECT 1'))
-    return Health(status='ok', db='ok', version=settings.version)
+    return Health(
+        status='ok', db='ok', version=settings.version, commit=settings.git_sha
+    )
