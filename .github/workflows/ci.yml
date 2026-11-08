@@ -5,6 +5,10 @@ on:
     branches: [main, dev]
   pull_request:
 
+# every job only reads the code, so the token cannot push or edit the repo
+permissions:
+  contents: read
+
 jobs:
   api:
     runs-on: ubuntu-latest

@@ -36,6 +36,18 @@ CSV_COLUMNS = [
 ]
 
 
+_FORMULA_START = ('=', '+', '-', '@', '\t', '\r')
+
+
+def _csv_cell(value: object) -> object:
+    if isinstance(value, datetime.date):
+        return value.isoformat()
+    if isinstance(value, str) and value.startswith(_FORMULA_START):
+        # a leading quote keeps it as text
+        return "'" + value
+    return value
+
+
 def _now() -> datetime.datetime:
     return datetime.datetime.now(datetime.UTC)
 
@@ -146,10 +158,5 @@ def export_csv(applications: list[Application]) -> str:
         row['sponsor_registered_name'] = application.sponsor_check.get(
             'registered_name'
         )
-        writer.writerow(
-            {
-                column: value.isoformat() if isinstance(value, datetime.date) else value
-                for column, value in row.items()
-            }
-        )
+        writer.writerow({column: _csv_cell(value) for column, value in row.items()})
     return buffer.getvalue()
