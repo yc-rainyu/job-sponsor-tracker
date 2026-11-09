@@ -43,6 +43,9 @@ services:
       JWT_SECRET: ${JWT_SECRET:-}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       PROXY_KEY: ${PROXY_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      AI_ENABLED: ${AI_ENABLED:-false}
+      AI_MODEL: ${AI_MODEL:-claude-haiku-5-5}
       # only caddy can reach the api, and caddy ignores X-Forwarded-For sent by clients
       FORWARDED_ALLOW_IPS: '*'
     depends_on:

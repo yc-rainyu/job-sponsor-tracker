@@ -19,6 +19,8 @@ os.environ['DATABASE_URL'] = os.environ['DATABASE_URL'].rsplit('/', 1)[0] + '/js
 os.environ['APP_ENV'] = 'test'
 
 os.environ['JWT_SECRET'] = 'test-only-secret-that-is-at-least-32-chars'
+# never the real Claude API, even with a key in .env; the claude fixture fakes it
+os.environ['ANTHROPIC_API_KEY'] = ''
 
 from app.core.deps import get_db  # noqa: E402
 from app.core.rate_limit import reset  # noqa: E402

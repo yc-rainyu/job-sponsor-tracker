@@ -30,6 +30,11 @@ class Settings(BaseSettings):
     write_rate_limit_per_minute: int = 30
     application_limit: int = 1000
     demo_application_limit: int = 50
+    anthropic_api_key: str = ''
+    ai_enabled: bool = False
+    ai_model: str = 'claude-haiku-5-5'
+    ai_daily_limit: int = 10
+    ai_daily_total: int = 2000
 
     @model_validator(mode='after')
     def _check_jwt_secret(self) -> Self:

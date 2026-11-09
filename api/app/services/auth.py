@@ -61,6 +61,6 @@ def sign_in_google_user(session: Session, claims: Mapping[str, Any]) -> User:
 
 
 def delete_account(session: Session, user: User) -> None:
-    # applications and auth_identities go with it through ON DELETE CASCADE
+    # applications, auth_identities and ai_usage go with it through ON DELETE CASCADE
     session.delete(user)
     session.commit()

@@ -1,9 +1,11 @@
 import uuid
+from datetime import date
 
 import pytest
 from sqlalchemy import func, select
 
 from app.core.security import SESSION_COOKIE, create_session_token
+from app.models.ai import AiUsage
 from app.models.application import Application
 from app.models.user import AuthIdentity, User
 from app.services import auth
@@ -50,6 +52,15 @@ def test_delete_account_removes_user_and_their_data(client, session, sign_in):
     assert _count(session, AuthIdentity, user_id) == 0
     assert _count(session, Application, user_id) == 0
     assert _count(session, Application, other.id) == 1
+
+
+def test_delete_account_removes_ai_usage(client, session, sign_in):
+    user_id = sign_in()
+    session.add(AiUsage(user_id=user_id, used_on=date(2026, 11, 9), count=3))
+    session.flush()
+
+    assert client.delete('/auth/account').status_code == 204
+    assert _count(session, AiUsage, user_id) == 0
 
 
 def test_old_cookie_stops_working(client, sign_in):

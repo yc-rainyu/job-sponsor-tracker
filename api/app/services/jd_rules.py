@@ -99,6 +99,10 @@ def _label(sentence: str) -> str:
     return 'mentions'
 
 
+def pick_verdict(labels: set[str]) -> str:
+    return next((label for label in _VERDICT_ORDER if label in labels), 'none')
+
+
 def detect_visa(text: str) -> dict:
     hits = [
         {'text': sentence, 'label': _label(sentence)}
@@ -106,8 +110,7 @@ def detect_visa(text: str) -> dict:
         if _VISA_WORD_RE.search(sentence)
     ]
     labels = {hit['label'] for hit in hits}
-    verdict = next((label for label in _VERDICT_ORDER if label in labels), 'none')
-    return {'verdict': verdict, 'sentences': hits}
+    return {'verdict': pick_verdict(labels), 'sentences': hits}
 
 
 # Salary
