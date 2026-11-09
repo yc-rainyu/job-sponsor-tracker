@@ -224,6 +224,18 @@ export interface components {
         };
         /** AnalyseResult */
         AnalyseResult: {
+            /**
+             * Mode
+             * @default rules
+             * @enum {string}
+             */
+            mode: "rules" | "ai";
+            /** Company */
+            company: string | null;
+            /** Role */
+            role: string | null;
+            /** Location */
+            location: string | null;
             visa: components["schemas"]["Visa"];
             salary: components["schemas"]["Salary"] | null;
             /** Work Mode */
@@ -232,6 +244,8 @@ export interface components {
             skills: components["schemas"]["Skills"];
             /** Company Matches */
             company_matches: components["schemas"]["SponsorResult"][];
+            /** Notice */
+            notice: ("ai_off" | "limit_reached" | "ai_failed") | null;
         };
         /** Analysis */
         Analysis: {
@@ -680,10 +694,14 @@ export interface operations {
     };
     analyse_jd_jd_analyse_post: {
         parameters: {
-            query?: never;
+            query?: {
+                mode?: "rules" | "ai";
+            };
             header?: never;
             path?: never;
-            cookie?: never;
+            cookie?: {
+                session?: string | null;
+            };
         };
         requestBody: {
             content: {

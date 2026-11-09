@@ -272,16 +272,18 @@
   },
   "Privacy": {
     "title": "Privacy",
-    "lead": "What this site stores about you, and how to delete it. Last updated 8 November 2026.",
+    "lead": "What this site stores about you, and how to delete it. Last updated 10 November 2026.",
     "stored": {
       "title": "What is stored",
       "account": "When you sign in with Google: your email address, name, profile picture link and Google account ID, plus when you signed up and last signed in. Nothing else is requested from Google.",
-      "tracker": "What you enter in the tracker: applications, notes, cover letters, skills and any job descriptions you save with them."
+      "tracker": "What you enter in the tracker: applications, notes, cover letters, skills and any job descriptions you save with them.",
+      "aiUsage": "If you use AI analysis: how many analyses you ran each day, so the daily limit works.",
+      "aiResults": "AI analysis results, so the same job description is not analysed twice: the details found and the visa sentences quoted from it. They are filed under a fingerprint of the text, not under your account, and the full text is not kept."
     },
     "notStored": {
       "title": "What is not stored",
-      "analyse": "Job descriptions you analyse without saving. They are checked and discarded, and never written to the logs.",
-      "tracking": "No ads, no analytics and no tracking cookies. Your data is not sold or shared."
+      "analyse": "The full text of job descriptions you analyse without saving. It is never written to the logs.",
+      "tracking": "No ads, no analytics and no tracking cookies. Your data is not sold, and only goes to the services named on this page."
     },
     "browser": {
       "title": "Cookies and browser storage",
@@ -293,11 +295,12 @@
       "title": "Where it is kept",
       "hosting": "The website runs on Vercel. The database runs on a server in AWS's London region.",
       "backups": "The database is backed up every night. Backups are kept in AWS storage in London for 30 days.",
-      "logs": "Vercel and the server keep short-term request logs, including IP addresses, to keep the site running and limit abuse."
+      "logs": "Vercel and the server keep short-term request logs, including IP addresses, to keep the site running and limit abuse.",
+      "ai": "AI analysis sends the job description to Anthropic's Claude API. Anthropic deletes it and the result within 30 days, keeps them for up to 2 years only if its safety systems flag them, and does not use them to train its models."
     },
     "delete": {
       "title": "Deleting your data",
-      "how": "Open the account menu (your picture, top right) and choose Delete my account. Your account, its Google sign-in link and all your applications are deleted straight away.",
+      "how": "Open the account menu (your picture, top right) and choose Delete my account. Your account, its Google sign-in link, all your applications and your AI analysis counts are deleted straight away.",
       "backups": "Copies in the nightly backups disappear within 30 days, when those backups expire.",
       "export": "Want a copy first? Use Export CSV on the Applications page.",
       "demo": "Demo accounts and their data are deleted automatically after 24 hours."
