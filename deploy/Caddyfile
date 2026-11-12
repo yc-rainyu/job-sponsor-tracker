@@ -5,3 +5,8 @@
 	}
 	reverse_proxy api:8000
 }
+
+# Other apps on this server add their own sites: a folder of *.caddy files
+# (CADDY_SITES_DIR in compose.prod.yaml), with their api on the edge network.
+# No files is fine: Caddy logs a warning and serves this site alone.
+import /etc/caddy/sites/*.caddy

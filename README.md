@@ -50,6 +50,8 @@ The browser only calls `/api/*` on the frontend's domain, and `web/proxy.ts` for
 3. A systemd timer on the server looks every minute. When `main` has a new commit and its image exists, it pulls the image and restarts the API. Migrations run when the container starts.
 4. `/health` reports the commit it was built from. The deploy script waits for it, and a last CI job waits until the live API reports the new commit.
 
+Other apps on the same server can sit behind this Caddy, each in its own compose stack: the folder in `CADDY_SITES_DIR` holds their site files, and their API joins the `edge` network. This API and database stay off that network, so those apps cannot reach the data.
+
 GitHub has no access to the server: the server pulls, nothing pushes to it. The database is dumped to S3 every day and kept for 30 days, and the restore script has been tested.
 
 ## Repository layout

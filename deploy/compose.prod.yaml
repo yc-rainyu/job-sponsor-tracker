@@ -59,8 +59,13 @@ services:
       - '443:443/udp'
     environment:
       SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    networks:
+      - default
+      - edge
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # other apps' site files; deploy/sites is empty
+      - ${CADDY_SITES_DIR:-./sites}:/etc/caddy/sites:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
@@ -71,3 +76,10 @@ volumes:
   db_data:
   caddy_data:
   caddy_config:
+
+networks:
+  # Caddy's link to other apps on this server. The api and db stay off it, so
+  # those apps cannot reach this database. Fixed name: their compose files
+  # join it as an external network.
+  edge:
+    name: edge
